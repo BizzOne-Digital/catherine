@@ -36,7 +36,7 @@ const reviews = [
 
 export default function TrustReviews() {
   return (
-    <section className="section-pad bg-soft-black relative overflow-hidden">
+    <section className="section-pad section-warm relative overflow-hidden">
       {/* Decorative bg */}
       <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-gold/3 blur-[100px] pointer-events-none" />
 

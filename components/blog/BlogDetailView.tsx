@@ -54,7 +54,7 @@ export default function BlogDetailView({
 
   return (
     <>
-      <section className="blog-detail-hero relative overflow-hidden bg-luxury-black pt-24 pb-10 sm:pt-28 lg:pt-32">
+      <section className="blog-detail-hero relative overflow-hidden page-text-hero pt-24 pb-10 sm:pt-28 lg:pt-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(214,181,109,0.06)_0%,transparent_55%)]" />
         <div className="container-luxury relative z-10 max-w-4xl">
           <ScrollReveal>
@@ -88,7 +88,7 @@ export default function BlogDetailView({
         </div>
       </section>
 
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury max-w-4xl">
           <ScrollReveal delay={0.1}>
             <div className="blog-detail-image-wrap">
@@ -101,7 +101,7 @@ export default function BlogDetailView({
           </ScrollReveal>
 
           <ScrollReveal delay={0.2} className="mt-12">
-            <div className="rounded-xl border border-gold/15 bg-luxury-black/40 p-6 text-center lg:p-8">
+            <div className="rounded-xl border border-gold/25 bg-ivory/90 p-6 text-center shadow-card lg:p-8">
               <p className="font-cormorant text-xl italic text-soft-taupe">
                 Ready to explore treatments mentioned in this article?
               </p>

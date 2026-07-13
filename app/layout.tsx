@@ -37,7 +37,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-luxury-black text-warm-beige font-inter antialiased">
+      <body className="bg-ivory text-text-dark font-inter antialiased">
         {children}
         <Toaster
           position="top-right"

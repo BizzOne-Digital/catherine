@@ -27,7 +27,7 @@ const steps = [
 
 export default function SkinAnalysis() {
   return (
-    <section className="section-pad bg-luxury-black relative overflow-hidden">
+    <section className="section-pad section-warm-alt relative overflow-hidden">
       {/* Diagonal clip top */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
@@ -51,23 +51,23 @@ export default function SkinAnalysis() {
           </ScrollReveal>
 
           {/* Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14 relative items-stretch">
             {/* Connector lines on desktop */}
             <div className="hidden md:block absolute top-10 left-[calc(16.67%+1.5rem)] right-[calc(16.67%+1.5rem)] h-px bg-gold/20" />
 
             {steps.map(({ icon: Icon, step, title, description }, i) => (
-              <ScrollReveal key={step} delay={i * 0.15}>
-                <div className="relative flex flex-col items-center text-center p-6 rounded-xl border border-gold/10 bg-soft-black/30 backdrop-blur-sm">
+              <ScrollReveal key={step} delay={i * 0.15} className="h-full">
+                <div className="relative flex h-full min-h-[17rem] flex-col items-center text-center p-6 pt-8 rounded-xl border border-gold/20 surface-card">
                   {/* Step number */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-luxury-black px-3">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-ivory px-3">
                     <span className="font-cormorant text-sm italic text-gold/60">{step}</span>
                   </div>
                   {/* Icon */}
-                  <div className="w-14 h-14 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 mt-3">
+                  <div className="w-14 h-14 shrink-0 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 mt-3">
                     <Icon size={22} className="text-gold" />
                   </div>
-                  <h3 className="font-playfair text-lg text-warm-beige mb-2">{title}</h3>
-                  <p className="font-inter text-sm text-soft-taupe leading-relaxed">{description}</p>
+                  <h3 className="font-playfair text-lg text-text-dark mb-2 shrink-0">{title}</h3>
+                  <p className="font-inter text-sm text-soft-taupe leading-relaxed flex-1">{description}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -75,9 +75,9 @@ export default function SkinAnalysis() {
 
           {/* CTA Box */}
           <ScrollReveal delay={0.3}>
-            <div className="text-center p-10 rounded-2xl border border-gold/20 bg-gradient-to-br from-soft-black to-luxury-black relative overflow-hidden">
+            <div className="text-center p-10 rounded-2xl border border-gold/25 bg-ivory/90 relative overflow-hidden shadow-card">
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-              <p className="font-playfair text-2xl text-warm-beige mb-3">
+              <p className="font-playfair text-2xl text-text-dark mb-3">
                 Ready to Start Your Journey?
               </p>
               <p className="font-inter text-sm text-soft-taupe mb-7 max-w-md mx-auto">

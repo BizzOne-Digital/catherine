@@ -120,7 +120,7 @@ export default function ShopPage() {
       </section>
 
       {/* Products */}
-      <section id="shop-products" className="section-pad bg-soft-black">
+      <section id="shop-products" className="section-pad section-warm">
         <div className="container-luxury">
           <ScrollReveal className="mb-10 text-center">
             <span className="mb-3 block font-inter text-[11px] uppercase tracking-[4px] text-gold/80">

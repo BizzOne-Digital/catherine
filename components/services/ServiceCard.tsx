@@ -18,7 +18,7 @@ interface ServiceCardProps {
 export default function ServiceCard({ service, onClick }: ServiceCardProps) {
   return (
     <motion.div
-      className="group relative p-6 rounded-xl border border-gold/10 bg-soft-black hover:border-gold/40 transition-all duration-500 cursor-pointer flex flex-col h-full"
+      className="group relative p-6 rounded-xl border border-gold/20 surface-card hover:border-gold/40 transition-all duration-500 cursor-pointer flex flex-col h-full"
       whileHover={{ y: -4, boxShadow: "0 0 30px rgba(214,181,109,0.12)" }}
       onClick={onClick}
     >
@@ -27,7 +27,7 @@ export default function ServiceCard({ service, onClick }: ServiceCardProps) {
         {service.category}
       </span>
 
-      <h3 className="font-playfair text-xl text-warm-beige mb-3 group-hover:text-gold transition-colors duration-300">
+      <h3 className="font-playfair text-xl text-text-dark mb-3 group-hover:text-gold transition-colors duration-300">
         {service.title}
       </h3>
 

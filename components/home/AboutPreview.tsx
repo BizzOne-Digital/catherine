@@ -15,7 +15,7 @@ const highlights = [
 
 export default function AboutPreview() {
   return (
-    <section className="section-pad bg-soft-black relative overflow-hidden">
+    <section className="section-pad section-warm relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-48 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
       <div className="absolute -top-20 right-20 w-64 h-64 rounded-full bg-gold/4 blur-[100px]" />

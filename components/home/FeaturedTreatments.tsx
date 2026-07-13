@@ -66,7 +66,7 @@ const treatments = [
 
 export default function FeaturedTreatments() {
   return (
-    <section className="section-pad bg-luxury-black relative overflow-hidden">
+    <section className="section-pad section-warm-alt relative overflow-hidden">
       {/* Background accents */}
       <div className="absolute top-20 left-0 w-px h-64 bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
       <div className="absolute top-20 right-0 w-px h-64 bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
@@ -85,7 +85,7 @@ export default function FeaturedTreatments() {
           {treatments.map(({ icon: Icon, title, description, startingPrice, slug }, i) => (
             <ScrollReveal key={slug} delay={i * 0.07}>
               <motion.div
-                className="group relative p-6 rounded-lg border border-gold/10 bg-soft-black/50 backdrop-blur-sm transition-all duration-500 hover:border-gold/40 hover:bg-soft-black hover:shadow-gold-sm flex flex-col h-full"
+                className="group relative p-6 rounded-lg border border-gold/20 surface-card transition-all duration-500 hover:border-gold/40 hover:shadow-gold-sm flex flex-col h-full"
                 whileHover={{ y: -4 }}
               >
                 {/* Icon */}
@@ -94,7 +94,7 @@ export default function FeaturedTreatments() {
                 </div>
 
                 {/* Title */}
-                <h3 className="font-playfair text-lg text-warm-beige mb-2 group-hover:text-gold transition-colors duration-300">
+                <h3 className="font-playfair text-lg text-text-dark mb-2 group-hover:text-gold transition-colors duration-300">
                   {title}
                 </h3>
 

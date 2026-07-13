@@ -43,11 +43,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <motion.div
-      className="group relative rounded-xl overflow-hidden border border-gold/10 bg-soft-black hover:border-gold/30 transition-all duration-500 flex flex-col"
+      className="group relative rounded-xl overflow-hidden border border-gold/20 surface-card hover:border-gold/35 transition-all duration-500 flex flex-col"
       whileHover={{ y: -4 }}
     >
       {/* Image area */}
-      <div className="relative aspect-square bg-gradient-to-br from-[#1a1410] to-soft-black flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-square bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4] flex items-center justify-center overflow-hidden">
         {product.image ? (
           <Image
             src={product.image}
@@ -94,7 +94,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {/* Info */}
       <div className="p-5 flex flex-col flex-1">
-        <h3 className="font-playfair text-base text-warm-beige mb-1.5 group-hover:text-gold transition-colors duration-300 leading-snug">
+        <h3 className="font-playfair text-base text-text-dark mb-1.5 group-hover:text-gold transition-colors duration-300 leading-snug">
           {product.name}
         </h3>
         <p className="font-inter text-xs text-soft-taupe leading-relaxed mb-4 flex-1 line-clamp-2">

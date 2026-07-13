@@ -7,7 +7,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function FinalCTA() {
   return (
-    <section className="relative py-24 md:py-32 bg-luxury-black overflow-hidden">
+    <section className="relative py-24 md:py-32 section-warm-deep overflow-hidden">
       {/* Particles */}
       <GoldParticles count={30} />
 

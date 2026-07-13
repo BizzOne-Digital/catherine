@@ -54,7 +54,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Filter + Grid */}
-      <section id="services-grid" className="section-pad bg-soft-black">
+      <section id="services-grid" className="section-pad section-warm">
         <div className="container-luxury">
           {/* Category Filter */}
           <ScrollReveal className="flex flex-wrap justify-center gap-2 mb-12">

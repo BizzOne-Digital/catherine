@@ -23,7 +23,7 @@ function BlogThumbnail({
 
   if (!src || imgError) {
     return (
-      <div className={`relative flex items-center justify-center bg-gradient-to-br from-[#1a1208] to-[#0d0a06] ${className}`}>
+      <div className={`relative flex items-center justify-center bg-gradient-to-br from-[#F7EFE4] to-[#EDE3D3] ${className}`}>
         <span className={`font-playfair text-gold/10 ${iconSize}`}>✦</span>
       </div>
     );
@@ -58,7 +58,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 bg-luxury-black overflow-hidden">
+      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.05)_0%,transparent_60%)]" />
         <div className="container-luxury relative z-10 text-center">
           <ScrollReveal>
@@ -77,13 +77,13 @@ export default function BlogPage() {
       </section>
 
       {/* Posts */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury">
           {/* Featured Post */}
           {featured && (
             <ScrollReveal className="mb-12">
               <motion.div
-                className="group relative rounded-2xl overflow-hidden border border-gold/10 hover:border-gold/30 transition-all duration-500 grid grid-cols-1 lg:grid-cols-2"
+                className="group relative rounded-2xl overflow-hidden border border-gold/20 surface-card hover:border-gold/35 transition-all duration-500 grid grid-cols-1 lg:grid-cols-2"
                 whileHover={{ y: -3 }}
               >
                 <BlogThumbnail
@@ -125,7 +125,7 @@ export default function BlogPage() {
             {rest.map((post, i) => (
               <ScrollReveal key={post._id} delay={i * 0.1}>
                 <motion.div
-                  className="group rounded-xl overflow-hidden border border-gold/10 hover:border-gold/30 transition-all duration-500 flex flex-col h-full"
+                  className="group rounded-xl overflow-hidden border border-gold/20 surface-card hover:border-gold/35 transition-all duration-500 flex flex-col h-full"
                   whileHover={{ y: -4 }}
                 >
                   <BlogThumbnail

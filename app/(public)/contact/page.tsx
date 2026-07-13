@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 bg-luxury-black overflow-hidden">
+      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.05)_0%,transparent_60%)]" />
         <div className="container-luxury relative z-10 text-center">
           <ScrollReveal>
@@ -30,7 +30,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
             {/* Form */}
@@ -77,8 +77,8 @@ export default function ContactPage() {
                     <Mail size={15} className="text-gold flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-inter text-xs text-soft-taupe mb-1">Email</p>
-                      <a href="mailto:hello@luminamedispa.ca" className="font-inter text-sm text-warm-beige hover:text-gold transition-colors">
-                        hello@luminamedispa.ca
+                      <a href="mailto:catherinezhang01@outlook.com" className="font-inter text-sm text-warm-beige hover:text-gold transition-colors">
+                        catherinezhang01@outlook.com
                       </a>
                     </div>
                   </div>

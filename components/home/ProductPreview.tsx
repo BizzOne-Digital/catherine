@@ -27,11 +27,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   return (
     <ScrollReveal delay={index * 0.1}>
       <motion.div
-        className="group relative rounded-xl overflow-hidden border border-gold/10 bg-soft-black hover:border-gold/30 transition-all duration-500"
+        className="group relative rounded-xl overflow-hidden border border-gold/20 surface-card hover:border-gold/35 transition-all duration-500"
         whileHover={{ y: -4 }}
       >
         {/* Product image area */}
-        <div className="relative w-full h-56 bg-gradient-to-br from-[#1a1410] to-soft-black overflow-hidden">
+        <div className="relative w-full h-56 bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4] overflow-hidden">
           {product.image ? (
             <Image
               src={product.image}
@@ -49,14 +49,14 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             </div>
           )}
           {/* Category badge */}
-          <span className="absolute top-3 left-3 font-inter text-[9px] tracking-[2px] uppercase bg-luxury-black/70 text-gold border border-gold/20 px-2 py-1 rounded-full backdrop-blur-sm z-10">
+          <span className="absolute top-3 left-3 font-inter text-[9px] tracking-[2px] uppercase bg-ivory/90 text-gold border border-gold/25 px-2 py-1 rounded-full backdrop-blur-sm z-10">
             {product.category}
           </span>
         </div>
 
         {/* Info */}
         <div className="p-5">
-          <h3 className="font-playfair text-base text-warm-beige mb-1 group-hover:text-gold transition-colors duration-300">
+          <h3 className="font-playfair text-base text-text-dark mb-1 group-hover:text-gold transition-colors duration-300">
             {product.name}
           </h3>
           <p className="font-inter text-xs text-soft-taupe leading-relaxed mb-4">
@@ -96,7 +96,7 @@ export default function ProductPreview() {
   }, []);
 
   return (
-    <section className="section-pad bg-soft-black relative overflow-hidden">
+    <section className="section-pad section-warm-alt relative overflow-hidden">
       <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gold/3 blur-[120px] pointer-events-none" />
 
       <div className="container-luxury">

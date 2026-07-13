@@ -117,7 +117,7 @@ export default function GalleryPreview() {
     activeFilter === "All" || activeFilter === category;
 
   return (
-    <section className="gallery-section section-pad relative overflow-hidden bg-luxury-black">
+    <section className="gallery-section section-pad relative overflow-hidden section-warm">
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
 
       <div className="container-luxury">

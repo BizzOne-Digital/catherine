@@ -191,7 +191,7 @@ export default function PricingPage() {
       </section>
 
       {/* Detailed Pricing */}
-      <section id="pricing-details" className="section-pad bg-soft-black">
+      <section id="pricing-details" className="section-pad section-warm">
         <div className="container-luxury">
           <ScrollReveal className="mb-10 text-center">
             <span className="mb-3 block font-inter text-[11px] uppercase tracking-[4px] text-gold/80">
@@ -268,7 +268,7 @@ export default function PricingPage() {
           </div>
 
           <ScrollReveal delay={0.3} className="mx-auto mt-12 max-w-2xl text-center">
-            <div className="rounded-xl border border-gold/15 bg-luxury-black/40 p-6">
+            <div className="rounded-xl border border-gold/25 bg-ivory/90 p-6 shadow-card">
               <p className="mb-4 font-inter text-xs leading-relaxed text-soft-taupe">
                 <strong className="text-warm-beige/70">Please Note:</strong> Prices listed are starting prices and may vary based
                 on the amount of product used, treatment area, and individual needs assessed at consultation.

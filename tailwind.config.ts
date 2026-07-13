@@ -74,7 +74,7 @@ const config: Config = {
         "gold": "0 0 30px rgba(214, 181, 109, 0.3)",
         "gold-sm": "0 0 15px rgba(214, 181, 109, 0.2)",
         "luxury": "0 25px 60px rgba(8, 6, 4, 0.5)",
-        "card": "0 10px 40px rgba(8, 6, 4, 0.15)",
+        "card": "0 10px 40px rgba(166, 124, 45, 0.1)",
       },
     },
   },

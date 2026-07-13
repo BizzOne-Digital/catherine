@@ -58,15 +58,15 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury">
           <div className="about-story-grid items-center">
             <ScrollReveal direction="left" className="about-story-profile">
-              <div className="rounded-2xl overflow-hidden aspect-[4/5] w-full bg-gradient-to-br from-[#1C1712] to-luxury-black flex flex-col items-center justify-center p-10 border border-gold/10">
+              <div className="rounded-2xl overflow-hidden aspect-[4/5] w-full bg-gradient-to-br from-[#F7EFE4] to-[#EDE3D3] flex flex-col items-center justify-center p-10 border border-gold/25 shadow-card">
                 <div className="w-28 h-28 rounded-full bg-gradient-to-br from-gold/30 to-deep-gold/10 border border-gold/30 flex items-center justify-center mb-6">
                   <span className="font-playfair text-5xl text-gold">C</span>
                 </div>
-                <h3 className="font-playfair text-2xl text-warm-beige mb-2">Catherine Zhang</h3>
+                <h3 className="font-playfair text-2xl text-text-dark mb-2">Catherine Zhang</h3>
                 <p className="font-cormorant text-lg italic text-gold mb-4">RN, Founder & Lead Injector</p>
                 <div className="w-12 h-px bg-gold/30 mb-5" />
                 <p className="font-inter text-sm text-soft-taupe text-center leading-relaxed">
@@ -113,7 +113,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="section-pad bg-luxury-black">
+      <section className="section-pad section-warm-alt">
         <div className="container-luxury">
           <ScrollReveal>
             <SectionHeading eyebrow="What We Stand For" title="Our Values" />
@@ -135,7 +135,7 @@ export default function AboutPage() {
       </section>
 
       {/* Credentials */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury max-w-3xl">
           <ScrollReveal>
             <SectionHeading eyebrow="Qualifications" title="Credentials & Training" />
@@ -143,7 +143,7 @@ export default function AboutPage() {
           <ul className="mt-10 space-y-3">
             {credentials.map((c, i) => (
               <ScrollReveal key={c} delay={i * 0.08}>
-                <li className="flex items-center gap-4 p-4 rounded-lg border border-gold/10 bg-luxury-black/40">
+                <li className="flex items-center gap-4 p-4 rounded-lg border border-gold/20 bg-ivory/80">
                   <CheckCircle size={16} className="text-gold flex-shrink-0" />
                   <span className="font-inter text-sm text-warm-beige/80">{c}</span>
                 </li>
@@ -154,7 +154,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="section-pad-sm bg-luxury-black text-center">
+      <section className="section-pad-sm section-warm-deep text-center">
         <div className="container-luxury max-w-xl">
           <ScrollReveal>
             <h2 className="font-playfair text-3xl text-warm-beige mb-4">Ready to Meet Us?</h2>

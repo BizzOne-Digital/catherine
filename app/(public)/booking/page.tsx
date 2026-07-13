@@ -12,7 +12,7 @@ export default function BookingPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 bg-luxury-black overflow-hidden">
+      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.06)_0%,transparent_60%)]" />
         <div className="container-luxury relative z-10 text-center">
           <ScrollReveal>
@@ -32,7 +32,7 @@ export default function BookingPage() {
       </section>
 
       {/* Form + Info */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
             {/* Form */}

@@ -39,7 +39,7 @@ export default function FAQPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 bg-luxury-black overflow-hidden">
+      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.05)_0%,transparent_60%)]" />
         <div className="container-luxury relative z-10 text-center">
           <ScrollReveal>
@@ -56,14 +56,14 @@ export default function FAQPage() {
       </section>
 
       {/* FAQs */}
-      <section className="section-pad bg-soft-black">
+      <section className="section-pad section-warm">
         <div className="container-luxury max-w-3xl">
           <ScrollReveal>
             <FAQAccordion items={faqs} />
           </ScrollReveal>
 
           {/* Still have questions */}
-          <ScrollReveal delay={0.2} className="mt-14 text-center p-8 rounded-xl border border-gold/15 bg-luxury-black/40">
+          <ScrollReveal delay={0.2} className="mt-14 text-center p-8 rounded-xl border border-gold/25 bg-ivory/90 shadow-card">
             <h3 className="font-playfair text-2xl text-warm-beige mb-3">Still Have Questions?</h3>
             <p className="font-inter text-sm text-soft-taupe mb-6 max-w-sm mx-auto">
               We&apos;re happy to answer any other questions you may have. Reach out directly or book a free consultation.
