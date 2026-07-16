@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import BookingForm from "@/components/forms/BookingForm";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import FinancingCallout from "@/components/ui/FinancingCallout";
 
 export const metadata: Metadata = {
   title: "Book a Consultation | Lumina Medi Spa",
@@ -119,6 +120,8 @@ export default function BookingPage() {
               </ScrollReveal>
             </div>
           </div>
+
+          <FinancingCallout className="mt-14" />
         </div>
       </section>
     </>

@@ -8,6 +8,7 @@ import SkinAnalysis from "@/components/home/SkinAnalysis";
 import GalleryPreview from "@/components/home/GalleryPreview";
 import ProductPreview from "@/components/home/ProductPreview";
 import FinalCTA from "@/components/home/FinalCTA";
+import FinancingCallout from "@/components/ui/FinancingCallout";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/components/shop/CartContext";
@@ -33,6 +34,11 @@ export default function HomePage() {
           <SkinAnalysis />
           <GalleryPreview />
           <ProductPreview />
+          <section className="section-pad-sm section-warm">
+            <div className="container-luxury">
+              <FinancingCallout />
+            </div>
+          </section>
           <FinalCTA />
         </main>
         <Footer />

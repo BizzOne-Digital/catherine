@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ServiceCard from "@/components/services/ServiceCard";
 import ServiceModal from "@/components/services/ServiceModal";
+import FinancingCallout from "@/components/ui/FinancingCallout";
 
 const fallbackServices = [
   { _id: "1", title: "Botox & Neuromodulators", category: "Injectables", shortDescription: "Smooth fine lines and dynamic wrinkles with precise, natural-looking results. FDA-approved treatments tailored to your facial anatomy.", description: "Botox (Botulinum Toxin) works by temporarily relaxing overactive facial muscles that cause expression lines. Our approach prioritizes natural-looking results that maintain your expressive character while eliminating unwanted wrinkles. Treatment areas include forehead lines, crow's feet, frown lines (11s), bunny lines, lip flip, and more.", benefits: ["Natural, refreshed appearance", "No downtime required", "Results last 3-4 months", "Preventative anti-aging benefits", "Customized to your facial anatomy"], duration: "30-45 min", price: "From $10/unit", order: 1, isFeatured: true, isActive: true, image: "", slug: "botox" },
@@ -84,6 +85,8 @@ export default function ServicesPage() {
               </ScrollReveal>
             ))}
           </div>
+
+          <FinancingCallout className="mt-14" />
 
           {/* Book CTA */}
           <ScrollReveal delay={0.2} className="text-center mt-14">

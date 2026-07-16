@@ -3,6 +3,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar, Syringe, Sparkles, ScanFace } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import FinancingCallout from "@/components/ui/FinancingCallout";
 
 interface PricingItem {
   _id: string;
@@ -266,6 +267,8 @@ export default function PricingPage() {
               </ScrollReveal>
             ))}
           </div>
+
+          <FinancingCallout className="mt-14" />
 
           <ScrollReveal delay={0.3} className="mx-auto mt-12 max-w-2xl text-center">
             <div className="rounded-xl border border-gold/25 bg-ivory/90 p-6 shadow-card">

@@ -9,6 +9,32 @@ interface FAQItem {
   _id?: string;
 }
 
+/** Renders answer text, converting [label](url) segments into links that open in a new tab. */
+function AnswerText({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (match) {
+          return (
+            <a
+              key={i}
+              href={match[2]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gold underline underline-offset-2 transition-colors hover:text-deep-gold"
+            >
+              {match[1]}
+            </a>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 interface FAQAccordionProps {
   items: FAQItem[];
 }
@@ -51,7 +77,7 @@ function FAQItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; o
             style={{ overflow: "hidden" }}
           >
             <p className="font-inter text-sm text-soft-taupe leading-relaxed pb-5 px-1">
-              {item.answer}
+              <AnswerText text={item.answer} />
             </p>
           </motion.div>
         )}

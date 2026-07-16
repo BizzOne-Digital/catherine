@@ -188,6 +188,7 @@ const faqs = [
   { question: "How soon will I see results?", answer: "Results timeline varies by treatment: Botox takes 7-14 days for full effect, dermal fillers show results immediately (with any swelling subsiding within days), IPL shows progressive improvement over several weeks, and body sculpting results develop over 4-12 weeks as the body naturally processes treated fat cells or builds muscle.", category: "Treatments", order: 8 },
   { question: "Do you offer packages or memberships?", answer: "Yes! We offer package pricing for laser hair removal series and body sculpting programs. Ask about our loyalty program during your consultation. Package pricing represents significant savings compared to individual sessions.", category: "Pricing", order: 9 },
   { question: "What is your cancellation policy?", answer: "We require 24 hours notice for cancellations or rescheduling. Late cancellations or no-shows may be subject to a booking fee. We understand that life happens — please reach out as early as possible if you need to change your appointment and we'll always do our best to accommodate you.", category: "Booking", order: 10 },
+  { question: "Do you offer financing or monthly payment options?", answer: "Yes. Lumina Medi Spa offers patient financing through Medicard by iFinance. Eligible clients can apply through a secure online application. Financing approval, terms and payments are managed directly by Medicard/iFinance. [Apply for financing](https://apply.medicard.com/25759)", category: "Pricing", order: 11 },
 ];
 
 const galleryItems = [
