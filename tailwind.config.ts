@@ -10,13 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         // Brand Colors
-        "luxury-black": "#080604",
-        "soft-black": "#15110D",
-        "gold": "#D6B56D",
-        "deep-gold": "#A67C2D",
-        "warm-beige": "#E8D8C3",
-        "light-beige": "#F7EFE4",
-        "ivory": "#FFFBF4",
+        "luxury-black": "#0C0A08",
+        "soft-black": "#1A1612",
+        "gold": "#D9BC78",
+        "deep-gold": "#B0893A",
+        "warm-beige": "#EDE0CF",
+        "light-beige": "#FAF4EB",
+        "ivory": "#FFFCF7",
         "soft-taupe": "#A99782",
         "muted-rose": "#D8B7A3",
         "text-dark": "#1C1712",
@@ -29,10 +29,10 @@ const config: Config = {
         "great-vibes": ["Great Vibes", "cursive"],
       },
       backgroundImage: {
-        "gold-gradient": "linear-gradient(135deg, #D6B56D 0%, #A67C2D 50%, #D6B56D 100%)",
-        "dark-gradient": "linear-gradient(180deg, #080604 0%, #15110D 100%)",
-        "beige-gradient": "linear-gradient(180deg, #FFFBF4 0%, #F7EFE4 100%)",
-        "hero-gradient": "linear-gradient(135deg, #080604 0%, #1C1712 60%, #15110D 100%)",
+        "gold-gradient": "linear-gradient(135deg, #D9BC78 0%, #B0893A 50%, #D9BC78 100%)",
+        "dark-gradient": "linear-gradient(180deg, #0C0A08 0%, #1A1612 100%)",
+        "beige-gradient": "linear-gradient(180deg, #FFFCF7 0%, #FAF4EB 100%)",
+        "hero-gradient": "linear-gradient(135deg, #0C0A08 0%, #1C1712 60%, #1A1612 100%)",
       },
       animation: {
         "gold-shimmer": "goldShimmer 3s ease-in-out infinite",

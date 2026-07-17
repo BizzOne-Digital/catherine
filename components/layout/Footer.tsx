@@ -66,7 +66,7 @@ export default function Footer() {
             {/* Brand column */}
             <div className="footer-brand">
               <Link href="/" className="mb-5 flex items-center gap-3">
-                <IntroLogo className="h-[72px] w-16 sm:h-20 sm:w-[4.5rem]" />
+                <IntroLogo className="h-28 w-28 sm:h-32 sm:w-32" />
                 <span className="font-playfair text-lg tracking-wide text-gold lg:text-xl">
                   Lumina Medi Spa
                 </span>

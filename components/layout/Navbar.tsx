@@ -42,7 +42,7 @@ export default function Navbar() {
     <>
       <motion.header
         className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-500 ${
-          heroNav ? "px-4 pt-4 sm:px-6 lg:px-8" : ""
+          heroNav ? "px-4 pt-2.5 sm:px-6 lg:px-8" : ""
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -51,15 +51,15 @@ export default function Navbar() {
         <nav
           className={`mx-auto flex max-w-7xl items-center transition-all duration-500 ${
             heroNav
-              ? "nav-pill-bar gap-2 rounded-2xl border border-gold/25 bg-[#080604]/55 px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:gap-4 sm:px-5 sm:py-3"
+              ? "nav-pill-bar gap-2 rounded-xl border border-gold/25 bg-[#080604]/55 px-2 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-1.5"
               : scrolled
-                ? "border-b border-gold/10 bg-[#080604]/95 px-4 py-3 shadow-luxury backdrop-blur-xl sm:px-6 lg:px-8"
-                : "bg-transparent px-4 py-4 sm:px-6 lg:px-8 lg:py-5"
+                ? "border-b border-gold/10 bg-[#080604]/95 px-4 py-1.5 shadow-luxury backdrop-blur-xl sm:px-6 lg:px-8"
+                : "bg-transparent px-4 py-2 sm:px-6 lg:px-8 lg:py-2.5"
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2.5 sm:gap-3">
-            <IntroLogo className="h-14 w-14 shrink-0 sm:h-16 sm:w-16 lg:h-[4.75rem] lg:w-[4.75rem]" />
+          <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+            <IntroLogo className="h-[4.5rem] w-[4.5rem] shrink-0 sm:h-[5.25rem] sm:w-[5.25rem] lg:h-24 lg:w-24" />
             <span className="hidden font-playfair text-sm tracking-wide text-gold sm:block lg:text-base">
               Lumina Medi Spa
             </span>
@@ -118,7 +118,7 @@ export default function Navbar() {
           >
             <div className="flex items-center justify-between border-b border-gold/10 px-6 py-5">
               <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
-                <IntroLogo className="h-14 w-14 sm:h-16 sm:w-16" />
+                <IntroLogo className="h-[4.5rem] w-[4.5rem] sm:h-[5.25rem] sm:w-[5.25rem]" />
                 <span className="font-playfair text-lg text-gold">Lumina Medi Spa</span>
               </Link>
               <button

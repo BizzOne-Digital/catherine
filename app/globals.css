@@ -18,7 +18,7 @@
   }
 
   body {
-    background-color: #F7EFE4;
+    background-color: #FFFBF6;
     color: #1C1712;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
@@ -34,7 +34,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #EDE3D3;
+    background: #F5EEE4;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -100,28 +100,28 @@
     @apply py-12 md:py-16;
   }
 
-  /* Warm content surfaces — gold, beige, reduced black */
+  /* Warm content surfaces — ~50% ivory, soft champagne accents */
   .section-warm {
-    background: linear-gradient(180deg, #FFFBF4 0%, #F7EFE4 55%, #F0E6D6 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFBF4 45%, #F8F1E6 100%);
     color: #1C1712;
   }
 
   .section-warm-alt {
-    background: linear-gradient(180deg, #F7EFE4 0%, #EDE3D3 55%, #E8D8C3 100%);
+    background: linear-gradient(180deg, #FFFBF4 0%, #F7EFE4 50%, #F2E8D8 100%);
     color: #1C1712;
   }
 
   .section-warm-deep {
-    background: linear-gradient(180deg, #EDE3D3 0%, #E8D8C3 45%, #DFD0BC 100%);
+    background: linear-gradient(180deg, #F7EFE4 0%, #F0E6D6 50%, #EADCBF 100%);
     color: #1C1712;
   }
 
   .page-text-hero {
-    background: linear-gradient(180deg, #2A2218 0%, #1F1A14 100%);
+    background: linear-gradient(180deg, #2F2720 0%, #231E18 100%);
   }
 
   .surface-card {
-    @apply bg-ivory/95 border border-gold/25 rounded-xl shadow-card;
+    @apply bg-white/90 border border-gold/30 rounded-xl shadow-card;
   }
 
   .section-warm .glass-card,
@@ -604,7 +604,7 @@ html.intro-active #site-content {
 .nav-book-btn {
   align-items: center;
   border-radius: 9999px;
-  padding: 0.55rem 1.25rem;
+  padding: 0.4rem 1.1rem;
   font-family: 'Inter', sans-serif;
   font-size: 10px;
   font-weight: 500;
@@ -624,8 +624,8 @@ html.intro-active #site-content {
 .nav-phone-btn {
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border-radius: 9999px;
   border: 1px solid rgba(214, 181, 109, 0.35);
   color: #e8d8c3;
@@ -1598,7 +1598,7 @@ a.footer-contact-item:hover {
 }
 
 .gallery-page-body {
-  background: linear-gradient(180deg, #FFFBF4 0%, #F7EFE4 55%, #F0E6D6 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFBF4 55%, #F8F1E6 100%);
 }
 
 .gallery-page-filters {
