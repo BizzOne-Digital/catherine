@@ -19,7 +19,7 @@ export default function FinalCTA() {
       <div className="container-luxury relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <span className="font-inter text-[11px] tracking-[5px] uppercase text-gold/70 mb-6 block">
+            <span className="font-inter text-[11px] tracking-[5px] uppercase text-gold font-bold mb-6 block">
               Begin Your Transformation
             </span>
             <h2 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-warm-beige leading-tight mb-6">
@@ -53,7 +53,7 @@ export default function FinalCTA() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <p className="font-inter text-xs text-soft-taupe/50 tracking-wide">
+            <p className="font-inter text-xs font-semibold text-soft-taupe tracking-wide">
               Lumina Medi Spa · 123 Luxury Lane, Mississauga, ON · By Appointment
             </p>
           </ScrollReveal>

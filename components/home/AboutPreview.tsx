@@ -62,7 +62,7 @@ export default function AboutPreview() {
           {/* Content side */}
           <div>
             <ScrollReveal direction="right">
-              <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block">
+              <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold font-bold mb-4 block">
                 Meet Your Specialist
               </span>
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl text-warm-beige leading-tight mb-5">

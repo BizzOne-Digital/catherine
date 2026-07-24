@@ -64,22 +64,22 @@ export default function ServiceModal({ service, onClose }: ServiceModalProps) {
                 {service.duration && (
                   <div className="flex items-center gap-2 py-2 px-4 rounded-full bg-gold/5 border border-gold/15">
                     <Clock size={13} className="text-gold" />
-                    <span className="font-inter text-xs text-warm-beige">{service.duration}</span>
+                    <span className="font-inter text-xs text-warm-beige font-bold">{service.duration}</span>
                   </div>
                 )}
                 {service.price && (
                   <div className="flex items-center gap-2 py-2 px-4 rounded-full bg-gold/5 border border-gold/15">
                     <DollarSign size={13} className="text-gold" />
-                    <span className="font-cormorant text-sm italic text-gold">{service.price}</span>
+                    <span className="font-cormorant text-sm italic text-gold font-bold">{service.price}</span>
                   </div>
                 )}
               </div>
 
               {/* Description */}
               <div>
-                <h3 className="font-playfair text-lg text-warm-beige mb-3">About This Treatment</h3>
+                <h3 className="font-playfair text-lg text-warm-beige mb-3 font-bold">About This Treatment</h3>
                 <div className="w-8 h-px bg-gold/30 mb-4" />
-                <p className="font-inter text-sm text-soft-taupe leading-relaxed">
+                <p className="font-inter text-sm text-warm-beige leading-relaxed font-medium">
                   {service.description}
                 </p>
               </div>
@@ -87,13 +87,13 @@ export default function ServiceModal({ service, onClose }: ServiceModalProps) {
               {/* Benefits */}
               {service.benefits && service.benefits.length > 0 && (
                 <div>
-                  <h3 className="font-playfair text-lg text-warm-beige mb-3">Key Benefits</h3>
+                  <h3 className="font-playfair text-lg text-warm-beige mb-3 font-bold">Key Benefits</h3>
                   <div className="w-8 h-px bg-gold/30 mb-4" />
                   <ul className="space-y-2.5">
                     {service.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <CheckCircle size={14} className="text-gold flex-shrink-0 mt-0.5" />
-                        <span className="font-inter text-sm text-warm-beige/80">{benefit}</span>
+                        <span className="font-inter text-sm text-warm-beige font-semibold">{benefit}</span>
                       </li>
                     ))}
                   </ul>

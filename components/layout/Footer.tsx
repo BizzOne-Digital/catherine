@@ -17,7 +17,6 @@ const quickLinks = [
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Financing", href: "/financing" },
-  { label: "Shop", href: "/shop" },
   { label: "Gallery", href: "/gallery" },
   { label: "FAQ", href: "/faq" },
   { label: "Blog", href: "/blog" },
@@ -25,11 +24,12 @@ const quickLinks = [
 ];
 
 const services = [
-  { label: "Injectables", href: "/services" },
-  { label: "Facials", href: "/services" },
-  { label: "Laser", href: "/services" },
-  { label: "Body Sculpting", href: "/services" },
-  { label: "Skin Treatments", href: "/services" },
+  { label: "Injectables & Wrinkle Relaxers", href: "/services" },
+  { label: "Dermal Fillers & Skin Boosters", href: "/services" },
+  { label: "Facials & Skin Health", href: "/services" },
+  { label: "Microneedling & Skin Resurfacing", href: "/services" },
+  { label: "Laser Hair Removal", href: "/services" },
+  { label: "Body Sculpting & Contouring", href: "/services" },
 ];
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
@@ -67,12 +67,12 @@ export default function Footer() {
             <div className="footer-brand">
               <Link href="/" className="mb-5 flex items-center gap-3">
                 <IntroLogo className="h-28 w-28 sm:h-32 sm:w-32" />
-                <span className="font-playfair text-lg tracking-wide text-gold lg:text-xl">
+                <span className="font-playfair text-lg font-semibold tracking-wide text-gold lg:text-xl">
                   Lumina Medi Spa
                 </span>
               </Link>
 
-              <p className="footer-brand-text max-w-sm font-inter text-sm font-light leading-relaxed text-warm-beige/70">
+              <p className="footer-brand-text max-w-sm font-inter text-[15px] font-medium leading-relaxed text-text-dark">
                 Where advanced medical aesthetics meets personalized care. We enhance your natural
                 beauty with precision, integrity, and results that glow.
               </p>
@@ -82,7 +82,7 @@ export default function Footer() {
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
               </Link>
 
-              <p className="footer-follow-label mt-8 font-inter text-[10px] uppercase tracking-[0.28em] text-gold/70">
+              <p className="footer-follow-label mt-8 font-inter text-[10px] font-bold uppercase tracking-[0.28em] text-gold">
                 Follow Us
               </p>
               <div className="mt-3 flex items-center gap-2.5">
@@ -103,24 +103,6 @@ export default function Footer() {
                   aria-label="Facebook"
                 >
                   <FacebookIcon size={15} />
-                </a>
-                <a
-                  href="https://tiktok.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-btn"
-                  aria-label="TikTok"
-                >
-                  <TikTokIcon size={15} />
-                </a>
-                <a
-                  href="https://yelp.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-btn"
-                  aria-label="Yelp"
-                >
-                  <YelpIcon size={15} />
                 </a>
               </div>
             </div>

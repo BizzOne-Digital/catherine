@@ -55,7 +55,7 @@ function LogoSvg({ className }: { className: string }) {
 }
 
 export default function IntroLogo({
-  className = "intro-logo w-[140px] h-[154px] sm:w-[160px] sm:h-[176px]",
+  className = "intro-logo w-[200px] h-[220px] sm:w-[240px] sm:h-[264px]",
 }: IntroLogoProps) {
   const [useFallback, setUseFallback] = useState(false);
 
@@ -67,8 +67,8 @@ export default function IntroLogo({
     <Image
       src="/images/logo.png"
       alt="Lumina Medi Spa"
-      width={160}
-      height={176}
+      width={240}
+      height={264}
       className={`${className} object-contain`}
       onError={() => setUseFallback(true)}
       priority

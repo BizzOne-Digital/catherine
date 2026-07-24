@@ -24,7 +24,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="hero-eyebrow mb-5 font-inter text-[10px] font-light uppercase tracking-[0.32em] text-gold/85 sm:text-[11px]"
+              className="hero-eyebrow mb-5 font-inter text-[10px] font-bold uppercase tracking-[0.32em] text-gold sm:text-[11px]"
             >
               ✦ Lumina Medi Spa · Mississauga
             </motion.p>
@@ -42,7 +42,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="hero-description mt-6 max-w-lg font-inter text-base font-light leading-relaxed text-warm-beige/80 sm:text-[17px]"
+              className="hero-description mt-6 max-w-lg font-inter text-base font-semibold leading-relaxed text-warm-beige sm:text-[17px]"
             >
               Personalized Medical Aesthetics for Natural, Beautiful Results
             </motion.p>

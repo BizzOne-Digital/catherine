@@ -7,15 +7,10 @@ import { Phone, Menu, X } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Financing", href: "/financing" },
-  { label: "Shop", href: "/shop" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -51,29 +46,29 @@ export default function Navbar() {
         <nav
           className={`mx-auto flex max-w-7xl items-center transition-all duration-500 ${
             heroNav
-              ? "nav-pill-bar gap-2 rounded-xl border border-gold/25 bg-[#080604]/55 px-2 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-1.5"
+              ? "nav-pill-bar gap-2 rounded-xl border border-gold/40 bg-[#FAF4EB]/95 px-2 py-0.5 shadow-[0_4px_20px_rgba(196,151,47,0.18)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-1"
               : scrolled
-                ? "border-b border-gold/10 bg-[#080604]/95 px-4 py-1.5 shadow-luxury backdrop-blur-xl sm:px-6 lg:px-8"
-                : "bg-transparent px-4 py-2 sm:px-6 lg:px-8 lg:py-2.5"
+                ? "border-b border-gold/25 bg-[#FAF4EB]/95 px-4 py-1 shadow-card backdrop-blur-xl sm:px-6 lg:px-8"
+                : "bg-transparent px-4 py-1.5 sm:px-6 lg:px-8 lg:py-2"
           }`}
         >
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            <IntroLogo className="h-[4.5rem] w-[4.5rem] shrink-0 sm:h-[5.25rem] sm:w-[5.25rem] lg:h-24 lg:w-24" />
-            <span className="hidden font-playfair text-sm tracking-wide text-gold sm:block lg:text-base">
+            <IntroLogo className="h-[5.5rem] w-[5.5rem] shrink-0 sm:h-[6.5rem] sm:w-[6.5rem] lg:h-[7.5rem] lg:w-[7.5rem]" />
+            <span className="hidden font-playfair text-lg font-semibold tracking-wide text-gold sm:block lg:text-xl">
               Lumina Medi Spa
             </span>
           </Link>
 
-          <span className="nav-divider hidden h-7 w-px shrink-0 bg-gold/25 xl:block" aria-hidden="true" />
+          <span className="nav-divider hidden h-7 w-px shrink-0 bg-gold/30 xl:block" aria-hidden="true" />
 
           {/* Desktop Nav */}
-          <ul className="hidden min-w-0 flex-1 items-center justify-center gap-3 xl:flex xl:gap-4 2xl:gap-5">
+          <ul className="hidden min-w-0 flex-1 items-center justify-center gap-3 xl:flex xl:gap-5 2xl:gap-6">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="whitespace-nowrap font-inter text-[10px] tracking-wide text-warm-beige/80 transition-colors duration-300 hover:text-gold 2xl:text-[11px]"
+                  className="whitespace-nowrap font-inter text-[14px] font-medium tracking-wide text-text-dark transition-colors duration-300 hover:text-gold 2xl:text-[15px]"
                 >
                   {link.label}
                 </Link>
@@ -81,7 +76,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <span className="nav-divider hidden h-7 w-px shrink-0 bg-gold/25 xl:block" aria-hidden="true" />
+          <span className="nav-divider hidden h-7 w-px shrink-0 bg-gold/30 xl:block" aria-hidden="true" />
 
           {/* Right Actions */}
           <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
@@ -97,7 +92,7 @@ export default function Navbar() {
             </a>
             <button
               onClick={() => setMobileOpen(true)}
-              className="p-2 text-warm-beige transition-colors hover:text-gold xl:hidden"
+              className="p-2 text-text-dark transition-colors hover:text-gold xl:hidden"
               aria-label="Open menu"
             >
               <Menu size={22} />
@@ -110,20 +105,20 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-[200] flex flex-col overflow-y-auto bg-[#080604]/98 backdrop-blur-2xl"
+            className="fixed inset-0 z-[200] flex flex-col overflow-y-auto bg-white/98 backdrop-blur-2xl"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="flex items-center justify-between border-b border-gold/10 px-6 py-5">
+            <div className="flex items-center justify-between border-b border-gold/15 px-6 py-5">
               <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
                 <IntroLogo className="h-[4.5rem] w-[4.5rem] sm:h-[5.25rem] sm:w-[5.25rem]" />
-                <span className="font-playfair text-lg text-gold">Lumina Medi Spa</span>
+                <span className="font-playfair text-lg font-semibold text-gold">Lumina Medi Spa</span>
               </Link>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="p-2 text-soft-taupe transition-colors hover:text-gold"
+                className="p-2 text-text-dark transition-colors hover:text-gold"
                 aria-label="Close menu"
               >
                 <X size={22} />
@@ -142,7 +137,7 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block border-b border-gold/5 py-3 font-playfair text-2xl sm:text-3xl text-warm-beige transition-colors hover:text-gold"
+                      className="block border-b border-gold/10 py-3 font-playfair text-2xl sm:text-3xl font-semibold text-gold transition-colors hover:text-deep-gold"
                     >
                       {link.label}
                     </Link>

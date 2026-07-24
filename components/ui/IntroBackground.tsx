@@ -4,7 +4,7 @@ import GoldParticles from "./GoldParticles";
 export default function IntroBackground() {
   return (
     <div className="intro-bg absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute inset-0 bg-[#030303]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white to-[#FFFBF6]" />
 
       <div className="intro-bg-glow intro-bg-glow-tl" />
       <div className="intro-bg-glow intro-bg-glow-br" />
@@ -17,21 +17,21 @@ export default function IntroBackground() {
       >
         <defs>
           <linearGradient id="introWaveA" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#f5e1a4" stopOpacity="0.55" />
-            <stop offset="45%" stopColor="#d6b56d" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#a67c2d" stopOpacity="0" />
+            <stop offset="0%" stopColor="#C4972F" stopOpacity="0.15" />
+            <stop offset="45%" stopColor="#B8893D" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#9B7838" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="introWaveB" x1="100%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="#e8c872" stopOpacity="0.45" />
-            <stop offset="50%" stopColor="#c9a04a" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#a67c2d" stopOpacity="0" />
+            <stop offset="0%" stopColor="#D4A73F" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="#C4972F" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#B8893D" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="introRibbonGold" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#a67c2d" stopOpacity="0" />
-            <stop offset="25%" stopColor="#d6b56d" stopOpacity="0.5" />
-            <stop offset="50%" stopColor="#f5e1a4" stopOpacity="0.75" />
-            <stop offset="75%" stopColor="#d6b56d" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#a67c2d" stopOpacity="0" />
+            <stop offset="0%" stopColor="#B8893D" stopOpacity="0" />
+            <stop offset="25%" stopColor="#C4972F" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#D4A73F" stopOpacity="0.28" />
+            <stop offset="75%" stopColor="#C4972F" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#B8893D" stopOpacity="0" />
           </linearGradient>
           <filter id="introWaveBlur" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="28" />

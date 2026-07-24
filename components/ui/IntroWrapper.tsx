@@ -96,7 +96,7 @@ export default function IntroWrapper() {
             </motion.div>
 
             <motion.h1
-              className="intro-title font-playfair font-normal tracking-[0.06em] mt-5 sm:mt-6"
+              className="intro-title font-playfair font-bold tracking-[0.06em] mt-5 sm:mt-6"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -114,7 +114,7 @@ export default function IntroWrapper() {
             </motion.div>
 
             <motion.p
-              className="intro-tagline mt-4 sm:mt-5 font-inter font-light tracking-[0.12em]"
+              className="intro-tagline mt-4 sm:mt-5 font-inter font-semibold tracking-[0.12em]"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}

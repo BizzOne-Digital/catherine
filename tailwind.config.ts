@@ -10,17 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         // Brand Colors
-        "luxury-black": "#0C0A08",
-        "soft-black": "#1A1612",
-        "gold": "#D9BC78",
-        "deep-gold": "#B0893A",
-        "warm-beige": "#EDE0CF",
+        "luxury-black": "#FFFFFF",
+        "soft-black": "#FFFBF6",
+        "gold": "#C4972F",
+        "deep-gold": "#B8893D",
+        "warm-beige": "#4A3F2E",
         "light-beige": "#FAF4EB",
         "ivory": "#FFFCF7",
-        "soft-taupe": "#A99782",
+        "soft-taupe": "#6B5C4F",
         "muted-rose": "#D8B7A3",
-        "text-dark": "#1C1712",
-        "text-soft": "#6F6255",
+        "text-dark": "#1A1A1A",
+        "text-soft": "#5A4D3E",
       },
       fontFamily: {
         playfair: ["Playfair Display", "serif"],
