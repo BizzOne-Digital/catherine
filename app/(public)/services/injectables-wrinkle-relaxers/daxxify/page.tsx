@@ -17,11 +17,6 @@ export default function DaxxifyPage() {
           <ScrollReveal>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 rounded-full">
-                    Injectable
-                  </span>
-                </div>
                 <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-text-dark mb-6 leading-tight">
                   Daxxify
                 </h1>

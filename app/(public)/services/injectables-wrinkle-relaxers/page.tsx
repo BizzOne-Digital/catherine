@@ -22,15 +22,6 @@ const treatments = [
     description: "Alternative neuromodulators for fast-acting, natural smoothing.",
     price: "From $11–$14 / unit",
     image: "/images/treatments/dysport.jpg"
-  },
-  {
-    id: "daxxify",
-    name: "Daxxify",
-    slug: "daxxify",
-    popular: false,
-    description: "Long-lasting neuromodulator with results up to 6 months.",
-    price: "From $16–$18 / unit",
-    image: "/images/treatments/daxxify.jpg"
   }
 ];
 
@@ -46,7 +37,7 @@ export default function InjectablesPage() {
           </Link>
           
           <ScrollReveal>
-            <div className="max-w-3xl">
+            <div className="max-w-3xl mx-auto text-center">
               <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 rounded-full mb-4">
                 Category
               </span>
@@ -64,7 +55,7 @@ export default function InjectablesPage() {
       {/* Treatments Grid */}
       <section className="section-pad bg-white">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {treatments.map((treatment, index) => (
               <ScrollReveal key={treatment.id} delay={index * 0.1}>
                 <Link href={`/services/injectables-wrinkle-relaxers/${treatment.slug}`}>

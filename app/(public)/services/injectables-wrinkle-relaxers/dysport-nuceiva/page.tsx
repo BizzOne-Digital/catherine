@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ArrowLeft, Clock, DollarSign, CheckCircle, ArrowRight, Shield } from "lucide-react";
+import { ArrowLeft, DollarSign, CheckCircle, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Image from "next/image";
 
@@ -16,59 +16,27 @@ export default function DysportPage() {
           </Link>
           
           <ScrollReveal>
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 rounded-full">
-                    Injectable
-                  </span>
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-text-dark mb-6 leading-tight">
+                Dysport & Nuceiva
+              </h1>
+              <p className="text-xl text-text-soft leading-relaxed font-medium mb-8">
+                Alternative neuromodulators for fast-acting, natural smoothing results.
+              </p>
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <DollarSign size={20} className="text-gold" />
+                <div>
+                  <p className="text-xs text-text-soft uppercase tracking-wide">Price</p>
+                  <p className="text-lg font-bold text-gold">$11–$14 / unit</p>
                 </div>
-                <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-text-dark mb-6 leading-tight">
-                  Dysport & Nuceiva
-                </h1>
-                <p className="text-xl text-text-soft leading-relaxed font-medium mb-8">
-                  Alternative neuromodulators for fast-acting, natural smoothing results.
-                </p>
-                <div className="flex flex-wrap gap-6 mb-8">
-                  <div className="flex items-center gap-2">
-                    <DollarSign size={20} className="text-gold" />
-                    <div>
-                      <p className="text-xs text-text-soft uppercase tracking-wide">Price</p>
-                      <p className="text-lg font-bold text-gold">$11–$14 / unit</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock size={20} className="text-gold" />
-                    <div>
-                      <p className="text-xs text-text-soft uppercase tracking-wide">Duration</p>
-                      <p className="text-lg font-bold text-text-dark">15–30 min</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Shield size={20} className="text-gold" />
-                    <div>
-                      <p className="text-xs text-text-soft uppercase tracking-wide">Results Last</p>
-                      <p className="text-lg font-bold text-text-dark">3–4 months</p>
-                    </div>
-                  </div>
-                </div>
-                <Link
-                  href="/booking"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gold hover:bg-deep-gold text-white font-bold text-sm uppercase tracking-wider rounded-full transition-all duration-300"
-                >
-                  Book This Treatment
-                  <ArrowRight size={16} />
-                </Link>
               </div>
-              <div className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/treatments/dysport.jpg"
-                  alt="Dysport & Nuceiva Treatment"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+              <Link
+                href="/booking"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gold hover:bg-deep-gold text-white font-bold text-sm uppercase tracking-wider rounded-full transition-all duration-300"
+              >
+                Book This Treatment
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </ScrollReveal>
         </div>

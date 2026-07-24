@@ -1,0 +1,107 @@
+MIDJOURNEY PROMPTS FOR LUMINA MEDI SPA TREATMENT IMAGES
+========================================================
+
+Copy and paste each prompt directly into Midjourney Discord bot.
+All images will be 16:10 aspect ratio, professional medical spa style.
+
+==================== INJECTABLES & WRINKLE RELAXERS ====================
+
+--- botox.jpg ---
+/imagine prompt: Professional medical spa treatment photo, young woman receiving Botox injection on forehead, close-up beauty shot, pink medical gloves, precise injection technique, soft natural lighting, elegant spa environment, warm beige and gold tones, luxurious medical aesthetic, high-end beauty clinic atmosphere, serene and professional, shot on Canon EOS R5 85mm f/2.8, editorial beauty photography --ar 16:10 --style raw --v 6
+
+--- dysport.jpg ---
+/imagine prompt: Elegant beauty treatment photography, woman's face in profile receiving neuromodulator injection near crow's feet area, soft focus background, medical professional's hands with pink gloves, clinical precision, warm ambient lighting, luxury spa setting, sophisticated medical aesthetics, natural skin tones, professional beauty treatment, warm beige gold ivory color palette --ar 16:10 --style raw --v 6
+
+--- daxxify.jpg ---
+/imagine prompt: High-end medical spa photography, close-up of forehead injection treatment, modern aesthetic medicine, woman with closed eyes receiving treatment, soft pink medical gloves, precise injection technique, warm golden hour lighting, luxurious clinic interior, peaceful expression, professional medical aesthetic environment, beige and gold tones --ar 16:10 --style raw --v 6
+
+==================== DERMAL FILLERS & SKIN BOOSTERS ====================
+
+--- dermal-fillers.jpg ---
+/imagine prompt: Luxury medical spa treatment, woman receiving cheek filler injection, side profile beauty shot, elegant medical professional administering treatment, soft lighting, sophisticated clinic environment, warm beige and gold color palette #FAF4EB #C4972F, high-end aesthetic medicine, natural beauty enhancement, professional photography, serene atmosphere --ar 16:10 --style raw --v 6
+
+--- lip-filler.jpg ---
+/imagine prompt: Professional beauty treatment photography, close-up of lip filler injection, woman's beautiful lips in focus, pink medical gloves, precise injection technique, soft natural lighting, luxury medical spa setting, elegant and refined, warm ivory and gold tones, high-end cosmetic procedure, beautiful results, editorial medical photography --ar 16:10 --style raw --v 6
+
+--- skin-boosters.jpg ---
+/imagine prompt: Elegant medical aesthetics photography, woman receiving skin booster injection on cheek area, dewy glowing skin, soft focus, luxury spa environment, professional medical treatment, warm ambient lighting, sophisticated beauty enhancement, natural radiant skin, high-quality medical spa photography, serene and luxurious, beige gold palette --ar 16:10 --style raw --v 6
+
+--- under-eye-filler.jpg ---
+/imagine prompt: High-end beauty treatment photo, close-up of under-eye area receiving tear trough filler, woman's face relaxed, skilled injector hands with pink gloves, precise medical technique, soft lighting, luxury clinic setting, professional aesthetic medicine, warm beige tones, natural enhancement, editorial beauty photography --ar 16:10 --style raw --v 6
+
+==================== FACIALS & SKIN HEALTH ====================
+
+--- purifying-facial.jpg ---
+/imagine prompt: Luxury spa facial treatment, woman lying down receiving deep cleansing facial, LED light therapy device nearby, serene spa environment, soft blue and pink lighting, professional esthetician hands, cleansing mask application, peaceful expression, high-end medical spa, warm ambient beige and gold tones, professional beauty photography --ar 16:10 --style raw --v 6
+
+--- relaxation-facial.jpg ---
+/imagine prompt: Serene spa treatment photography, woman enjoying relaxing facial massage, eyes closed, peaceful blissful expression, soft hands massaging face, warm candlelight ambiance, luxury spa setting, natural beauty, calming atmosphere, professional spa treatment, elegant and soothing, warm ivory beige gold palette --ar 16:10 --style raw --v 6
+
+--- chemical-peel.jpg ---
+/imagine prompt: Professional medical spa treatment, esthetician applying chemical peel solution to woman's face with brush, clinical precision, medical-grade skincare, professional spa environment, soft lighting, white and beige tones, clean aesthetic, high-end skin resurfacing treatment, medical aesthetics photography, luxury clinic --ar 16:10 --style raw --v 6
+
+--- hydrafacial.jpg ---
+/imagine prompt: Modern HydraFacial treatment photography, woman receiving hydradermabrasion treatment with medical device, close-up of HydraFacial wand on glowing skin, hydrated dewy complexion, professional medical spa, clean white and gold environment, high-tech skincare, luxury aesthetic treatment, editorial medical photography --ar 16:10 --style raw --v 6
+
+--- dermaplaning.jpg ---
+/imagine prompt: Professional dermaplaning treatment, close-up of surgical blade gently exfoliating woman's cheek, precise technique, medical aesthetics, soft natural lighting, luxury spa setting, pink medical gloves, clinical precision, smooth glowing skin, high-end beauty treatment, warm beige gold tones, professional photography --ar 16:10 --style raw --v 6
+
+==================== MICRONEEDLING & SKIN RESURFACING ====================
+
+--- microneedling.jpg ---
+/imagine prompt: Medical microneedling treatment photography, professional using microneedling pen device on woman's face, close-up of treatment, clinical precision, modern medical aesthetics device, luxury spa setting, professional beauty treatment, soft lighting, high-end skin rejuvenation, warm beige and gold palette --ar 16:10 --style raw --v 6
+
+--- rf-microneedling.jpg ---
+/imagine prompt: Advanced RF microneedling procedure, modern radiofrequency microneedling device on woman's face, high-tech medical aesthetics, professional treatment, luxury clinic environment, sophisticated equipment, precision medicine, warm lighting, elegant medical spa, professional editorial photography, gold and beige tones --ar 16:10 --style raw --v 6
+
+--- prp-microneedling.jpg ---
+/imagine prompt: PRP microneedling treatment photography, microneedling procedure with platelet-rich plasma visible, professional medical aesthetics, woman receiving treatment, clinical environment, regenerative medicine, luxury spa setting, professional beauty treatment, warm lighting, editorial medical photography, beige gold palette --ar 16:10 --style raw --v 6
+
+--- nano-needling.jpg ---
+/imagine prompt: Gentle nano needling facial treatment, close-up of nano needling device on woman's face, soft and gentle skincare, minimal invasive treatment, luxury medical spa, serene environment, professional esthetician, glowing dewy skin, warm ambient lighting, high-end beauty photography, ivory beige gold tones --ar 16:10 --style raw --v 6
+
+==================== LASER HAIR REMOVAL ====================
+
+--- laser-full-body.jpg ---
+/imagine prompt: Professional laser hair removal treatment, medical professional using modern laser device on woman's leg, state-of-the-art medical laser equipment, clinical precision, luxury medical spa setting, professional beauty treatment, soft lighting, high-tech aesthetic medicine, comfortable treatment environment, warm beige palette --ar 16:10 --style raw --v 6
+
+--- laser-face.jpg ---
+/imagine prompt: Facial laser hair removal photography, close-up of laser treatment on woman's upper lip area, protective eyewear, modern laser device, professional medical aesthetics, luxury clinic, precise treatment, soft lighting, high-end beauty procedure, medical spa photography, warm gold and beige tones --ar 16:10 --style raw --v 6
+
+--- laser-brazilian.jpg ---
+/imagine prompt: Professional laser hair removal treatment setting, elegant abstract shot of lower body treatment area, medical professional with laser device, privacy-maintained perspective, luxury medical spa environment, professional aesthetic medicine, soft lighting, high-end clinic, discreet and tasteful composition, warm tones --ar 16:10 --style raw --v 6
+
+--- laser-legs.jpg ---
+/imagine prompt: Leg laser hair removal treatment, woman's smooth beautiful legs receiving laser treatment, modern medical laser device, professional medical spa, comfortable treatment room, soft lighting, luxury aesthetic clinic, professional beauty procedure, elegant composition, warm beige and gold palette --ar 16:10 --style raw --v 6
+
+==================== BODY SCULPTING & CONTOURING ====================
+
+--- emsculpt.jpg ---
+/imagine prompt: EMSculpt body contouring treatment, woman with EMSculpt paddles on toned abdomen, modern body sculpting technology, luxury medical spa, high-tech aesthetic equipment, professional body contouring, comfortable treatment environment, warm lighting, sophisticated medical aesthetics, beige gold palette --ar 16:10 --style raw --v 6
+
+--- coolsculpting.jpg ---
+/imagine prompt: CoolSculpting treatment photography, cryolipolysis applicator on body, modern fat-freezing technology, professional medical aesthetics, woman relaxed during treatment, luxury clinic environment, high-tech body contouring, professional medical spa, soft lighting, sophisticated equipment, warm tones --ar 16:10 --style raw --v 6
+
+--- body-contouring.jpg ---
+/imagine prompt: Professional body contouring treatment, medical aesthetic device on woman's body, modern sculpting technology, luxury medical spa, professional treatment environment, comfortable and elegant setting, warm lighting, high-end body shaping procedure, editorial medical photography, beige and gold palette --ar 16:10 --style raw --v 6
+
+--- cellulite-treatment.jpg ---
+/imagine prompt: Cellulite reduction treatment photography, medical device on thigh area, professional body treatment, modern aesthetic medicine, luxury spa environment, advanced body contouring technology, soft lighting, elegant medical aesthetics, professional beauty treatment, warm beige gold tones --ar 16:10 --style raw --v 6
+
+==================== END OF PROMPTS ====================
+
+USAGE INSTRUCTIONS:
+1. Open Midjourney Discord
+2. Go to any channel where you can use the bot
+3. Copy one prompt at a time (starting with /imagine)
+4. Paste and send
+5. Wait for generation (usually 1-2 minutes)
+6. Upscale your favorite result (U1, U2, U3, or U4)
+7. Download and save with the filename shown above
+8. Place all images in: /public/images/treatments/
+
+TIPS:
+- Generate all 20 images in one session for consistency
+- If you don't like a result, use the 🔄 button to regenerate
+- You can adjust "--style raw" to "--style standard" for more artistic results
+- All prompts use --v 6 (latest Midjourney version)

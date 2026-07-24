@@ -1,39 +1,38 @@
 "use client";
 import Link from "next/link";
-import { ArrowLeft, DollarSign, CheckCircle, ArrowRight, Star } from "lucide-react";
+import { ArrowLeft, DollarSign, CheckCircle, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Image from "next/image";
 
-export default function BotoxPage() {
+const relatedTreatments = [
+  { name: "Lip Filler", slug: "lip-filler", price: "From $650–$900", image: "/images/treatments/lip-filler.jpg" },
+  { name: "Skin Booster Injections", slug: "skin-boosters", price: "From $450–$650", image: "/images/treatments/skin-boosters.jpg" },
+  { name: "Under Eye Filler", slug: "under-eye-filler", price: "From $650–$850", image: "/images/treatments/under-eye-filler.jpg" },
+];
+
+export default function DermalFillersPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#FFFBF6] py-16 sm:py-20 lg:py-24">
         <div className="container-luxury">
-          <Link href="/services/injectables-wrinkle-relaxers" className="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-deep-gold transition-colors mb-8">
+          <Link href="/services/dermal-fillers-skin-boosters" className="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-deep-gold transition-colors mb-8">
             <ArrowLeft size={16} />
-            Back to Injectables & Wrinkle Relaxers
+            Back to Dermal Fillers & Skin Boosters
           </Link>
           
           <ScrollReveal>
             <div className="max-w-3xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gold rounded-full">
-                  <Star size={12} className="inline mr-1" fill="currentColor" />
-                  Popular
-                </span>
-              </div>
               <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-text-dark mb-6 leading-tight">
-                Botox
+                Dermal Fillers
               </h1>
               <p className="text-xl text-text-soft leading-relaxed font-medium mb-8">
-                Smooth dynamic lines on the forehead, frown and crow's feet with the gold standard in wrinkle relaxers.
+                Restore volume and contour cheeks, jawline and chin with premium hyaluronic acid fillers.
               </p>
               <div className="flex items-center justify-center gap-2 mb-8">
                 <DollarSign size={20} className="text-gold" />
                 <div>
                   <p className="text-xs text-text-soft uppercase tracking-wide">Price</p>
-                  <p className="text-lg font-bold text-gold">$11–$14 / unit</p>
+                  <p className="text-lg font-bold text-gold">$700–$1,200 / syringe</p>
                 </div>
               </div>
               <Link
@@ -48,7 +47,6 @@ export default function BotoxPage() {
         </div>
       </section>
 
-      {/* About Treatment */}
       <section className="section-pad bg-white">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto">
@@ -57,17 +55,16 @@ export default function BotoxPage() {
                 About This Treatment
               </h2>
               <p className="text-lg text-text-soft leading-relaxed mb-6 font-medium">
-                Botox is the gold standard for smoothing dynamic wrinkles caused by repeated facial expressions. Our precise injection technique targets specific muscles to soften forehead lines, frown lines (11s), and crow's feet while maintaining your natural expressions.
+                Premium hyaluronic acid dermal fillers restore lost volume, enhance facial contours, and create beautifully balanced proportions. We use advanced techniques to sculpt and define your cheeks, jawline, chin, and other areas for natural, elegant results.
               </p>
               <p className="text-lg text-text-soft leading-relaxed font-medium">
-                This FDA-approved treatment temporarily relaxes the muscles that cause wrinkles, resulting in smoother, more youthful-looking skin. Results typically appear within 3-5 days and continue to improve over two weeks.
+                Our careful approach focuses on enhancing your natural features while maintaining facial harmony. Results are immediate and can last 12-18 months, depending on the area treated and product used.
               </p>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
       <section className="section-pad bg-gradient-to-b from-[#FFFBF6] to-white">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto">
@@ -77,14 +74,14 @@ export default function BotoxPage() {
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  "Smooths forehead lines and wrinkles",
-                  "Reduces crow's feet and frown lines",
-                  "Prevents new wrinkles from forming",
-                  "Natural-looking results",
-                  "No downtime required",
-                  "Results last 3-4 months",
-                  "Quick, comfortable treatment",
-                  "FDA-approved and safe"
+                  "Restores youthful volume and contours",
+                  "Enhances cheekbones and jawline definition",
+                  "Smooths deep folds and wrinkles",
+                  "Immediate visible results",
+                  "Long-lasting (12-18 months)",
+                  "Reversible if needed",
+                  "Natural-looking enhancement",
+                  "Customizable treatment areas"
                 ].map((benefit, i) => (
                   <ScrollReveal key={i} delay={i * 0.05}>
                     <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-gold/10">
@@ -99,7 +96,6 @@ export default function BotoxPage() {
         </div>
       </section>
 
-      {/* Ideal For & Recovery */}
       <section className="section-pad bg-white">
         <div className="container-luxury">
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
@@ -107,7 +103,7 @@ export default function BotoxPage() {
               <div className="p-8 bg-gradient-to-br from-gold/5 to-gold/10 rounded-2xl border border-gold/20">
                 <h3 className="font-playfair text-2xl font-bold text-gold mb-4">Ideal For</h3>
                 <p className="text-text-dark font-medium leading-relaxed">
-                  Anyone looking to reduce the appearance of dynamic wrinkles and prevent future lines. Suitable for adults experiencing forehead lines, frown lines between the brows, or crow's feet around the eyes.
+                  Anyone experiencing volume loss in the face or seeking enhanced facial contours. Perfect for those wanting to restore youthful fullness to cheeks, define jawline, or add chin projection.
                 </p>
               </div>
             </ScrollReveal>
@@ -115,7 +111,7 @@ export default function BotoxPage() {
               <div className="p-8 bg-gradient-to-br from-gold/5 to-gold/10 rounded-2xl border border-gold/20">
                 <h3 className="font-playfair text-2xl font-bold text-gold mb-4">Recovery</h3>
                 <p className="text-text-dark font-medium leading-relaxed">
-                  No downtime required. Some minor redness or swelling may occur at injection sites for 1-2 hours. Avoid lying down for 4 hours post-treatment and avoid strenuous exercise for 24 hours.
+                  Minimal downtime. Some swelling or bruising may occur for 3-7 days. Avoid strenuous exercise for 24-48 hours and follow post-care instructions.
                 </p>
               </div>
             </ScrollReveal>
@@ -123,7 +119,45 @@ export default function BotoxPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Related Treatments */}
+      <section className="section-pad bg-gradient-to-b from-[#FFFBF6] to-white">
+        <div className="container-luxury">
+          <ScrollReveal>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-text-dark mb-8">
+              Related Treatments
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedTreatments.map((treatment, index) => (
+                <ScrollReveal key={treatment.slug} delay={index * 0.1}>
+                  <Link href={`/services/dermal-fillers-skin-boosters/${treatment.slug}`}>
+                    <div className="group relative bg-white rounded-2xl overflow-hidden border border-gold/20 hover:border-gold/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(196,151,47,0.15)] cursor-pointer">
+                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-gold/5 to-gold/10">
+                        <Image
+                          src={treatment.image}
+                          alt={treatment.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-playfair text-xl font-bold text-text-dark mb-2 group-hover:text-gold transition-colors">
+                          {treatment.name}
+                        </h3>
+                        <div className="flex items-center gap-2 text-gold font-bold text-sm">
+                          <DollarSign size={14} />
+                          <span>{treatment.price}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       <section className="section-pad-sm bg-gradient-to-b from-[#FFFBF6] to-[#FAF4EB]">
         <div className="container-luxury">
           <ScrollReveal>
@@ -132,7 +166,7 @@ export default function BotoxPage() {
                 Ready to Get Started?
               </h2>
               <p className="text-lg text-text-soft mb-8 font-medium">
-                Book your complimentary consultation and discover if Botox is right for you.
+                Book your complimentary consultation and discover if dermal fillers are right for you.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -143,10 +177,10 @@ export default function BotoxPage() {
                   <ArrowRight size={16} />
                 </Link>
                 <Link
-                  href="/services/injectables-wrinkle-relaxers"
+                  href="/services/dermal-fillers-skin-boosters"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gold text-gold hover:bg-gold hover:text-white font-bold text-sm uppercase tracking-wider rounded-full transition-all duration-300"
                 >
-                  View All Injectables
+                  View All Fillers
                 </Link>
               </div>
             </div>

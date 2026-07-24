@@ -31,15 +31,6 @@ const treatments = [
     description: "Profhilo & Juvéderm SkinVive for deep hydration and glow.",
     price: "From $450–$650 / session",
     image: "/images/treatments/skin-boosters.jpg"
-  },
-  {
-    id: "under-eye-filler",
-    name: "Under Eye Filler",
-    slug: "under-eye-filler",
-    popular: false,
-    description: "Reduce hollowness and dark circles for a refreshed look.",
-    price: "From $650–$850 / syringe",
-    image: "/images/treatments/under-eye-filler.jpg"
   }
 ];
 
@@ -54,7 +45,7 @@ export default function DermalFillersPage() {
           </Link>
           
           <ScrollReveal>
-            <div className="max-w-3xl">
+            <div className="max-w-3xl mx-auto text-center">
               <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 rounded-full mb-4">
                 Category
               </span>
@@ -71,7 +62,7 @@ export default function DermalFillersPage() {
 
       <section className="section-pad bg-white">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {treatments.map((treatment, index) => (
               <ScrollReveal key={treatment.id} delay={index * 0.1}>
                 <Link href={`/services/dermal-fillers-skin-boosters/${treatment.slug}`}>
