@@ -244,21 +244,7 @@
   }
 }
 
-/* Intro Screen */
-html.intro-active,
-html.intro-active body {
-  overflow: hidden;
-}
-
-html.intro-active #site-content {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.intro-screen {
-  overflow: hidden;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFFBF6 100%);
-}
+/* Intro Screen - REMOVED */
 
 /* Background */
 .intro-bg-glow {
