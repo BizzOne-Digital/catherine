@@ -65,7 +65,7 @@ export default function AboutPreview() {
               <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold font-bold mb-4 block">
                 Meet Your Specialist
               </span>
-              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl text-warm-beige leading-tight mb-5">
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl text-text-dark leading-tight mb-5 font-bold">
                 Care That Goes{" "}
                 <em className="text-gold not-italic">Beyond the Surface</em>
               </h2>

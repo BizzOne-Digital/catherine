@@ -5,42 +5,84 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const treatments = [
   {
-    id: 1,
+    id: "microneedling",
     name: "Microneedling",
+    slug: "microneedling",
     popular: true,
-    description: "Collagen-stimulating treatment for texture, pores and scars.",
-    detailedDescription: "Microneedling creates controlled micro-injuries to stimulate your skin's natural healing response, boosting collagen and elastin production. This highly effective treatment improves texture, minimizes pores, reduces acne scars, and creates smoother, more youthful-looking skin.",
-    price: "From $250",
-    duration: "60 min",
+    description: "Stimulate collagen for smoother, firmer, more even skin.",
+    detailedDescription: "Microneedling uses fine needles to create controlled micro-injuries in the skin, triggering your body's natural healing response and collagen production. This treatment improves texture, reduces scarring, minimizes pores, and creates overall skin renewal.",
+    price: "From $250–$400",
+    duration: "60–75 min",
     benefits: [
-      "Reduces acne scars and texture issues",
-      "Minimizes enlarged pores",
+      "Stimulates natural collagen production",
+      "Reduces acne scars and hyperpigmentation",
+      "Minimizes pore size",
       "Smooths fine lines and wrinkles",
-      "Improves overall skin tone and firmness",
-      "Enhances product absorption",
-      "Suitable for all skin types"
+      "Improves skin texture and tone",
+      "Enhances product absorption"
     ],
-    ideal: "Acne scarring, large pores, uneven texture, fine lines, or dull skin",
-    recovery: "Expect redness for 1-3 days. Avoid sun, makeup, and actives for 24-48 hours."
+    ideal: "Acne scars, large pores, uneven texture, fine lines, or hyperpigmentation",
+    recovery: "2-3 days of redness and sensitivity. Avoid sun exposure and follow aftercare protocol."
   },
   {
-    id: 2,
-    name: "IPL Photofacial",
-    popular: false,
-    description: "Target sun damage, redness and uneven pigmentation.",
-    detailedDescription: "Intense Pulsed Light (IPL) therapy uses broad-spectrum light to target multiple skin concerns at once. It effectively treats sunspots, age spots, redness from rosacea, broken capillaries, and overall uneven tone — revealing clearer, more luminous skin.",
-    price: "From $250",
-    duration: "30-40 min",
+    id: "rf-microneedling",
+    name: "RF Microneedling",
+    slug: "rf-microneedling",
+    popular: true,
+    description: "Advanced microneedling with radiofrequency for skin tightening.",
+    detailedDescription: "RF Microneedling combines traditional microneedling with radiofrequency energy to penetrate deeper layers of skin. This advanced treatment tightens skin, reduces wrinkles more effectively, and provides dramatic results for aging or lax skin.",
+    price: "From $450–$700",
+    duration: "60–90 min",
     benefits: [
-      "Reduces sun damage and age spots",
-      "Minimizes redness and rosacea",
-      "Treats broken capillaries",
-      "Evens out skin tone",
-      "Stimulates collagen production",
-      "Progressive results over treatments"
+      "Tightens and lifts sagging skin",
+      "Reduces deep wrinkles and fine lines",
+      "Improves skin elasticity and firmness",
+      "Treats acne scars more effectively",
+      "Refines texture and pore size",
+      "Long-lasting collagen stimulation"
     ],
-    ideal: "Sun damage, age spots, rosacea, broken capillaries, or uneven pigmentation",
-    recovery: "Pigmented spots may darken before flaking off in 7-10 days. Avoid sun exposure."
+    ideal: "Skin laxity, deep wrinkles, severe acne scarring, or those seeking dramatic tightening",
+    recovery: "3-5 days of redness and mild swelling. Avoid makeup and sun exposure during healing."
+  },
+  {
+    id: "prp-microneedling",
+    name: "Microneedling with PRP",
+    slug: "prp-microneedling",
+    popular: false,
+    description: "Microneedling enhanced with your own platelet-rich plasma.",
+    detailedDescription: "Combining microneedling with PRP (platelet-rich plasma) from your own blood creates a powerful regenerative treatment. PRP contains growth factors that accelerate healing, enhance collagen production, and amplify results for maximum skin rejuvenation.",
+    price: "From $500–$750",
+    duration: "90 min",
+    benefits: [
+      "Accelerates healing and results",
+      "Enhanced collagen production",
+      "Natural growth factors boost skin renewal",
+      "Treats stubborn scars more effectively",
+      "Improves overall skin quality",
+      "Uses your body's own healing properties"
+    ],
+    ideal: "Severe scarring, advanced aging, or those seeking maximum regenerative results",
+    recovery: "3-5 days of redness. PRP may cause additional swelling for 24-48 hours."
+  },
+  {
+    id: "nano-needling",
+    name: "Nano Needling",
+    slug: "nano-needling",
+    popular: false,
+    description: "Gentle surface exfoliation for sensitive skin.",
+    detailedDescription: "Nano needling is a gentler alternative to traditional microneedling, using ultra-fine nano tips to exfoliate the top layer of skin without penetrating deeply. Perfect for sensitive skin or those new to needling treatments.",
+    price: "From $150–$200",
+    duration: "45 min",
+    benefits: [
+      "Gentle surface exfoliation",
+      "Enhances product penetration",
+      "Brightens and smooths skin",
+      "No downtime",
+      "Safe for sensitive skin",
+      "Improves overall radiance"
+    ],
+    ideal: "Sensitive skin, first-time clients, or those seeking gentle exfoliation",
+    recovery: "None to minimal. Slight redness may occur for 1-2 hours."
   }
 ];
 
@@ -64,7 +106,7 @@ export default function MicroneedlingPage() {
                 Microneedling & Skin Resurfacing
               </h1>
               <p className="text-lg sm:text-xl text-text-soft leading-relaxed font-medium">
-                Stimulate collagen and even tone to refine texture, scarring and pigmentation.
+                Stimulate collagen, smooth texture, and reduce scarring with advanced needling and resurfacing treatments.
               </p>
             </div>
           </ScrollReveal>

@@ -22,7 +22,7 @@ export default function FinalCTA() {
             <span className="font-inter text-[11px] tracking-[5px] uppercase text-gold font-bold mb-6 block">
               Begin Your Transformation
             </span>
-            <h2 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-warm-beige leading-tight mb-6">
+            <h2 className="font-playfair text-4xl sm:text-5xl lg:text-6xl text-text-dark leading-tight mb-6 font-bold">
               Your Most Confident{" "}
               <em className="text-gold not-italic">Self</em> Awaits
             </h2>

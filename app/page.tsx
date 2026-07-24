@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
-import WhyLumina from "@/components/home/WhyLumina";
 import TrustReviews from "@/components/home/TrustReviews";
 import FeaturedTreatments from "@/components/home/FeaturedTreatments";
 import AboutPreview from "@/components/home/AboutPreview";
@@ -23,7 +22,6 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <WhyLumina />
         <FeaturedTreatments />
         <TrustReviews />
         <AboutPreview />

@@ -11,8 +11,8 @@ export default function FinancingCallout({ className = "" }: { className?: strin
         <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-gold/25 bg-gold/10">
           <CreditCard size={19} className="text-gold" strokeWidth={1.5} />
         </div>
-        <h3 className="mb-2 font-playfair text-xl text-text-dark sm:text-2xl font-bold">
-          Flexible Financing <span className="text-gold">Available</span>
+        <h3 className="mb-2 font-playfair text-xl sm:text-2xl font-bold text-text-dark">
+          Flexible Financing Available
         </h3>
         <p className="mx-auto mb-6 max-w-md font-inter text-sm leading-relaxed text-soft-taupe font-medium">
           Interested in a treatment but prefer to pay over time? Apply securely through Beautifi.

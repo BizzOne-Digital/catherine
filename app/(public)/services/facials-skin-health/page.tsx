@@ -5,8 +5,9 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const treatments = [
   {
-    id: 1,
+    id: "purifying-facial",
     name: "Purifying Deep Clean Facial",
+    slug: "purifying-deep-clean-facial",
     popular: true,
     description: "Deep cleanse with custom LED light therapy for radiant skin.",
     detailedDescription: "Our signature deep cleansing facial combines medical-grade extraction, exfoliation, and customized LED light therapy to purify pores, calm inflammation, and reveal clearer, more radiant skin. Each treatment is tailored to your skin's unique needs.",
@@ -24,8 +25,9 @@ const treatments = [
     recovery: "None. You may experience slight redness for 1-2 hours post-treatment."
   },
   {
-    id: 2,
+    id: "relaxation-facial",
     name: "Signature Relaxation Facial",
+    slug: "signature-relaxation-facial",
     popular: false,
     description: "Expert skincare meets a soothing face and neck massage.",
     detailedDescription: "Indulge in our most luxurious facial experience. This treatment combines medical-grade products with a deeply relaxing face, neck, and shoulder massage. Perfect for stress relief while achieving beautiful, glowing skin.",
@@ -43,23 +45,64 @@ const treatments = [
     recovery: "None. You'll leave feeling refreshed and glowing."
   },
   {
-    id: 3,
+    id: "chemical-peel",
     name: "Chemical Peel",
+    slug: "chemical-peel",
     popular: false,
     description: "Resurface for brighter, clearer, more even-toned skin.",
     detailedDescription: "Medical-grade chemical peels use carefully selected acids to exfoliate the top layers of skin, revealing fresh, bright, even-toned skin beneath. Effective for treating hyperpigmentation, acne scars, fine lines, and dullness.",
-    price: "From $150",
-    duration: "30–45 min",
+    price: "From $180–$300",
+    duration: "45–60 min",
     benefits: [
       "Reduces hyperpigmentation and dark spots",
       "Smooths fine lines and wrinkles",
-      "Improves acne scars and texture",
-      "Brightens overall complexion",
+      "Improves acne and acne scarring",
+      "Evens skin tone and texture",
       "Stimulates collagen production",
-      "Results improve with repeat treatments"
+      "Customizable depth and strength"
     ],
-    ideal: "Hyperpigmentation, acne scarring, sun damage, uneven tone, or aging skin",
-    recovery: "Expect light peeling for 3-7 days. Avoid sun exposure and use SPF."
+    ideal: "Sun damage, hyperpigmentation, acne scars, uneven texture, or dullness",
+    recovery: "3-7 days of peeling. Avoid sun exposure and follow post-care instructions."
+  },
+  {
+    id: "hydrafacial",
+    name: "HydraFacial",
+    slug: "hydrafacial",
+    popular: true,
+    description: "Hydrate, extract, and infuse for instant glow.",
+    detailedDescription: "The HydraFacial is a medical-grade facial that deeply cleanses, extracts, and hydrates the skin using patented vortex technology. This treatment delivers immediate results with no downtime, making it perfect for special events or regular maintenance.",
+    price: "From $200",
+    duration: "45 min",
+    benefits: [
+      "Deep cleansing and extraction",
+      "Intense hydration and nourishment",
+      "Immediate visible results",
+      "No downtime or irritation",
+      "Improves texture and tone",
+      "Suitable for all skin types"
+    ],
+    ideal: "All skin types, perfect before events or as regular maintenance",
+    recovery: "None. You can return to normal activities immediately with glowing skin."
+  },
+  {
+    id: "dermaplaning",
+    name: "Dermaplaning",
+    slug: "dermaplaning",
+    popular: false,
+    description: "Exfoliate and remove peach fuzz for ultra-smooth skin.",
+    detailedDescription: "Dermaplaning uses a surgical scalpel to gently exfoliate dead skin cells and remove vellus hair (peach fuzz), revealing smoother, brighter skin. This treatment enhances product absorption and creates a flawless canvas for makeup.",
+    price: "From $125",
+    duration: "30–45 min",
+    benefits: [
+      "Instant smooth, soft skin",
+      "Removes peach fuzz",
+      "Enhances product absorption",
+      "Creates flawless makeup application",
+      "Brightens complexion",
+      "No downtime"
+    ],
+    ideal: "Anyone seeking ultra-smooth skin, improved texture, or better makeup application",
+    recovery: "None. Avoid sun exposure and use SPF for 48 hours."
   }
 ];
 
@@ -83,7 +126,7 @@ export default function FacialsPage() {
                 Facials & Skin Health
               </h1>
               <p className="text-lg sm:text-xl text-text-soft leading-relaxed font-medium">
-                Medical-grade facials that cleanse, resurface and calm — tailored to your skin on the day.
+                Medical-grade facials and treatments that cleanse, hydrate, and rejuvenate for healthy, glowing skin.
               </p>
             </div>
           </ScrollReveal>

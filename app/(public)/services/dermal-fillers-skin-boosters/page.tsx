@@ -1,72 +1,51 @@
 "use client";
 import Link from "next/link";
-import { ArrowLeft, Clock, DollarSign, Star, CheckCircle, ArrowRight } from "lucide-react";
+import { ArrowLeft, DollarSign, Star, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Image from "next/image";
 
 const treatments = [
   {
-    id: 1,
+    id: "dermal-fillers",
     name: "Dermal Fillers",
+    slug: "dermal-fillers",
     popular: false,
     description: "Restore volume and contour cheeks, jawline and chin.",
-    detailedDescription: "Premium hyaluronic acid dermal fillers restore lost volume, enhance facial contours, and create beautifully balanced proportions. We use advanced techniques to sculpt and define your cheeks, jawline, chin, and other areas for natural, elegant results.",
     price: "From $700–$1,200 / syringe",
-    duration: "45–60 min",
-    benefits: [
-      "Restores youthful volume and contours",
-      "Enhances cheekbones and jawline definition",
-      "Smooths deep folds and wrinkles",
-      "Immediate visible results",
-      "Long-lasting (12-18 months)",
-      "Reversible if needed"
-    ],
-    ideal: "Anyone experiencing volume loss in the face or seeking enhanced facial contours",
-    recovery: "Minimal downtime. Some swelling or bruising may occur for 3-7 days."
+    image: "/images/treatments/dermal-fillers.jpg"
   },
   {
-    id: 2,
+    id: "lip-filler",
     name: "Lip Filler",
+    slug: "lip-filler",
     popular: true,
     description: "Hydrate, define and gently enhance the lips.",
-    detailedDescription: "Our lip enhancement technique focuses on creating natural, beautifully balanced lips with improved hydration, definition, and subtle volume. We prioritize proportions that complement your unique facial features.",
     price: "From $650–$900 / syringe",
-    duration: "45 min",
-    benefits: [
-      "Natural-looking volume and shape",
-      "Enhanced lip definition and symmetry",
-      "Improved hydration and smoothness",
-      "Customizable to your aesthetic goals",
-      "Immediate results",
-      "Long-lasting (9-12 months)"
-    ],
-    ideal: "Those seeking fuller, more defined lips or to correct asymmetry",
-    recovery: "Expect swelling for 2-5 days. Ice and avoiding strenuous activity helps minimize."
+    image: "/images/treatments/lip-filler.jpg"
   },
   {
-    id: 3,
+    id: "skin-boosters",
     name: "Skin Booster Injections",
+    slug: "skin-boosters",
     popular: false,
     description: "Profhilo & Juvéderm SkinVive for deep hydration and glow.",
-    detailedDescription: "Skin boosters like Profhilo and Juvéderm SkinVive deliver pure hyaluronic acid into the skin for deep hydration, improved elasticity, and a luminous glow. Unlike traditional fillers, these treatments enhance overall skin quality rather than adding volume.",
     price: "From $450–$650 / session",
-    duration: "30–45 min",
-    benefits: [
-      "Deep, lasting hydration",
-      "Improved skin elasticity and firmness",
-      "Natural radiant glow",
-      "Smooths fine lines and crepiness",
-      "Suitable for face, neck, and hands",
-      "Results improve over time"
-    ],
-    ideal: "Anyone seeking improved skin texture, hydration, and overall radiance",
-    recovery: "Minimal. Small bumps at injection sites may be visible for 1-2 days."
+    image: "/images/treatments/skin-boosters.jpg"
+  },
+  {
+    id: "under-eye-filler",
+    name: "Under Eye Filler",
+    slug: "under-eye-filler",
+    popular: false,
+    description: "Reduce hollowness and dark circles for a refreshed look.",
+    price: "From $650–$850 / syringe",
+    image: "/images/treatments/under-eye-filler.jpg"
   }
 ];
 
 export default function DermalFillersPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#FFFBF6] py-16 sm:py-20 lg:py-24">
         <div className="container-luxury">
           <Link href="/services" className="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-deep-gold transition-colors mb-8">
@@ -90,87 +69,55 @@ export default function DermalFillersPage() {
         </div>
       </section>
 
-      {/* Treatments Grid */}
       <section className="section-pad bg-white">
         <div className="container-luxury">
-          <div className="grid gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {treatments.map((treatment, index) => (
               <ScrollReveal key={treatment.id} delay={index * 0.1}>
-                <div className="bg-gradient-to-br from-white to-[#FFFBF6] border-2 border-gold/20 rounded-2xl p-6 sm:p-8 lg:p-10 hover:border-gold/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(196,151,47,0.15)]">
-                  {/* Treatment Header */}
-                  <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-gold">
-                          {treatment.name}
-                        </h2>
-                        {treatment.popular && (
-                          <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gold rounded-full">
-                            <Star size={12} fill="currentColor" />
-                            Popular
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-lg text-text-soft font-medium">{treatment.description}</p>
-                    </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <div className="flex items-center gap-2 text-gold font-semibold">
-                        <DollarSign size={18} />
-                        <span className="text-lg">{treatment.price}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-text-soft text-sm">
-                        <Clock size={16} />
-                        <span>{treatment.duration}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Detailed Description */}
-                  <p className="text-base text-text-dark leading-relaxed mb-6 font-medium">
-                    {treatment.detailedDescription}
-                  </p>
-
-                  {/* Benefits Grid */}
-                  <div className="mb-8">
-                    <h3 className="font-playfair text-xl font-bold text-gold mb-4">Benefits</h3>
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      {treatment.benefits.map((benefit, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <CheckCircle size={18} className="text-gold flex-shrink-0 mt-0.5" />
-                          <span className="text-sm text-text-dark font-medium">{benefit}</span>
+                <Link href={`/services/dermal-fillers-skin-boosters/${treatment.slug}`}>
+                  <div className="group relative bg-white rounded-2xl overflow-hidden border border-gold/20 hover:border-gold/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(196,151,47,0.15)] cursor-pointer h-full">
+                    <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gold/5 to-gold/10">
+                      {treatment.popular && (
+                        <div className="absolute top-4 left-4 z-10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gold rounded-full">
+                          Popular
                         </div>
-                      ))}
+                      )}
+                      <Image
+                        src={treatment.image}
+                        alt={treatment.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+
+                    <div className="p-6">
+                      <h3 className="font-playfair text-2xl font-bold text-text-dark mb-3 group-hover:text-gold transition-colors">
+                        {treatment.name}
+                      </h3>
+                      <p className="text-sm text-text-soft mb-4 font-medium leading-relaxed">
+                        {treatment.description}
+                      </p>
+                      
+                      <div className="flex items-center justify-between pt-4 border-t border-gold/10">
+                        <div className="flex items-center gap-2 text-gold font-bold">
+                          <DollarSign size={16} />
+                          <span className="text-sm">{treatment.price}</span>
+                        </div>
+                        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-gold/80 group-hover:text-gold group-hover:gap-3 transition-all font-semibold">
+                          Learn more
+                          <ArrowRight size={12} />
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  {/* Additional Info */}
-                  <div className="grid sm:grid-cols-2 gap-6 mb-6 p-6 bg-white/60 rounded-xl border border-gold/10">
-                    <div>
-                      <h4 className="font-semibold text-gold mb-2 text-sm uppercase tracking-wide">Ideal For</h4>
-                      <p className="text-sm text-text-dark font-medium">{treatment.ideal}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gold mb-2 text-sm uppercase tracking-wide">Recovery</h4>
-                      <p className="text-sm text-text-dark font-medium">{treatment.recovery}</p>
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
-                  <Link
-                    href="/booking"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold hover:bg-deep-gold text-white font-bold text-sm uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(196,151,47,0.3)] hover:-translate-y-0.5"
-                  >
-                    Book This Treatment
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
+                </Link>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="section-pad-sm bg-gradient-to-b from-[#FFFBF6] to-[#FAF4EB]">
         <div className="container-luxury">
           <ScrollReveal>

@@ -126,7 +126,7 @@ export default function GalleryPreview() {
             <span className="font-inter text-[11px] font-medium uppercase tracking-[0.35em] text-gold/80">
               Before &amp; After
             </span>
-            <h2 className="mt-3 font-playfair text-3xl text-gold md:text-4xl lg:text-[2.75rem]">
+            <h2 className="mt-3 font-playfair text-3xl text-text-dark md:text-4xl lg:text-[2.75rem] font-bold">
               Real Results
             </h2>
             <p className="mt-4 max-w-2xl font-cormorant text-lg italic text-soft-taupe md:text-xl">

@@ -25,7 +25,7 @@ export default function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <h2 className={`font-playfair text-3xl md:text-4xl lg:text-5xl leading-tight font-bold ${light ? "text-warm-beige" : "text-gold"}`}>
+      <h2 className={`font-playfair text-3xl md:text-4xl lg:text-5xl leading-tight font-bold ${light ? "text-warm-beige" : "text-text-dark"}`}>
         {title}
       </h2>
       {align === "center" && (
