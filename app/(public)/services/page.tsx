@@ -89,14 +89,17 @@ export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="services-hero relative min-h-0 overflow-hidden lg:min-h-[min(94vh,880px)]">
-        <div className="services-hero-inner relative z-10 mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-28 lg:px-8 lg:pt-32">
-          <ScrollReveal direction="right" className="services-hero-copy max-w-xl lg:max-w-[480px]">
-            <p className="services-hero-eyebrow font-inter text-[10px] font-medium uppercase tracking-[0.32em] text-gold/85 sm:text-[11px]">
+      <section className="relative pt-24 pb-14 sm:pt-32 sm:pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.06)_0%,transparent_60%)]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal direction="right" className="max-w-xl lg:max-w-[480px]">
+            <p className="font-inter text-[10px] font-semibold uppercase tracking-[0.32em] text-gold/85 sm:text-[11px] mb-4">
               Luxury Treatments
             </p>
-            <h1 className="services-hero-title mt-3 font-playfair text-gold">Our Services</h1>
-            <p className="services-hero-desc mt-4 max-w-[22rem] font-inter text-sm font-light leading-relaxed text-warm-beige/80 sm:text-[15px]">
+            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold text-text-dark mb-6 leading-tight">
+              Our Services
+            </h1>
+            <p className="text-lg sm:text-xl text-text-soft leading-relaxed font-medium max-w-[22rem]">
               Expert injectables, advanced skin treatments, facials, laser services, and body sculpting
               — tailored with precision, safety, and genuine care.
             </p>
@@ -184,6 +187,7 @@ export default function ServicesPage() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              style={{ touchAction: "pan-y" }}
             >
               {/* Header */}
               <div className="sticky top-0 z-10 flex items-start justify-between border-b border-gold/10 bg-soft-black/95 px-5 py-4 backdrop-blur-md sm:px-7 sm:py-5">

@@ -12,7 +12,8 @@ export default function HeroSection() {
         alt=""
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover"
+        style={{ objectPosition: '35% center' }}
         sizes="100vw"
         aria-hidden="true"
       />
