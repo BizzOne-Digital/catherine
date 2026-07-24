@@ -46,15 +46,15 @@ export default function Navbar() {
         <nav
           className={`mx-auto flex max-w-7xl items-center transition-all duration-500 ${
             heroNav
-              ? "nav-pill-bar gap-2 rounded-xl border border-gold/40 bg-[#FAF4EB]/95 px-2 py-0.5 shadow-[0_4px_20px_rgba(196,151,47,0.18)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-1"
+              ? "nav-pill-bar gap-2 rounded-xl border border-gold/40 bg-[#FAF4EB]/95 px-2 py-0.5 shadow-[0_4px_20px_rgba(196,151,47,0.18)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-0.5"
               : scrolled
-                ? "border-b border-gold/25 bg-[#FAF4EB]/95 px-4 py-1 shadow-card backdrop-blur-xl sm:px-6 lg:px-8"
-                : "bg-transparent px-4 py-1.5 sm:px-6 lg:px-8 lg:py-2"
+                ? "border-b border-gold/25 bg-[#FAF4EB]/95 px-4 py-0.5 shadow-card backdrop-blur-xl sm:px-6 lg:px-8"
+                : "bg-transparent px-4 py-1 sm:px-6 lg:px-8 lg:py-1.5"
           }`}
         >
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            <IntroLogo className="h-[5.5rem] w-[5.5rem] shrink-0 sm:h-[6.5rem] sm:w-[6.5rem] lg:h-[7.5rem] lg:w-[7.5rem]" />
+            <IntroLogo className="h-[4rem] w-[4rem] shrink-0 sm:h-[4.5rem] sm:w-[4.5rem] lg:h-[5rem] lg:w-[5rem]" />
             <span className="hidden font-playfair text-lg font-semibold tracking-wide text-gold sm:block lg:text-xl">
               Lumina Medi Spa
             </span>
