@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Heart, Droplets, SparklesIcon, Zap, Star } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { usePageContent } from "@/components/cms/usePageContent";
 
 const treatments = [
   {
@@ -45,6 +46,14 @@ const treatments = [
 ];
 
 export default function FeaturedTreatments() {
+  const { get } = usePageContent("home");
+  const sec = get("featured_treatments");
+  const eyebrow = sec?.subtitle || "Most Popular";
+  const title = sec?.title || "Popular Treatments";
+  const subtitle =
+    sec?.content ||
+    "Our most-loved treatments — expertly delivered with precision, safety, and results you'll love.";
+
   return (
     <section className="section-pad section-warm-alt relative overflow-hidden">
       <div className="absolute top-20 left-0 h-64 w-px bg-gradient-to-b from-transparent via-gold/25 to-transparent" />
@@ -53,9 +62,9 @@ export default function FeaturedTreatments() {
       <div className="container-luxury">
         <ScrollReveal>
           <SectionHeading
-            eyebrow="Most Popular"
-            title="Popular Treatments"
-            subtitle="Our most-loved treatments — expertly delivered with precision, safety, and results you'll love."
+            eyebrow={eyebrow}
+            title={title}
+            subtitle={subtitle}
           />
         </ScrollReveal>
 

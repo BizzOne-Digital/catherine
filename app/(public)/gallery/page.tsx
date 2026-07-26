@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Image as ImageIcon, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { usePageContent } from "@/components/cms/usePageContent";
+import CmsImage from "@/components/cms/CmsImage";
+import { resolveCmsImage } from "@/lib/cmsImage";
 
 interface GalleryItem {
   _id: string;
@@ -45,8 +47,8 @@ function GalleryCard({
       transition={{ duration: 0.35 }}
       onClick={onClick}
     >
-      {!imgError && item.image ? (
-        <Image
+      {!imgError && resolveCmsImage(item.image, "") ? (
+        <CmsImage
           src={item.image}
           alt={item.title}
           fill
@@ -74,6 +76,15 @@ export default function GalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>(fallbackItems);
   const [activeCategory, setActiveCategory] = useState("All");
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
+  const { get } = usePageContent("gallery");
+  const hero = get("hero");
+
+  const eyebrow =
+    hero?.subtitle || "Moments of Beauty. Stories of Confidence.";
+  const title = hero?.title || "Gallery";
+  const content =
+    hero?.content ||
+    "Explore real moments from our clinic — treatments, transformations, and the luxury experience that defines Lumina Medi Spa.";
 
   useEffect(() => {
     fetch("/api/gallery")
@@ -93,18 +104,17 @@ export default function GalleryPage() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal direction="right" className="max-w-xl lg:max-w-[520px]">
             <p className="gallery-hero-eyebrow font-inter text-[10px] font-medium uppercase text-gold/85 sm:text-[11px]">
-              Moments of Beauty. Stories of Confidence.
+              {eyebrow}
             </p>
 
-            <h1 className="gallery-hero-title mt-4 font-playfair text-gold">Gallery</h1>
+            <h1 className="gallery-hero-title mt-4 font-playfair text-gold">{title}</h1>
 
             <p className="gallery-hero-tagline mt-4 font-inter font-light text-warm-beige/90">
               See the glow. Feel the difference.
             </p>
 
             <p className="mt-5 max-w-[24rem] font-inter text-sm font-light leading-relaxed text-warm-beige/75 sm:text-[15px]">
-              Explore real moments from our clinic — treatments, transformations, and the luxury
-              experience that defines Lumina Medi Spa.
+              {content}
             </p>
           </ScrollReveal>
 
@@ -177,8 +187,8 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1410] to-luxury-black">
-                {lightboxItem.image ? (
-                  <Image
+                {resolveCmsImage(lightboxItem.image, "") ? (
+                  <CmsImage
                     src={lightboxItem.image}
                     alt={lightboxItem.title}
                     fill

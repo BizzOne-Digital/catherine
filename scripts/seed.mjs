@@ -8,6 +8,7 @@ import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import mongoose from "mongoose";
+import { buildSections } from "./treatment-content.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -25,22 +26,46 @@ function readEnv() {
 const MONGODB_URI = process.env.MONGODB_URI || readEnv();
 
 // --- Schemas (kept in sync with models/*.ts) ---
-const Service = mongoose.model(
-  "Service",
+const ServiceCategory = mongoose.model(
+  "ServiceCategory",
   new mongoose.Schema(
     {
       title: String,
       slug: { type: String, unique: true },
-      category: String,
-      shortDescription: String,
       description: String,
-      benefits: [String],
-      duration: String,
+      icon: { type: String, default: "Sparkles" },
+      order: { type: Number, default: 0 },
+      isActive: { type: Boolean, default: true },
+    },
+    { timestamps: true }
+  )
+);
+
+const Treatment = mongoose.model(
+  "Treatment",
+  new mongoose.Schema(
+    {
+      name: String,
+      slug: String,
+      categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceCategory" },
+      categorySlug: String,
+      shortDescription: String,
       price: String,
-      image: { type: String, default: "/images/placeholder-service.jpg" },
-      isFeatured: { type: Boolean, default: false },
+      image: { type: String, default: "" },
+      popular: { type: Boolean, default: false },
       isActive: { type: Boolean, default: true },
       order: { type: Number, default: 0 },
+      sections: [
+        {
+          id: { type: String },
+          type: { type: String },
+          title: { type: String, default: "" },
+          content: { type: String, default: "" },
+          image: { type: String, default: "" },
+          items: [{ type: String }],
+          order: { type: Number, default: 0 },
+        },
+      ],
     },
     { timestamps: true }
   )
@@ -69,21 +94,7 @@ const Product = mongoose.model(
   )
 );
 
-const Pricing = mongoose.model(
-  "Pricing",
-  new mongoose.Schema(
-    {
-      treatmentName: String,
-      category: String,
-      price: String,
-      duration: String,
-      description: String,
-      isActive: { type: Boolean, default: true },
-      order: { type: Number, default: 0 },
-    },
-    { timestamps: true }
-  )
-);
+// Pricing model removed — pricing lives on Treatment.price
 
 const FAQ = mongoose.model(
   "FAQ",
@@ -132,16 +143,81 @@ const BlogPost = mongoose.model(
 );
 
 // --- Data ---
-const services = [
-  { title: "Botox & Neuromodulators", slug: "botox", category: "Injectables", shortDescription: "Smooth fine lines and dynamic wrinkles with precise, natural-looking results. FDA-approved treatments tailored to your facial anatomy.", description: "Botox (Botulinum Toxin) works by temporarily relaxing overactive facial muscles that cause expression lines. Our approach prioritizes natural-looking results that maintain your expressive character while eliminating unwanted wrinkles. Treatment areas include forehead lines, crow's feet, frown lines (11s), bunny lines, lip flip, and more.", benefits: ["Natural, refreshed appearance", "No downtime required", "Results last 3-4 months", "Preventative anti-aging benefits", "Customized to your facial anatomy"], duration: "30-45 min", price: "From $10/unit", order: 1, isFeatured: true },
-  { title: "Dermal Fillers", slug: "fillers", category: "Injectables", shortDescription: "Restore volume, enhance contours, and rejuvenate your appearance with premium hyaluronic acid fillers.", description: "Dermal fillers use hyaluronic acid — a naturally occurring substance in the body — to restore lost volume, enhance facial contours, and smooth deep folds. We offer a full menu of filler treatments including lip augmentation, cheek enhancement, nasolabial folds, marionette lines, and more.", benefits: ["Immediate, visible results", "Natural-feeling and looking", "Reversible with hyaluronidase", "Long-lasting (12-18 months)", "Minimal downtime"], duration: "45-60 min", price: "From $500", order: 2, isFeatured: true },
-  { title: "Mesotherapy", slug: "mesotherapy", category: "Skin Treatments", shortDescription: "Revitalize your skin with customized microinjections delivering vitamins, minerals, and hyaluronic acid.", description: "Mesotherapy involves injecting a customized cocktail of vitamins, minerals, amino acids, and hyaluronic acid into the mesodermal layer of skin. This treatment deeply nourishes, hydrates, and rejuvenates skin from within, improving texture, tone, and radiance.", benefits: ["Deep skin hydration", "Improved skin texture and tone", "Stimulates collagen production", "Reduces fine lines", "Addresses hair loss (scalp mesotherapy)"], duration: "45-60 min", price: "From $350", order: 3, isFeatured: true },
-  { title: "Customized Facials", slug: "facials", category: "Skin Treatments", shortDescription: "Medical-grade facial treatments precisely tailored to your unique skin type and concerns.", description: "Our customized facials go beyond standard spa treatments. Using medical-grade products and techniques, we address your specific skin concerns — whether that's acne, rosacea, hyperpigmentation, dullness, or dehydration. Each facial is uniquely designed after a thorough skin analysis.", benefits: ["Personalized to your skin needs", "Medical-grade ingredients", "Immediate visible improvement", "Addresses specific concerns", "Relaxing and rejuvenating"], duration: "60-90 min", price: "From $150", order: 4 },
-  { title: "IPL Photofacials", slug: "ipl", category: "Laser & Light", shortDescription: "Target pigmentation, redness, and sun damage with Intense Pulsed Light therapy.", description: "IPL (Intense Pulsed Light) therapy uses broad-spectrum light to target multiple skin concerns simultaneously. It effectively treats sunspots, age spots, freckles, vascular lesions, rosacea, and overall skin texture, revealing a more even, luminous complexion.", benefits: ["Targets multiple concerns at once", "Reduces pigmentation and redness", "Stimulates collagen", "Minimal downtime", "Progressive improvement over sessions"], duration: "30-45 min", price: "From $250", order: 5 },
-  { title: "Laser Hair Removal", slug: "laser-hair", category: "Laser & Light", shortDescription: "Achieve smooth, hair-free skin permanently with advanced laser technology.", description: "Our advanced laser hair removal technology targets hair follicles with precision, permanently reducing unwanted hair on any area of the body. Safe and effective for all skin types, treatments are fast, comfortable, and deliver long-lasting results.", benefits: ["Permanent hair reduction", "Safe for all skin types", "Fast treatment sessions", "Smooth, silky results", "Cost-effective long-term"], duration: "15-60 min", price: "From $80", order: 6 },
-  { title: "Muscle Toning (EMS)", slug: "muscle-toning", category: "Body", shortDescription: "Non-invasive electromagnetic muscle stimulation to tone and sculpt your body.", description: "Our EMS (Electromagnetic Muscle Stimulation) body treatment induces supramaximal muscle contractions — equivalent to thousands of sit-ups or squats in a single session. It tones, strengthens, and defines muscles while simultaneously reducing fat in the treatment area.", benefits: ["Equivalent to 20,000 contractions per session", "Builds and tones muscle", "No surgery or downtime", "Treats abs, glutes, arms, thighs", "Results visible after 4 sessions"], duration: "30 min", price: "From $300", order: 7 },
-  { title: "Body Sculpting", slug: "body-sculpting", category: "Body", shortDescription: "Contour and slim targeted areas with advanced body sculpting technology.", description: "Non-invasive body sculpting treatments target stubborn fat deposits that resist diet and exercise. Using advanced technologies including cryolipolysis, radiofrequency, and ultrasound, we safely and effectively contour your body without surgery or downtime.", benefits: ["Non-surgical fat reduction", "Targeted body contouring", "No downtime required", "Natural-looking results", "Multiple technologies available"], duration: "45-60 min", price: "From $400", order: 8 },
+const serviceCategories = [
+  {
+    title: "Injectables & Wrinkle Relaxers",
+    slug: "injectables-wrinkle-relaxers",
+    description: "Soften fine lines and prevent new ones with precise, natural-looking neuromodulator treatments.",
+    icon: "Sparkles",
+    order: 1,
+  },
+  {
+    title: "Dermal Fillers & Skin Boosters",
+    slug: "dermal-fillers-skin-boosters",
+    description: "Restore volume, contour features and hydrate from within with premium hyaluronic acid injectables.",
+    icon: "Heart",
+    order: 2,
+  },
+  {
+    title: "Facials & Skin Health",
+    slug: "facials-skin-health",
+    description: "Medical-grade facials that cleanse, resurface and calm — tailored to your skin on the day.",
+    icon: "Droplets",
+    order: 3,
+  },
+  {
+    title: "Microneedling & Skin Resurfacing",
+    slug: "microneedling-skin-resurfacing",
+    description: "Stimulate collagen and even tone to refine texture, scarring and pigmentation.",
+    icon: "Activity",
+    order: 4,
+  },
+  {
+    title: "Laser Hair Removal",
+    slug: "laser-hair-removal",
+    description: "Comfortable, long-term hair reduction with a medical-grade diode laser for all skin types.",
+    icon: "Zap",
+    order: 5,
+  },
+  {
+    title: "Body Sculpting & Contouring",
+    slug: "body-sculpting-contouring",
+    description: "Build muscle and refine problem areas with non-invasive HIFEM technology — zero downtime.",
+    icon: "Activity",
+    order: 6,
+  },
 ];
+
+/** Treatments keyed by category slug — price only (no duration) */
+const treatmentsByCategory = {
+  "injectables-wrinkle-relaxers": [
+    { name: "Botox", slug: "botox", shortDescription: "Smooth dynamic lines on the forehead, frown and crow's feet.", price: "From $11–$14 / unit", image: "/images/treatments/botox.jpg", popular: true, order: 1 },
+    { name: "Dysport & Nuceiva", slug: "dysport-nuceiva", shortDescription: "Alternative neuromodulators for fast-acting, natural smoothing.", price: "From $11–$14 / unit", image: "/images/treatments/dysport.jpg", order: 2 },
+    { name: "Daxxify", slug: "daxxify", shortDescription: "Long-lasting neuromodulator with results up to 6 months.", price: "From $16–$18 / unit", image: "/images/treatments/daxxify.jpg", order: 3 },
+  ],
+  "dermal-fillers-skin-boosters": [
+    { name: "Dermal Fillers", slug: "dermal-fillers", shortDescription: "Restore volume and contour cheeks, jawline and chin.", price: "From $700–$1,200 / syringe", image: "/images/treatments/dermal-fillers.jpg", order: 1 },
+    { name: "Lip Filler", slug: "lip-filler", shortDescription: "Hydrate, define and gently enhance the lips.", price: "From $650–$900 / syringe", image: "/images/treatments/lip-filler.jpg", popular: true, order: 2 },
+    { name: "Skin Booster Injections", slug: "skin-boosters", shortDescription: "Profhilo & Juvéderm SkinVive for deep hydration and glow.", price: "From $450–$650 / session", image: "/images/treatments/skin-boosters.jpg", order: 3 },
+  ],
+  "facials-skin-health": [
+    { name: "Purifying Deep Clean Facial", slug: "purifying-facial", shortDescription: "Deep cleanse with custom LED light therapy for radiant skin.", price: "From $145", image: "/images/treatments/purifying-facial.jpg", popular: true, order: 1 },
+    { name: "Signature Relaxation Facial", slug: "relaxation-facial", shortDescription: "Expert skincare meets a soothing face and neck massage.", price: "From $160", image: "/images/treatments/relaxation-facial.jpg", order: 2 },
+    { name: "Chemical Peel", slug: "chemical-peel", shortDescription: "Resurface for brighter, clearer, more even-toned skin.", price: "From $150", image: "/images/treatments/chemical-peel.jpg", order: 3 },
+  ],
+  "microneedling-skin-resurfacing": [
+    { name: "Microneedling", slug: "microneedling", shortDescription: "Collagen-stimulating treatment for texture, pores and scars.", price: "From $250", image: "/images/treatments/microneedling.jpg", popular: true, order: 1 },
+    { name: "IPL Photofacial", slug: "ipl-photofacial", shortDescription: "Target sun damage, redness and uneven pigmentation.", price: "From $250", image: "/images/treatments/ipl-photofacial.jpg", order: 2 },
+  ],
+  "laser-hair-removal": [
+    { name: "Laser Hair Removal — Small Area", slug: "small-area", shortDescription: "Lip, chin, underarms and other small areas.", price: "From $60–$130 / session", image: "/images/treatments/laser-face.jpg", order: 1 },
+    { name: "Laser Hair Removal — Large Area", slug: "large-area", shortDescription: "Full legs, full arms, back or Brazilian.", price: "From $230–$330 / session", image: "/images/treatments/laser-legs.jpg", popular: true, order: 2 },
+    { name: "Full Body Laser Hair Removal", slug: "full-body", shortDescription: "All major body areas in one session (excludes back).", price: "From $550 / session", image: "/images/treatments/laser-full-body.jpg", order: 3 },
+  ],
+  "body-sculpting-contouring": [
+    { name: "Body Sculpting with HIFEM", slug: "body-sculpting-hifem", shortDescription: "Build muscle and tone a target area — no downtime.", price: "From $300 / session", image: "/images/treatments/emsculpt.jpg", popular: true, order: 1 },
+  ],
+};
 
 const products = [
   { name: "Hydrating HA Serum", slug: "hydrating-ha-serum", category: "Serums", shortDescription: "Intense hydration with triple-weight hyaluronic acid for all skin types", description: "A deeply hydrating serum featuring three molecular weights of hyaluronic acid to hydrate every layer of the skin. Plumps fine lines, restores bounce, and leaves skin dewy and supple. Suitable for all skin types, including sensitive skin.", ingredients: "Hyaluronic Acid (Low, Medium, High MW), Glycerin, Panthenol, Aloe Vera", howToUse: "Apply 2-3 drops to damp skin morning and evening before moisturizer.", price: 85, image: "/images/product-1.jpg", isFeatured: true },
@@ -152,29 +228,6 @@ const products = [
   { name: "Niacinamide Pore Refiner", slug: "niacinamide-pore-refiner", category: "Treatments", shortDescription: "10% niacinamide concentrate minimizing pores and controlling shine", description: "A 10% niacinamide and zinc concentrate that visibly tightens pores, balances oil production, and evens skin tone. Lightweight and layerable with any routine.", ingredients: "Niacinamide 10%, Zinc PCA, Hyaluronic Acid", howToUse: "Apply a few drops morning and evening after cleansing, before moisturizer.", price: 70, image: "/images/product-6.jpg" },
   { name: "Post-Treatment Repair Balm", slug: "post-treatment-repair-balm", category: "Treatments", shortDescription: "Soothing barrier recovery cream for post-procedure skin", description: "Specifically formulated for skin recovering from professional treatments — lasers, peels, microneedling, and injectables. Calms redness, restores the barrier, and accelerates healing.", ingredients: "Centella Asiatica, Ceramides, Panthenol, Madecassoside", howToUse: "Apply a thin layer to treated areas 2-3 times daily or as directed by your clinician.", price: 55, stockStatus: "limited", image: "/images/product-7.jpg" },
   { name: "AHA/BHA Exfoliating Toner", slug: "aha-bha-exfoliating-toner", category: "Toners", shortDescription: "Gentle chemical exfoliant for smooth, refined skin texture", description: "A balanced blend of glycolic, lactic, and salicylic acids that gently dissolves dead skin cells, unclogs pores, and refines texture — revealing smoother, brighter skin with regular use.", ingredients: "Glycolic Acid, Lactic Acid, Salicylic Acid, Witch Hazel", howToUse: "Sweep over clean skin with a cotton pad 2-3 evenings per week. Avoid using with retinol on the same night.", price: 60, image: "/images/product-8.jpg" },
-];
-
-const pricing = [
-  { treatmentName: "Botox — per unit", category: "Injectables", price: "$10/unit", duration: "30-45 min", order: 1 },
-  { treatmentName: "Botox — Full Forehead", category: "Injectables", price: "From $200", duration: "30-45 min", order: 2 },
-  { treatmentName: "Botox — Crow's Feet", category: "Injectables", price: "From $180", duration: "30-45 min", order: 3 },
-  { treatmentName: "Botox — Frown Lines (11s)", category: "Injectables", price: "From $200", duration: "30-45 min", order: 4 },
-  { treatmentName: "Botox — Lip Flip", category: "Injectables", price: "From $80", duration: "20 min", order: 5 },
-  { treatmentName: "Lip Filler — 0.5ml", category: "Dermal Fillers", price: "$350", duration: "45-60 min", order: 6 },
-  { treatmentName: "Lip Filler — 1ml", category: "Dermal Fillers", price: "$550", duration: "45-60 min", order: 7 },
-  { treatmentName: "Cheek Filler — 1ml", category: "Dermal Fillers", price: "$600", duration: "45-60 min", order: 8 },
-  { treatmentName: "Nasolabial Folds — 1ml", category: "Dermal Fillers", price: "$550", duration: "45-60 min", order: 9 },
-  { treatmentName: "Under-Eye (Tear Trough)", category: "Dermal Fillers", price: "From $650", duration: "45-60 min", order: 10 },
-  { treatmentName: "Mesotherapy — Face", category: "Skin Treatments", price: "$350", duration: "45-60 min", order: 11 },
-  { treatmentName: "Mesotherapy — Hair (Scalp)", category: "Skin Treatments", price: "$300", duration: "45 min", order: 12 },
-  { treatmentName: "Custom Medical Facial", category: "Skin Treatments", price: "From $150", duration: "60-90 min", order: 13 },
-  { treatmentName: "IPL Photofacial — Full Face", category: "Laser & Light", price: "$350", duration: "45 min", order: 14 },
-  { treatmentName: "IPL — Spot Treatment", category: "Laser & Light", price: "From $150", duration: "20-30 min", order: 15 },
-  { treatmentName: "Laser Hair — Upper Lip", category: "Laser & Light", price: "$80", duration: "15 min", order: 16 },
-  { treatmentName: "Laser Hair — Full Legs", category: "Laser & Light", price: "$350", duration: "60 min", order: 17 },
-  { treatmentName: "Laser Hair — Underarms", category: "Laser & Light", price: "$120", duration: "20 min", order: 18 },
-  { treatmentName: "EMS Muscle Toning", category: "Body", price: "$300/session", duration: "30 min", order: 19 },
-  { treatmentName: "Body Sculpting", category: "Body", price: "From $400", duration: "45-60 min", order: 20 },
 ];
 
 const faqs = [
@@ -331,10 +384,52 @@ async function seed() {
     console.log("'reviews' collection not present — nothing to drop.");
   }
 
+  // Clear legacy collections no longer used in admin
+  for (const name of ["services", "pricings", "treatments", "servicecategories"]) {
+    const exists = await db.listCollections({ name }).toArray();
+    if (exists.length) {
+      await db.dropCollection(name);
+      console.log(`Dropped '${name}' collection.`);
+    }
+  }
+
+  await ServiceCategory.deleteMany({});
+  const insertedCategories = await ServiceCategory.insertMany(serviceCategories);
+  console.log(`Seeded ${insertedCategories.length} documents into 'servicecategories'.`);
+
+  const categoryBySlug = Object.fromEntries(insertedCategories.map((c) => [c.slug, c]));
+  const treatmentDocs = [];
+  for (const [slug, list] of Object.entries(treatmentsByCategory)) {
+    const cat = categoryBySlug[slug];
+    if (!cat) continue;
+    for (const t of list) {
+      treatmentDocs.push({
+        ...t,
+        categoryId: cat._id,
+        categorySlug: cat.slug,
+        isActive: true,
+        sections: buildSections(cat.slug, t.slug, t.image || ""),
+      });
+    }
+  }
+  await Treatment.deleteMany({});
+  await Treatment.insertMany(treatmentDocs);
+  console.log(`Seeded ${treatmentDocs.length} documents into 'treatments'.`);
+
+  // Also seed CMS pages if script available
+  try {
+    const { spawnSync } = await import("node:child_process");
+    const r = spawnSync(process.execPath, [resolve(root, "scripts", "seed-pages.mjs")], {
+      stdio: "inherit",
+      env: process.env,
+    });
+    if (r.status !== 0) console.warn("seed-pages exited with", r.status);
+  } catch (e) {
+    console.warn("Could not run seed-pages:", e);
+  }
+
   const jobs = [
-    ["services", Service, services],
     ["products", Product, products],
-    ["pricings", Pricing, pricing],
     ["faqs", FAQ, faqs],
     ["galleryitems", GalleryItem, galleryItems],
     ["blogposts", BlogPost, blogPosts],
@@ -347,7 +442,7 @@ async function seed() {
   }
 
   await mongoose.disconnect();
-  console.log("\nDone! All content is now in MongoDB and manageable via the admin panel.");
+  console.log("\nDone! Categories & treatments are in MongoDB and manageable via Admin → Categories / Treatments.");
 }
 
 seed().catch((err) => {

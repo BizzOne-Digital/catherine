@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock, Instagram } from "lucide-react";
 import ContactForm from "@/components/forms/ContactForm";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CmsPageHero from "@/components/cms/CmsPageHero";
 
 export const metadata: Metadata = {
   title: "Contact Us | Lumina Medi Spa",
@@ -11,23 +12,15 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.05)_0%,transparent_60%)]" />
-        <div className="container-luxury relative z-10 text-center">
-          <ScrollReveal>
-            <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block">Reach Out</span>
-            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-6xl text-warm-beige leading-tight mb-5 text-balance">
-              Get in <em className="text-gold not-italic">Touch</em>
-            </h1>
-            <div className="w-12 h-px bg-gold/50 mx-auto mb-5" />
-            <p className="font-cormorant text-xl italic text-soft-taupe max-w-xl mx-auto">
-              Have a question or want to learn more? We&apos;d love to hear from you. 
-              Expect a response within 24 hours.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <CmsPageHero
+        slug="contact"
+        fallback={{
+          eyebrow: "Reach Out",
+          title: "Get in|Touch",
+          content:
+            "Have a question or want to learn more? We'd love to hear from you. Expect a response within 24 hours.",
+        }}
+      />
 
       {/* Contact Section */}
       <section className="section-pad section-warm">

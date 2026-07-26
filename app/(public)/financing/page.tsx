@@ -10,6 +10,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CmsPageHero from "@/components/cms/CmsPageHero";
 
 export const metadata: Metadata = {
   title: "Flexible Financing | Lumina Medi Spa",
@@ -88,43 +89,33 @@ const faqs = [
 export default function FinancingPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-24 pb-14 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.06)_0%,transparent_60%)]" />
-        <div className="container-luxury relative z-10 text-center">
-          <ScrollReveal>
-            <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block font-semibold">
-              Flexible Payments
-            </span>
-            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-6xl text-warm-beige leading-tight mb-5 text-balance font-bold">
-              Care today, paid your way with{" "}
-              <em className="text-gold not-italic">Beautifi</em>
-            </h1>
-            <div className="w-12 h-px bg-gold/50 mx-auto mb-5" />
-            <p className="font-cormorant text-xl italic text-soft-taupe max-w-2xl mx-auto font-medium">
-              At Lumina, we believe great care shouldn't come with financial strain. Our
-              partnership with Beautifi lets you access the treatments you want with flexible,
-              affordable monthly payments.
-            </p>
-          </ScrollReveal>
+      <CmsPageHero
+        slug="financing"
+        fallback={{
+          eyebrow: "Flexible Payments",
+          title: "Care today, paid your way with|Beautifi",
+          content:
+            "At Lumina, we believe great care shouldn't come with financial strain. Our partnership with Beautifi lets you access the treatments you want with flexible, affordable monthly payments.",
+        }}
+      />
 
-          <ScrollReveal delay={0.15} className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="https://www.beautifi.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Apply with Beautifi (opens in a new tab)"
-              className="btn-gold rounded-sm inline-flex items-center gap-3 group font-bold"
-            >
-              Apply with Beautifi
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-            </a>
-            <Link href="/booking" className="btn-outline-gold rounded-sm font-bold">
-              Book a Consultation
-            </Link>
-          </ScrollReveal>
-        </div>
-      </section>
+      <div className="container-luxury relative z-10 -mt-2 pb-10 text-center sm:-mt-4 sm:pb-12">
+        <ScrollReveal delay={0.15} className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href="https://www.beautifi.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Apply with Beautifi (opens in a new tab)"
+            className="btn-gold rounded-sm inline-flex items-center gap-3 group font-bold"
+          >
+            Apply with Beautifi
+            <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+          </a>
+          <Link href="/booking" className="btn-outline-gold rounded-sm font-bold">
+            Book a Consultation
+          </Link>
+        </ScrollReveal>
+      </div>
 
       {/* Benefits */}
       <section className="section-pad section-warm">

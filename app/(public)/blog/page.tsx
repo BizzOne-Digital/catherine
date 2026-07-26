@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Calendar, Tag, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CmsPageHero from "@/components/cms/CmsPageHero";
 import { format } from "date-fns";
 import { fallbackBlogPosts, type BlogPost } from "@/lib/blog-fallbacks";
 
@@ -57,24 +58,15 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 page-text-hero overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(214,181,109,0.05)_0%,transparent_60%)]" />
-        <div className="container-luxury relative z-10 text-center">
-          <ScrollReveal>
-            <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block">
-              Insights & Education
-            </span>
-            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-6xl text-warm-beige leading-tight mb-5">
-              The Lumina <em className="text-gold not-italic">Journal</em>
-            </h1>
-            <div className="w-12 h-px bg-gold/50 mx-auto mb-5" />
-            <p className="font-cormorant text-xl italic text-soft-taupe max-w-xl mx-auto">
-              Expert insights on medical aesthetics, skincare science, and the art of natural enhancement.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <CmsPageHero
+        slug="blog"
+        fallback={{
+          eyebrow: "Insights & Education",
+          title: "The Lumina|Journal",
+          content:
+            "Expert insights on medical aesthetics, skincare science, and the art of natural enhancement.",
+        }}
+      />
 
       {/* Posts */}
       <section className="section-pad section-warm">

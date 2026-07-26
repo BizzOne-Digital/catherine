@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Edit, Trash2, Loader2, X, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import AdminLayout from "@/components/admin/AdminLayout";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 interface Product {
   _id: string;
@@ -13,6 +14,7 @@ interface Product {
   description: string;
   price: number;
   salePrice?: number;
+  image?: string;
   stockStatus: string;
   isActive: boolean;
   isFeatured: boolean;
@@ -20,7 +22,7 @@ interface Product {
 
 const emptyProduct: Omit<Product, "_id"> = {
   name: "", category: "", shortDescription: "", description: "",
-  price: 0, stockStatus: "in_stock", isActive: true, isFeatured: false,
+  price: 0, image: "", stockStatus: "in_stock", isActive: true, isFeatured: false,
 };
 
 const categories = ["Serums", "Moisturizers", "Toners", "Treatments", "Sun Care", "Eye Care"];
@@ -53,15 +55,40 @@ export default function AdminProductsPage() {
   };
 
   const openNew = () => { setEditing(null); setForm(emptyProduct); setShowForm(true); };
-  const openEdit = (p: Product) => { setEditing(p); setForm({ name: p.name, category: p.category, shortDescription: p.shortDescription, description: p.description, price: p.price, salePrice: p.salePrice, stockStatus: p.stockStatus, isActive: p.isActive, isFeatured: p.isFeatured }); setShowForm(true); };
+  const openEdit = (p: Product) => {
+    setEditing(p);
+    setForm({
+      name: p.name,
+      category: p.category,
+      shortDescription: p.shortDescription,
+      description: p.description,
+      price: p.price,
+      salePrice: p.salePrice,
+      image: p.image || "",
+      stockStatus: p.stockStatus,
+      isActive: p.isActive,
+      isFeatured: p.isFeatured,
+    });
+    setShowForm(true);
+  };
 
   const handleSave = async () => {
     setSaving(true);
-    const url = editing ? `/api/admin/products?id=${editing._id}` : "/api/admin/products";
     const method = editing ? "PUT" : "POST";
-    const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-    if (r.ok) { toast.success(editing ? "Updated" : "Created"); setShowForm(false); loadProducts(); }
-    else { const e = await r.json(); toast.error(e.error || "Save failed"); }
+    const body = editing ? { ...form, id: editing._id } : form;
+    const r = await fetch("/api/admin/products", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (r.ok) {
+      toast.success(editing ? "Updated" : "Created");
+      setShowForm(false);
+      loadProducts();
+    } else {
+      const e = await r.json();
+      toast.error(e.error || "Save failed");
+    }
     setSaving(false);
   };
 
@@ -123,6 +150,12 @@ export default function AdminProductsPage() {
                 <div><label className="admin-label">Price ($) *</label><input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="admin-input" /></div>
                 <div><label className="admin-label">Sale Price ($)</label><input type="number" value={form.salePrice || ""} onChange={(e) => setForm({ ...form, salePrice: e.target.value ? Number(e.target.value) : undefined })} className="admin-input" /></div>
               </div>
+              <ImageUploadField
+                label="Product image"
+                folder="products"
+                value={form.image || ""}
+                onChange={(url) => setForm({ ...form, image: url })}
+              />
               <div><label className="admin-label">Stock Status</label><select value={form.stockStatus} onChange={(e) => setForm({ ...form, stockStatus: e.target.value })} className="admin-input">{stockOptions.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}</select></div>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={form.isActive} onChange={(e) => setForm({ ...form, isActive: e.target.checked })} className="accent-gold" /><span className="font-inter text-sm text-soft-taupe">Active</span></label>

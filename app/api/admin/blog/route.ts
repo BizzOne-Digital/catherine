@@ -32,12 +32,19 @@ export async function PUT(req: NextRequest) {
   if ("error" in auth) return auth.error;
   try {
     await connectDB();
-    const { id, ...body } = await req.json();
+    const body = await req.json();
+    const id = body.id || body._id || req.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    if (body.status === "published" && !body.publishedAt) {
-      body.publishedAt = new Date();
+
+    const { id: _i, _id, ...update } = body;
+    if (update.status === "published" && !update.publishedAt) {
+      update.publishedAt = new Date();
     }
-    const post = await BlogPost.findByIdAndUpdate(id, body, { new: true });
+    const post = await BlogPost.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    });
+    if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({ post });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Plus, Edit, Trash2, Loader2, X, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import AdminLayout from "@/components/admin/AdminLayout";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 interface GalleryItem {
   _id: string;
@@ -45,10 +46,21 @@ export default function AdminGalleryPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    const url = editing ? `/api/admin/gallery?id=${editing._id}` : "/api/admin/gallery";
-    const r = await fetch(url, { method: editing ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-    if (r.ok) { toast.success(editing ? "Updated" : "Created"); setShowForm(false); load(); }
-    else toast.error("Save failed");
+    const method = editing ? "PUT" : "POST";
+    const body = editing ? { ...form, id: editing._id } : form;
+    const r = await fetch("/api/admin/gallery", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (r.ok) {
+      toast.success(editing ? "Updated" : "Created");
+      setShowForm(false);
+      load();
+    } else {
+      const e = await r.json().catch(() => ({}));
+      toast.error(e.error || "Save failed");
+    }
     setSaving(false);
   };
 
@@ -97,7 +109,12 @@ export default function AdminGalleryPage() {
             <div className="p-6 space-y-4">
               <div><label className="admin-label">Title *</label><input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="admin-input" /></div>
               <div><label className="admin-label">Category *</label><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="admin-input"><option value="">Select</option>{categories.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
-              <div><label className="admin-label">Image URL</label><input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} className="admin-input" placeholder="https://... or /images/..." /></div>
+              <ImageUploadField
+                label="Image"
+                folder="gallery"
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+              />
               <div><label className="admin-label">Description</label><textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} className="admin-input resize-none" /></div>
               <div><label className="admin-label">Order</label><input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: Number(e.target.value) })} className="admin-input" /></div>
               <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={form.isFeatured} onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })} className="accent-gold" /><span className="font-inter text-sm text-soft-taupe">Featured on homepage</span></label>

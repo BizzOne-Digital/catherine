@@ -31,9 +31,12 @@ export async function PUT(req: NextRequest) {
   if ("error" in auth) return auth.error;
   try {
     await connectDB();
-    const { id, ...body } = await req.json();
+    const body = await req.json();
+    const id = body.id || body._id || req.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    const product = await Product.findByIdAndUpdate(id, body, { new: true });
+    const { id: _i, _id, ...update } = body;
+    const product = await Product.findByIdAndUpdate(id, update, { new: true });
+    if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({ product });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });

@@ -42,11 +42,26 @@ export default function AdminFAQsPage() {
   const openEdit = (f: FAQ) => { setEditing(f); setForm({ question: f.question, answer: f.answer, category: f.category || "General", order: f.order, isActive: f.isActive }); setShowForm(true); };
 
   const handleSave = async () => {
+    if (!form.question.trim() || !form.answer.trim()) {
+      toast.error("Question and answer are required");
+      return;
+    }
     setSaving(true);
-    const url = editing ? `/api/admin/faqs?id=${editing._id}` : "/api/admin/faqs";
-    const r = await fetch(url, { method: editing ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-    if (r.ok) { toast.success(editing ? "Updated" : "Created"); setShowForm(false); load(); }
-    else toast.error("Save failed");
+    const method = editing ? "PUT" : "POST";
+    const body = editing ? { ...form, id: editing._id } : form;
+    const r = await fetch("/api/admin/faqs", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (r.ok) {
+      toast.success(editing ? "Updated" : "Created");
+      setShowForm(false);
+      load();
+    } else {
+      const e = await r.json().catch(() => ({}));
+      toast.error(e.error || "Save failed");
+    }
     setSaving(false);
   };
 

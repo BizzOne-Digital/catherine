@@ -49,11 +49,37 @@ export default function AdminBlogPage() {
   const autoSlug = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
   const handleSave = async () => {
+    if (!form.title.trim() || !form.excerpt.trim() || !form.content.trim()) {
+      toast.error("Title, excerpt, and content are required");
+      return;
+    }
+    if (!form.category.trim()) {
+      toast.error("Category is required");
+      return;
+    }
     setSaving(true);
-    const url = editing ? `/api/admin/blog?id=${editing._id}` : "/api/admin/blog";
-    const r = await fetch(url, { method: editing ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, publishedAt: form.status === "published" && !form.publishedAt ? new Date().toISOString() : form.publishedAt }) });
-    if (r.ok) { toast.success(editing ? "Updated" : "Created"); setShowForm(false); load(); }
-    else toast.error("Save failed");
+    const method = editing ? "PUT" : "POST";
+    const payload = {
+      ...form,
+      publishedAt:
+        form.status === "published" && !form.publishedAt
+          ? new Date().toISOString()
+          : form.publishedAt,
+    };
+    const body = editing ? { ...payload, id: editing._id } : payload;
+    const r = await fetch("/api/admin/blog", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (r.ok) {
+      toast.success(editing ? "Updated" : "Created");
+      setShowForm(false);
+      load();
+    } else {
+      const e = await r.json().catch(() => ({}));
+      toast.error(e.error || "Save failed");
+    }
     setSaving(false);
   };
 
@@ -103,7 +129,19 @@ export default function AdminBlogPage() {
             <div className="p-6 space-y-4">
               <div>
                 <label className="admin-label">Title *</label>
-                <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value, slug: autoSlug(e.target.value) })} className="admin-input" />
+                <input
+                  value={form.title}
+                  onChange={(e) => {
+                    const title = e.target.value;
+                    setForm((f) => ({
+                      ...f,
+                      title,
+                      // Only auto-slug for new posts, or when slug still matches previous auto title
+                      slug: editing ? f.slug : autoSlug(title),
+                    }));
+                  }}
+                  className="admin-input"
+                />
               </div>
               <div><label className="admin-label">Slug</label><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="admin-input" /></div>
               <div><label className="admin-label">Category</label><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="admin-input"><option value="">Select</option>{categories.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
