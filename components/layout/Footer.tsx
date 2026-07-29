@@ -11,7 +11,7 @@ import {
   Flower2,
 } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
-import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
+import { phoneToTel, useSiteSettings, splitAddress } from "@/components/cms/useSiteSettings";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -44,20 +44,7 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
 export default function Footer() {
   const { settings } = useSiteSettings();
   const telHref = phoneToTel(settings.phone);
-  const addressLines = settings.address.split(",").map((s) => s.trim()).filter(Boolean);
-  const cityLine =
-    addressLines.length >= 2
-      ? addressLines.slice(-2).join(", ").replace(/\s+ON\s+.*/i, ", Ontario").replace(/L4Z.*/i, "").trim() ||
-        "Mississauga, Ontario"
-      : "Mississauga, Ontario";
-  const streetLine = addressLines.slice(0, -2).join(", ") || "42 Village Centre Place, Unit 100";
-  // Prefer explicit two-line display matching known address
-  const displayCity = settings.address.includes("Mississauga")
-    ? "Mississauga, Ontario"
-    : cityLine;
-  const displayStreet = settings.address.includes("Village Centre")
-    ? "42 Village Centre Place, Unit 100"
-    : streetLine;
+  const { city: displayCity, street: displayStreet } = splitAddress(settings.address);
 
   return (
     <footer className="footer-section relative overflow-hidden">

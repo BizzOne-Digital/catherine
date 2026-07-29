@@ -5,6 +5,7 @@ import { ArrowRight, Phone } from "lucide-react";
 import GoldParticles from "@/components/ui/GoldParticles";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageContent } from "@/components/cms/usePageContent";
+import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
 
 const FALLBACK = {
   subtitle: "Let's Create a Treatment Plan That's Right for You",
@@ -13,14 +14,11 @@ const FALLBACK = {
     "Book your complimentary consultation and discover personalized treatments designed around your unique goals.",
   ctaLabel: "Book Free Consultation",
   ctaHref: "/booking",
-  items: [
-    "(437) 888-9022",
-    "Lumina Medi Spa · 42 Village Centre Place, Unit 100, Mississauga, ON L4Z 1V9 · By Appointment Only",
-  ],
 };
 
 export default function FinalCTA() {
   const { get } = usePageContent("home");
+  const { settings } = useSiteSettings();
   const sec = get("final_cta");
 
   const subtitle = sec?.subtitle || FALLBACK.subtitle;
@@ -28,9 +26,9 @@ export default function FinalCTA() {
   const content = sec?.content || FALLBACK.content;
   const ctaLabel = sec?.ctaLabel || FALLBACK.ctaLabel;
   const ctaHref = sec?.ctaHref || FALLBACK.ctaHref;
-  const phone = sec?.items?.[0] || FALLBACK.items[0];
-  const footer = sec?.items?.[1] || FALLBACK.items[1];
-  const phoneHref = `tel:+1${phone.replace(/\D/g, "")}`;
+  const phone = settings.phone;
+  const footer = `${settings.businessName} · ${settings.address} · By Appointment Only`;
+  const phoneHref = phoneToTel(phone);
 
   return (
     <section className="section-warm-deep relative overflow-hidden py-24 md:py-32">
