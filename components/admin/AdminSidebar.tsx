@@ -4,7 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import IntroLogo from "@/components/ui/IntroLogo";
 import {
   LayoutDashboard, FolderTree, Sparkles, Calendar,
-  MessageSquare, ImageIcon, FileText, HelpCircle, Settings, LogOut, X, Layers,
+  MessageSquare, HelpCircle, Settings, LogOut, X, Layers,
+  ShoppingBag, DollarSign,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -12,11 +13,11 @@ const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Categories", href: "/admin/categories", icon: FolderTree },
   { label: "Treatments", href: "/admin/treatments", icon: Sparkles },
+  { label: "Products", href: "/admin/products", icon: ShoppingBag },
+  { label: "Pricing", href: "/admin/pricing", icon: DollarSign },
   { label: "Pages", href: "/admin/pages", icon: Layers },
   { label: "Bookings", href: "/admin/bookings", icon: Calendar },
   { label: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },
-  { label: "Gallery", href: "/admin/gallery", icon: ImageIcon },
-  { label: "Blog", href: "/admin/blog", icon: FileText },
   { label: "FAQs", href: "/admin/faqs", icon: HelpCircle },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];

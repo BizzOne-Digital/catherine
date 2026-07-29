@@ -8,8 +8,9 @@ import { resolveCmsImage } from "@/lib/cmsImage";
 
 const FALLBACK = {
   eyebrow: "✦ Lumina Medi Spa · Mississauga",
-  title: "Reveal Your Best Skin",
-  content: "Personalized Medical Aesthetics for Natural, Beautiful Results",
+  title: "Medical Aesthetics Designed Around You",
+  content:
+    "Expert injectables, advanced skin treatments, laser services, and body sculpting.",
   image: "/images/hero-bg.png",
   ctaLabel: "Book Consultation",
   ctaHref: "/booking",

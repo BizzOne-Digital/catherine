@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@luminamedispa.ca"
+                placeholder="Luminamedispa@gmail.com"
                 className="admin-input"
                 required
               />

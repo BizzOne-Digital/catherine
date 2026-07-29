@@ -5,6 +5,7 @@ export interface IServiceCategory extends Document {
   slug: string;
   description: string;
   icon: string;
+  detailPage: string;
   order: number;
   isActive: boolean;
   createdAt: Date;
@@ -17,6 +18,7 @@ const ServiceCategorySchema = new Schema<IServiceCategory>(
     slug: { type: String, required: true, unique: true },
     description: { type: String, default: "" },
     icon: { type: String, default: "Sparkles" },
+    detailPage: { type: String, default: "" },
     order: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true },
   },

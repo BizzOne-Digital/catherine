@@ -53,6 +53,10 @@ export async function POST(req: NextRequest) {
       shortDescription: body.shortDescription || "",
       price: body.price.trim(),
       image: body.image || "",
+      beforeImage: body.beforeImage || "",
+      afterImage: body.afterImage || "",
+      bookingUrl: body.bookingUrl || "",
+      hidePrice: !!body.hidePrice,
       popular: !!body.popular,
       isActive: body.isActive !== false,
       order: Number(body.order) || 0,
@@ -105,6 +109,14 @@ export async function PUT(req: NextRequest) {
         : existing.shortDescription;
     existing.price = body.price?.trim() ?? existing.price;
     existing.image = body.image !== undefined ? body.image : existing.image;
+    existing.beforeImage =
+      body.beforeImage !== undefined ? body.beforeImage : existing.beforeImage;
+    existing.afterImage =
+      body.afterImage !== undefined ? body.afterImage : existing.afterImage;
+    existing.bookingUrl =
+      body.bookingUrl !== undefined ? body.bookingUrl : existing.bookingUrl;
+    existing.hidePrice =
+      body.hidePrice !== undefined ? !!body.hidePrice : existing.hidePrice;
     existing.popular =
       body.popular !== undefined ? !!body.popular : existing.popular;
     existing.isActive =

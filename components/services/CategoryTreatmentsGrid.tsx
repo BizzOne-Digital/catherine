@@ -13,17 +13,22 @@ export type TreatmentCard = {
   shortDescription?: string;
   description?: string;
   price: string;
+  hidePrice?: boolean;
   image?: string;
   popular?: boolean;
   detailPage?: string;
+  bookingUrl?: string;
 };
 
 export default function CategoryTreatmentsGrid({
   categorySlug,
   fallback = [],
+  listLayout = false,
 }: {
   categorySlug: string;
   fallback?: TreatmentCard[];
+  /** Horizontal list cards (e.g. laser hair removal) */
+  listLayout?: boolean;
 }) {
   const [treatments, setTreatments] = useState<TreatmentCard[]>(fallback);
 
@@ -65,26 +70,86 @@ export default function CategoryTreatmentsGrid({
     );
   }
 
+  if (listLayout || categorySlug === "laser-hair-removal") {
+    return (
+      <div className="mx-auto max-w-3xl space-y-4">
+        {treatments.map((treatment, index) => {
+          const detailHref =
+            treatment.detailPage || `/services/${categorySlug}/${treatment.slug}`;
+          const bookHref = (treatment.bookingUrl || "").trim() || detailHref;
+          const showPrice = !treatment.hidePrice && Boolean((treatment.price || "").trim());
+          return (
+            <ScrollReveal key={treatment._id || treatment.slug} delay={index * 0.05}>
+              <div className="flex flex-col gap-4 rounded-2xl border border-gold/20 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-6">
+                <div className="min-w-0 flex-1">
+                  <Link
+                    href={detailHref}
+                    className="font-playfair text-lg font-semibold text-text-dark transition-colors hover:text-gold sm:text-xl"
+                  >
+                    {treatment.name}
+                  </Link>
+                  {treatment.description && (
+                    <p className="mt-1 font-inter text-sm leading-relaxed text-soft-taupe">
+                      {treatment.description}
+                    </p>
+                  )}
+                  {showPrice && (
+                    <p className="mt-2 font-playfair text-gold">{treatment.price}</p>
+                  )}
+                </div>
+                <div className="flex shrink-0 items-center gap-3">
+                  <Link
+                    href={detailHref}
+                    className="font-inter text-xs font-semibold uppercase tracking-wider text-gold/80 hover:text-gold"
+                  >
+                    Details
+                  </Link>
+                  {bookHref.startsWith("http") ? (
+                    <a
+                      href={bookHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-full bg-gold px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-deep-gold"
+                    >
+                      Book
+                    </a>
+                  ) : (
+                    <Link
+                      href={bookHref}
+                      className="inline-flex items-center rounded-full bg-gold px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-deep-gold"
+                    >
+                      Book
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </ScrollReveal>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div
       className={`grid grid-cols-1 gap-6 ${
         treatments.length === 1
-          ? "max-w-md mx-auto"
+          ? "mx-auto max-w-md"
           : treatments.length === 2
-            ? "md:grid-cols-2 max-w-2xl mx-auto"
+            ? "mx-auto max-w-2xl md:grid-cols-2"
             : "md:grid-cols-2 lg:grid-cols-3"
       }`}
     >
       {treatments.map((treatment, index) => {
-        const href =
-          treatment.detailPage || `/services/${categorySlug}/${treatment.slug}`;
+        const href = treatment.detailPage || `/services/${categorySlug}/${treatment.slug}`;
+        const showPrice = !treatment.hidePrice && Boolean((treatment.price || "").trim());
         return (
           <ScrollReveal key={treatment._id || treatment.slug} delay={index * 0.08}>
             <Link href={href}>
-              <div className="group relative bg-white rounded-2xl overflow-hidden border border-gold/20 hover:border-gold/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(196,151,47,0.15)] cursor-pointer h-full">
+              <div className="group relative h-full cursor-pointer overflow-hidden rounded-2xl border border-gold/20 bg-white transition-all duration-300 hover:border-gold/40 hover:shadow-[0_8px_30px_rgba(196,151,47,0.15)]">
                 <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gold/5 to-gold/10">
                   {treatment.popular && (
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-1 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gold rounded-full">
+                    <div className="absolute left-4 top-4 z-10 flex items-center gap-1 rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                       <Star size={10} className="fill-white" />
                       Popular
                     </div>
@@ -94,7 +159,7 @@ export default function CategoryTreatmentsGrid({
                       src={treatment.image}
                       alt={treatment.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   ) : (
@@ -104,17 +169,21 @@ export default function CategoryTreatmentsGrid({
                   )}
                 </div>
                 <div className="p-6">
-                  <h3 className="font-playfair text-xl text-text-dark mb-2 group-hover:text-gold transition-colors">
+                  <h3 className="mb-2 font-playfair text-xl text-text-dark transition-colors group-hover:text-gold">
                     {treatment.name}
                   </h3>
-                  <p className="font-inter text-sm text-soft-taupe leading-relaxed mb-4">
+                  <p className="mb-4 font-inter text-sm leading-relaxed text-soft-taupe">
                     {treatment.description || treatment.shortDescription}
                   </p>
-                  <div className="flex items-center justify-between pt-4 border-t border-gold/10">
-                    <span className="inline-flex items-center gap-1.5 font-playfair text-gold">
-                      <DollarSign size={14} />
-                      {treatment.price}
-                    </span>
+                  <div className="flex items-center justify-between border-t border-gold/10 pt-4">
+                    {showPrice ? (
+                      <span className="inline-flex items-center gap-1.5 font-playfair text-gold">
+                        <DollarSign size={14} />
+                        {treatment.price}
+                      </span>
+                    ) : (
+                      <span className="font-inter text-xs text-soft-taupe">View details</span>
+                    )}
                     <span className="inline-flex items-center gap-1 text-xs uppercase tracking-wider text-gold/70 group-hover:text-gold">
                       Details <ArrowRight size={12} />
                     </span>

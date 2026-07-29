@@ -8,7 +8,8 @@ import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import mongoose from "mongoose";
-import { buildSections } from "./treatment-content.mjs";
+import { serviceCategories, treatmentsByCategory } from "./service-catalog.mjs";
+import { products } from "../data/products.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -34,6 +35,7 @@ const ServiceCategory = mongoose.model(
       slug: { type: String, unique: true },
       description: String,
       icon: { type: String, default: "Sparkles" },
+      detailPage: { type: String, default: "" },
       order: { type: Number, default: 0 },
       isActive: { type: Boolean, default: true },
     },
@@ -51,7 +53,11 @@ const Treatment = mongoose.model(
       categorySlug: String,
       shortDescription: String,
       price: String,
+      hidePrice: { type: Boolean, default: false },
       image: { type: String, default: "" },
+      beforeImage: { type: String, default: "" },
+      afterImage: { type: String, default: "" },
+      bookingUrl: { type: String, default: "" },
       popular: { type: Boolean, default: false },
       isActive: { type: Boolean, default: true },
       order: { type: Number, default: 0 },
@@ -62,7 +68,7 @@ const Treatment = mongoose.model(
           title: { type: String, default: "" },
           content: { type: String, default: "" },
           image: { type: String, default: "" },
-          items: [{ type: String }],
+          items: [{ type: String },],
           order: { type: Number, default: 0 },
         },
       ],
@@ -110,125 +116,7 @@ const FAQ = mongoose.model(
   )
 );
 
-const GalleryItem = mongoose.model(
-  "GalleryItem",
-  new mongoose.Schema(
-    {
-      title: String,
-      category: String,
-      image: String,
-      description: String,
-      isFeatured: { type: Boolean, default: false },
-      order: { type: Number, default: 0 },
-    },
-    { timestamps: true }
-  )
-);
-
-const BlogPost = mongoose.model(
-  "BlogPost",
-  new mongoose.Schema(
-    {
-      title: String,
-      slug: { type: String, unique: true },
-      category: String,
-      excerpt: String,
-      content: String,
-      featuredImage: { type: String, default: "/images/placeholder-blog.jpg" },
-      status: { type: String, default: "published" },
-      publishedAt: Date,
-    },
-    { timestamps: true }
-  )
-);
-
-// --- Data ---
-const serviceCategories = [
-  {
-    title: "Injectables & Wrinkle Relaxers",
-    slug: "injectables-wrinkle-relaxers",
-    description: "Soften fine lines and prevent new ones with precise, natural-looking neuromodulator treatments.",
-    icon: "Sparkles",
-    order: 1,
-  },
-  {
-    title: "Dermal Fillers & Skin Boosters",
-    slug: "dermal-fillers-skin-boosters",
-    description: "Restore volume, contour features and hydrate from within with premium hyaluronic acid injectables.",
-    icon: "Heart",
-    order: 2,
-  },
-  {
-    title: "Facials & Skin Health",
-    slug: "facials-skin-health",
-    description: "Medical-grade facials that cleanse, resurface and calm — tailored to your skin on the day.",
-    icon: "Droplets",
-    order: 3,
-  },
-  {
-    title: "Microneedling & Skin Resurfacing",
-    slug: "microneedling-skin-resurfacing",
-    description: "Stimulate collagen and even tone to refine texture, scarring and pigmentation.",
-    icon: "Activity",
-    order: 4,
-  },
-  {
-    title: "Laser Hair Removal",
-    slug: "laser-hair-removal",
-    description: "Comfortable, long-term hair reduction with a medical-grade diode laser for all skin types.",
-    icon: "Zap",
-    order: 5,
-  },
-  {
-    title: "Body Sculpting & Contouring",
-    slug: "body-sculpting-contouring",
-    description: "Build muscle and refine problem areas with non-invasive HIFEM technology — zero downtime.",
-    icon: "Activity",
-    order: 6,
-  },
-];
-
-/** Treatments keyed by category slug — price only (no duration) */
-const treatmentsByCategory = {
-  "injectables-wrinkle-relaxers": [
-    { name: "Botox", slug: "botox", shortDescription: "Smooth dynamic lines on the forehead, frown and crow's feet.", price: "From $11–$14 / unit", image: "/images/treatments/botox.jpg", popular: true, order: 1 },
-    { name: "Dysport & Nuceiva", slug: "dysport-nuceiva", shortDescription: "Alternative neuromodulators for fast-acting, natural smoothing.", price: "From $11–$14 / unit", image: "/images/treatments/dysport.jpg", order: 2 },
-    { name: "Daxxify", slug: "daxxify", shortDescription: "Long-lasting neuromodulator with results up to 6 months.", price: "From $16–$18 / unit", image: "/images/treatments/daxxify.jpg", order: 3 },
-  ],
-  "dermal-fillers-skin-boosters": [
-    { name: "Dermal Fillers", slug: "dermal-fillers", shortDescription: "Restore volume and contour cheeks, jawline and chin.", price: "From $700–$1,200 / syringe", image: "/images/treatments/dermal-fillers.jpg", order: 1 },
-    { name: "Lip Filler", slug: "lip-filler", shortDescription: "Hydrate, define and gently enhance the lips.", price: "From $650–$900 / syringe", image: "/images/treatments/lip-filler.jpg", popular: true, order: 2 },
-    { name: "Skin Booster Injections", slug: "skin-boosters", shortDescription: "Profhilo & Juvéderm SkinVive for deep hydration and glow.", price: "From $450–$650 / session", image: "/images/treatments/skin-boosters.jpg", order: 3 },
-  ],
-  "facials-skin-health": [
-    { name: "Purifying Deep Clean Facial", slug: "purifying-facial", shortDescription: "Deep cleanse with custom LED light therapy for radiant skin.", price: "From $145", image: "/images/treatments/purifying-facial.jpg", popular: true, order: 1 },
-    { name: "Signature Relaxation Facial", slug: "relaxation-facial", shortDescription: "Expert skincare meets a soothing face and neck massage.", price: "From $160", image: "/images/treatments/relaxation-facial.jpg", order: 2 },
-    { name: "Chemical Peel", slug: "chemical-peel", shortDescription: "Resurface for brighter, clearer, more even-toned skin.", price: "From $150", image: "/images/treatments/chemical-peel.jpg", order: 3 },
-  ],
-  "microneedling-skin-resurfacing": [
-    { name: "Microneedling", slug: "microneedling", shortDescription: "Collagen-stimulating treatment for texture, pores and scars.", price: "From $250", image: "/images/treatments/microneedling.jpg", popular: true, order: 1 },
-    { name: "IPL Photofacial", slug: "ipl-photofacial", shortDescription: "Target sun damage, redness and uneven pigmentation.", price: "From $250", image: "/images/treatments/ipl-photofacial.jpg", order: 2 },
-  ],
-  "laser-hair-removal": [
-    { name: "Laser Hair Removal — Small Area", slug: "small-area", shortDescription: "Lip, chin, underarms and other small areas.", price: "From $60–$130 / session", image: "/images/treatments/laser-face.jpg", order: 1 },
-    { name: "Laser Hair Removal — Large Area", slug: "large-area", shortDescription: "Full legs, full arms, back or Brazilian.", price: "From $230–$330 / session", image: "/images/treatments/laser-legs.jpg", popular: true, order: 2 },
-    { name: "Full Body Laser Hair Removal", slug: "full-body", shortDescription: "All major body areas in one session (excludes back).", price: "From $550 / session", image: "/images/treatments/laser-full-body.jpg", order: 3 },
-  ],
-  "body-sculpting-contouring": [
-    { name: "Body Sculpting with HIFEM", slug: "body-sculpting-hifem", shortDescription: "Build muscle and tone a target area — no downtime.", price: "From $300 / session", image: "/images/treatments/emsculpt.jpg", popular: true, order: 1 },
-  ],
-};
-
-const products = [
-  { name: "Hydrating HA Serum", slug: "hydrating-ha-serum", category: "Serums", shortDescription: "Intense hydration with triple-weight hyaluronic acid for all skin types", description: "A deeply hydrating serum featuring three molecular weights of hyaluronic acid to hydrate every layer of the skin. Plumps fine lines, restores bounce, and leaves skin dewy and supple. Suitable for all skin types, including sensitive skin.", ingredients: "Hyaluronic Acid (Low, Medium, High MW), Glycerin, Panthenol, Aloe Vera", howToUse: "Apply 2-3 drops to damp skin morning and evening before moisturizer.", price: 85, image: "/images/product-1.jpg", isFeatured: true },
-  { name: "Vitamin C Brightening Complex", slug: "vitamin-c-brightening-complex", category: "Serums", shortDescription: "20% L-Ascorbic acid serum for luminous, even-toned skin", description: "A potent antioxidant serum with 20% L-Ascorbic acid, vitamin E, and ferulic acid. Brightens dull skin, fades dark spots, and protects against environmental damage for a radiant, even complexion.", ingredients: "L-Ascorbic Acid 20%, Vitamin E, Ferulic Acid", howToUse: "Apply 3-4 drops to clean, dry skin every morning. Follow with SPF.", price: 95, image: "/images/product-2.jpg", isFeatured: true },
-  { name: "Peptide Renewal Cream", slug: "peptide-renewal-cream", category: "Moisturizers", shortDescription: "Advanced neuropeptide moisturizer targeting fine lines and firmness", description: "A luxurious anti-aging moisturizer powered by advanced neuropeptides and ceramides. Visibly firms skin, softens expression lines, and strengthens the moisture barrier overnight.", ingredients: "Neuropeptides, Ceramides, Squalane, Shea Butter", howToUse: "Massage a pearl-sized amount onto face and neck every evening.", price: 110, image: "/images/product-3.jpg", isFeatured: true },
-  { name: "SPF 50+ Daily Shield", slug: "spf-50-daily-shield", category: "Sun Care", shortDescription: "Elegant broad-spectrum sunscreen with a sheer, non-greasy finish", description: "A weightless broad-spectrum SPF 50+ sunscreen that layers beautifully under makeup. Protects against UVA/UVB damage — the number one cause of premature aging — with a sheer, non-greasy finish.", ingredients: "Zinc Oxide, Niacinamide, Vitamin E", howToUse: "Apply generously as the last step of your morning routine. Reapply every 2 hours of sun exposure.", price: 65, image: "/images/product-4.jpg" },
-  { name: "Retinol Resurfacing Serum", slug: "retinol-resurfacing-serum", category: "Serums", shortDescription: "Encapsulated retinol for overnight skin renewal and refinement", description: "Encapsulated retinol delivers powerful skin renewal with minimal irritation. Smooths texture, refines pores, and softens fine lines while you sleep. Ideal for building a long-term anti-aging routine.", ingredients: "Encapsulated Retinol 0.5%, Bakuchiol, Niacinamide, Squalane", howToUse: "Apply a pea-sized amount at night, 2-3 times per week, gradually increasing frequency.", price: 90, salePrice: 75, image: "/images/product-5.jpg" },
-  { name: "Niacinamide Pore Refiner", slug: "niacinamide-pore-refiner", category: "Treatments", shortDescription: "10% niacinamide concentrate minimizing pores and controlling shine", description: "A 10% niacinamide and zinc concentrate that visibly tightens pores, balances oil production, and evens skin tone. Lightweight and layerable with any routine.", ingredients: "Niacinamide 10%, Zinc PCA, Hyaluronic Acid", howToUse: "Apply a few drops morning and evening after cleansing, before moisturizer.", price: 70, image: "/images/product-6.jpg" },
-  { name: "Post-Treatment Repair Balm", slug: "post-treatment-repair-balm", category: "Treatments", shortDescription: "Soothing barrier recovery cream for post-procedure skin", description: "Specifically formulated for skin recovering from professional treatments — lasers, peels, microneedling, and injectables. Calms redness, restores the barrier, and accelerates healing.", ingredients: "Centella Asiatica, Ceramides, Panthenol, Madecassoside", howToUse: "Apply a thin layer to treated areas 2-3 times daily or as directed by your clinician.", price: 55, stockStatus: "limited", image: "/images/product-7.jpg" },
-  { name: "AHA/BHA Exfoliating Toner", slug: "aha-bha-exfoliating-toner", category: "Toners", shortDescription: "Gentle chemical exfoliant for smooth, refined skin texture", description: "A balanced blend of glycolic, lactic, and salicylic acids that gently dissolves dead skin cells, unclogs pores, and refines texture — revealing smoother, brighter skin with regular use.", ingredients: "Glycolic Acid, Lactic Acid, Salicylic Acid, Witch Hazel", howToUse: "Sweep over clean skin with a cotton pad 2-3 evenings per week. Avoid using with retinol on the same night.", price: 60, image: "/images/product-8.jpg" },
-];
+// --- Data (categories + treatments from service-catalog.mjs) ---
 
 const faqs = [
   { question: "What is a complimentary consultation and what does it include?", answer: "Your complimentary consultation is a relaxed, pressure-free conversation where we discuss your aesthetic goals, assess your skin and facial anatomy, and provide honest recommendations. We'll walk you through treatment options, expected results, pricing, and answer any questions you have. There is absolutely no obligation to proceed with any treatment.", category: "General", order: 1 },
@@ -244,130 +132,6 @@ const faqs = [
   { question: "Do you offer financing or monthly payment options?", answer: "Yes. Lumina Medi Spa offers patient financing through Medicard by iFinance. Eligible clients can apply through a secure online application. Financing approval, terms and payments are managed directly by Medicard/iFinance. [Apply for financing](https://apply.medicard.com/25759)", category: "Pricing", order: 11 },
 ];
 
-const galleryItems = [
-  { title: "Treatment Room", category: "Clinic", image: "/images/gallery/gallery-1.jpg", description: "Our serene treatment suite", order: 1, isFeatured: true },
-  { title: "Skincare Collection", category: "Clinic", image: "/images/gallery/gallery-2.jpg", description: "Medical-grade skincare products", order: 2 },
-  { title: "Facial Treatment", category: "Treatments", image: "/images/gallery/gallery-3.jpg", description: "Signature facial experience", order: 3, isFeatured: true },
-  { title: "Skin Analysis", category: "Treatments", image: "/images/gallery/gallery-4.jpg", description: "Personalized skin assessment", order: 4 },
-  { title: "Body Contouring", category: "Treatments", image: "/images/gallery/gallery-5.jpg", description: "Advanced body sculpting session", order: 5 },
-  { title: "Natural Enhancement", category: "Transformations", image: "/images/gallery/gallery-6.jpg", description: "Subtle, natural-looking results", order: 6, isFeatured: true },
-  { title: "Glow Restoration", category: "Transformations", image: "/images/gallery/gallery-7.jpg", description: "Radiant skin transformation", order: 7 },
-  { title: "Clinic Interior", category: "Clinic", image: "/images/gallery/gallery-8.jpg", description: "Luxury med spa environment", order: 8 },
-  { title: "Wellness Event", category: "Events", image: "/images/gallery/gallery-9.jpg", description: "Community wellness gathering", order: 9 },
-];
-
-const blogPosts = [
-  {
-    title: "Botox vs. Fillers: What's the Difference?",
-    slug: "botox-vs-fillers",
-    category: "Education",
-    excerpt: "Two of the most popular aesthetic treatments — but they do very different things. Here's everything you need to know about injectables to make the right choice for your goals.",
-    content: `Botox and dermal fillers are often mentioned together, but they work in fundamentally different ways. Understanding the distinction helps you choose the right treatment — and set realistic expectations for your results.
-
-Botox (and other neuromodulators) temporarily relax targeted facial muscles. This softens dynamic wrinkles caused by repeated expressions — forehead lines, crow's feet, and frown lines between the brows. Results typically appear within 7–14 days and last about 3–4 months.
-
-Dermal fillers, on the other hand, restore volume and structure. Made from hyaluronic acid, they can enhance lips, define cheekbones, smooth deep folds, and rejuvenate under-eye hollows. Results are immediate, with final results visible once any swelling subsides.
-
-Many clients benefit from both treatments as part of a comprehensive plan. Botox addresses movement-related lines, while fillers restore youthful volume. During your consultation at Lumina Medi Spa, we assess your anatomy, discuss your goals, and recommend a personalized approach — never a one-size-fits-all menu.
-
-The key to natural-looking results with either treatment is precision, conservative dosing, and an artistic eye. Our philosophy is enhancement, not transformation — so you still look like yourself, only refreshed.`,
-    status: "published",
-    featuredImage: "/images/blog-1.jpg",
-    publishedAt: new Date("2024-06-01"),
-  },
-  {
-    title: "How to Prepare for Your First Injectable Treatment",
-    slug: "prepare-first-injectable",
-    category: "Tips & Advice",
-    excerpt: "First time considering Botox or fillers? We walk you through everything you need to know before, during, and after your first appointment to ensure the best possible results.",
-    content: `Your first injectable appointment should feel exciting, not intimidating. A little preparation goes a long way toward a smooth experience and beautiful results.
-
-Before your visit, avoid blood-thinning supplements and medications when possible — including aspirin, ibuprofen, fish oil, and vitamin E — for about a week prior. This reduces the chance of bruising. Come with a clean face, free of makeup if you can, and bring a list of any medications or allergies.
-
-During your consultation, be honest about your goals. Reference photos can help, but remember: your anatomy is unique. We'll discuss what's achievable for your face and recommend a conservative starting approach, especially for first-time clients.
-
-After treatment, avoid lying down for 4 hours, skip strenuous exercise for 24 hours, and don't massage the treated area unless instructed. Mild redness or swelling is normal and usually resolves quickly.
-
-Most importantly, trust the process. Injectables are as much art as science — and your first visit is the beginning of a relationship with your injector, not a one-time transaction. We're here to guide you every step of the way.`,
-    status: "published",
-    featuredImage: "/images/blog-2.jpg",
-    publishedAt: new Date("2024-05-15"),
-  },
-  {
-    title: "The Truth About Natural-Looking Aesthetic Results",
-    slug: "natural-looking-results",
-    category: "Philosophy",
-    excerpt: "The best aesthetic treatments are the ones nobody notices. Our approach to medical aesthetics is rooted in enhancement — not transformation — and here's why that matters.",
-    content: `There's a misconception that aesthetic medicine always leads to an "overdone" look. In reality, the vast majority of well-performed treatments are invisible — you simply notice that someone looks rested, refreshed, or subtly more youthful.
-
-At Lumina Medi Spa, natural results aren't an accident. They're the outcome of deliberate choices: conservative product volumes, precise placement, and a deep respect for facial harmony and proportion.
-
-We believe your expressions, asymmetries, and unique features are what make you recognizably you. Our job is to soften what bothers you — not erase what defines you.
-
-This philosophy influences everything from our consultation style to our technique. We won't push treatments you don't need, and we'll always prioritize safety and longevity over trends.
-
-When you leave our clinic, our goal is for you to feel confident — not self-conscious. The best compliment is when someone says, "You look amazing," without being able to pinpoint why.`,
-    status: "published",
-    featuredImage: "/images/blog-3.jpg",
-    publishedAt: new Date("2024-05-01"),
-  },
-  {
-    title: "IPL Photofacial: Is It Right for Your Skin?",
-    slug: "ipl-photofacial-guide",
-    category: "Treatments",
-    excerpt: "Dealing with sunspots, redness, or uneven skin tone? IPL photofacial might be the solution you've been looking for. Here's our complete guide to the treatment.",
-    content: `Intense Pulsed Light (IPL) therapy is one of the most versatile treatments in medical aesthetics. It uses broad-spectrum light to target pigment and vascular concerns — sunspots, freckles, redness, rosacea, and overall uneven tone.
-
-IPL works by delivering light energy that is absorbed by melanin and hemoglobin in the skin. The body naturally clears the treated pigment over the following weeks, revealing a more even, luminous complexion.
-
-Most clients need a series of 3–5 sessions spaced about four weeks apart for optimal results. Maintenance sessions once or twice a year help preserve your glow.
-
-IPL is best suited for lighter skin tones (Fitzpatrick I–III) and is not recommended during active tanning or for very dark skin types. A thorough consultation includes a skin assessment to confirm you're a good candidate.
-
-Downtime is minimal — you may experience mild redness for a few hours. Sun protection is essential before and after treatment. With consistent care, IPL can dramatically improve skin clarity and radiance without surgery or significant recovery.`,
-    status: "published",
-    featuredImage: "/images/blog-4.jpg",
-    publishedAt: new Date("2024-04-20"),
-  },
-  {
-    title: "Your Complete Guide to Lip Filler",
-    slug: "lip-filler-guide",
-    category: "Treatments",
-    excerpt: "Natural-looking lip enhancement is an art form. From choosing the right amount of filler to aftercare and longevity — everything you need to know about lip fillers at Lumina.",
-    content: `Lip filler remains one of our most requested treatments — and for good reason. When done well, it adds definition, hydration, and subtle volume that complements your natural lip shape.
-
-Hyaluronic acid fillers are the gold standard for lips. They're soft, reversible, and provide immediate results. We typically start conservatively — often 0.5ml to 1ml — and build gradually over sessions if more volume is desired.
-
-The goal is balance: enhancing the cupid's bow, defining the vermillion border, and restoring lost volume without creating an unnatural profile. Every face is different, and so is every ideal lip shape.
-
-Swelling peaks at 24–48 hours and settles within a week. Avoid strenuous exercise, excessive heat, and pressure on the lips during this time. Results last approximately 12–18 months depending on the product and your metabolism.
-
-If you're curious about lip filler, start with a consultation. Bring reference photos if helpful, but trust our assessment of what will look harmonious with your overall facial features.`,
-    status: "published",
-    featuredImage: "/images/blog-5.jpg",
-    publishedAt: new Date("2024-04-05"),
-  },
-  {
-    title: "Building Your Home Skincare Routine After Treatment",
-    slug: "home-skincare-post-treatment",
-    category: "Skincare",
-    excerpt: "In-clinic treatments get you there — a good skincare routine keeps you there. Here are our medical-grade recommendations for maintaining and extending your results at home.",
-    content: `Professional treatments deliver transformative results — but what you do at home every day determines how long those results last. A thoughtful skincare routine is the foundation of lasting radiance.
-
-Start with the essentials: a gentle cleanser, daily SPF 30+, and a moisturizer suited to your skin type. Sun protection is non-negotiable, especially after IPL, laser, or any treatment targeting pigmentation.
-
-Active ingredients like vitamin C (morning antioxidant), retinol (evening renewal), and hyaluronic acid (hydration) can complement in-clinic care. Introduce new products one at a time to monitor tolerance.
-
-After injectable treatments, keep your routine simple for the first few days. After facials or peels, follow the specific aftercare instructions provided — your skin may be more sensitive temporarily.
-
-We carry medical-grade products in our shop, curated by our clinical team. During your visit, ask for personalized recommendations based on your skin type, concerns, and treatment plan.
-
-Consistency beats complexity. A simple routine you follow daily outperforms an elaborate regimen you abandon after a week.`,
-    status: "published",
-    featuredImage: "/images/blog-6.jpg",
-    publishedAt: new Date("2024-03-20"),
-  },
-];
 
 // --- Run ---
 async function seed() {
@@ -394,7 +158,9 @@ async function seed() {
   }
 
   await ServiceCategory.deleteMany({});
-  const insertedCategories = await ServiceCategory.insertMany(serviceCategories);
+  const insertedCategories = await ServiceCategory.insertMany(
+    serviceCategories.map((c) => ({ ...c, isActive: true, detailPage: c.detailPage || "" }))
+  );
   console.log(`Seeded ${insertedCategories.length} documents into 'servicecategories'.`);
 
   const categoryBySlug = Object.fromEntries(insertedCategories.map((c) => [c.slug, c]));
@@ -404,11 +170,21 @@ async function seed() {
     if (!cat) continue;
     for (const t of list) {
       treatmentDocs.push({
-        ...t,
+        name: t.name,
+        slug: t.slug,
         categoryId: cat._id,
         categorySlug: cat.slug,
+        shortDescription: t.shortDescription || "",
+        price: t.price || "",
+        hidePrice: Boolean(t.hidePrice),
+        image: t.image || "",
+        beforeImage: t.beforeImage || "",
+        afterImage: t.afterImage || "",
+        bookingUrl: t.bookingUrl || "",
+        popular: Boolean(t.popular),
         isActive: true,
-        sections: buildSections(cat.slug, t.slug, t.image || ""),
+        order: t.order || 0,
+        sections: t.sections || [],
       });
     }
   }
@@ -431,8 +207,7 @@ async function seed() {
   const jobs = [
     ["products", Product, products],
     ["faqs", FAQ, faqs],
-    ["galleryitems", GalleryItem, galleryItems],
-    ["blogposts", BlogPost, blogPosts],
+
   ];
 
   for (const [name, Model, data] of jobs) {

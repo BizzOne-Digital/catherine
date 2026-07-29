@@ -10,13 +10,15 @@ export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
     const featured = searchParams.get("featured");
     const category = searchParams.get("category");
+    const slug = searchParams.get("slug");
     const limit = searchParams.get("limit") ? Number(searchParams.get("limit")) : undefined;
 
     const query: Record<string, unknown> = { isActive: true };
     if (featured) query.isFeatured = true;
     if (category) query.category = category;
+    if (slug) query.slug = slug;
 
-    let q = Product.find(query).sort({ createdAt: -1 });
+    let q = Product.find(query).sort({ category: 1, name: 1 });
     if (limit) q = q.limit(limit);
 
     const products = await q.lean();

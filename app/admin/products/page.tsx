@@ -12,6 +12,8 @@ interface Product {
   category: string;
   shortDescription: string;
   description: string;
+  ingredients?: string;
+  howToUse?: string;
   price: number;
   salePrice?: number;
   image?: string;
@@ -21,11 +23,32 @@ interface Product {
 }
 
 const emptyProduct: Omit<Product, "_id"> = {
-  name: "", category: "", shortDescription: "", description: "",
-  price: 0, image: "", stockStatus: "in_stock", isActive: true, isFeatured: false,
+  name: "",
+  category: "",
+  shortDescription: "",
+  description: "",
+  ingredients: "",
+  howToUse: "",
+  price: 0,
+  image: "",
+  stockStatus: "in_stock",
+  isActive: true,
+  isFeatured: false,
 };
 
-const categories = ["Serums", "Moisturizers", "Toners", "Treatments", "Sun Care", "Eye Care"];
+const categories = [
+  "Cebelia",
+  "FORE Essentials",
+  "Naturmed",
+  "Serums",
+  "Moisturizers",
+  "Toners",
+  "Treatments",
+  "Sun Care",
+  "Eye Care",
+  "Lip Care",
+  "Hair & Scalp",
+];
 const stockOptions = [
   { value: "in_stock", label: "In Stock" },
   { value: "limited", label: "Limited Stock" },
@@ -62,6 +85,8 @@ export default function AdminProductsPage() {
       category: p.category,
       shortDescription: p.shortDescription,
       description: p.description,
+      ingredients: p.ingredients || "",
+      howToUse: p.howToUse || "",
       price: p.price,
       salePrice: p.salePrice,
       image: p.image || "",
@@ -146,6 +171,8 @@ export default function AdminProductsPage() {
               <div><label className="admin-label">Category *</label><select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="admin-input"><option value="">Select</option>{categories.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
               <div><label className="admin-label">Short Description</label><textarea value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} rows={2} className="admin-input resize-none" /></div>
               <div><label className="admin-label">Full Description</label><textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={4} className="admin-input resize-none" /></div>
+              <div><label className="admin-label">Ingredients</label><textarea value={form.ingredients || ""} onChange={(e) => setForm({ ...form, ingredients: e.target.value })} rows={2} className="admin-input resize-none" /></div>
+              <div><label className="admin-label">How to Use</label><textarea value={form.howToUse || ""} onChange={(e) => setForm({ ...form, howToUse: e.target.value })} rows={2} className="admin-input resize-none" /></div>
               <div className="grid grid-cols-2 gap-4">
                 <div><label className="admin-label">Price ($) *</label><input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="admin-input" /></div>
                 <div><label className="admin-label">Sale Price ($)</label><input type="number" value={form.salePrice || ""} onChange={(e) => setForm({ ...form, salePrice: e.target.value ? Number(e.target.value) : undefined })} className="admin-input" /></div>

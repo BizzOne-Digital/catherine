@@ -9,10 +9,10 @@ import { usePageContent } from "@/components/cms/usePageContent";
 const iconCycle: LucideIcon[] = [Sparkles, ScanFace, Zap, Flower2];
 
 const FALLBACK_ITEMS = [
-  "Injectables|Botox and dermal fillers for smooth lines, restored volume, and naturally refined contours.|/services/injectables-wrinkle-relaxers",
-  "Skin Tightening|Advanced treatments that firm, lift, and revitalize skin for a smoother, more youthful look.|/services/facials-skin-health",
-  "Laser Rejuvenation|Laser and light-based care to improve tone, texture, pigmentation, and overall radiance.|/services/laser-hair-removal",
-  "Medical Facials|Medical-grade facials customized to your skin type for clearer, healthier, glowing skin.|/services/facials-skin-health",
+  "Injectables|Botox®/Dysport®, dermal fillers, and skin boosters designed to smooth wrinkles, restore volume, and enhance your natural features.|/services/injectables-wrinkle-relaxers",
+  "Skin Rejuvenation|Improve skin tone, texture, acne scars, pigmentation, and overall radiance with microneedling, BBL/IPL photofacials, and mesotherapy.|/services/microneedling-skin-resurfacing",
+  "Advanced Facials|Deeply cleanse, exfoliate, and hydrate your skin with customized hydrafacial treatments for a refreshed, healthy glow.|/services/facials-skin-health",
+  "Body & Laser Treatments|Achieve smoother skin with diode laser hair removal or strengthen and tone muscles with HIFEM body sculpting technology.|/services/laser-hair-removal",
 ];
 
 function parseCard(item: string) {

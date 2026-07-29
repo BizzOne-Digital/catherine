@@ -92,23 +92,14 @@ export default function IntroWrapper() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
-              <IntroLogo />
+              <IntroLogo className="intro-logo w-[280px] h-[308px] sm:w-[340px] sm:h-[374px] lg:w-[380px] lg:h-[418px]" />
             </motion.div>
-
-            <motion.h1
-              className="intro-title font-playfair font-bold tracking-[0.06em] mt-5 sm:mt-6"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Lumina Medi Spa
-            </motion.h1>
 
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-4 sm:mt-5"
+              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-6 sm:mt-8"
             >
               <StarDivider />
             </motion.div>
@@ -117,7 +108,7 @@ export default function IntroWrapper() {
               className="intro-tagline mt-4 sm:mt-5 font-inter font-semibold tracking-[0.12em]"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
               Medical Aesthetics Designed Around{" "}
               <span className="intro-tagline-you font-great-vibes not-italic tracking-normal">

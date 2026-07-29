@@ -1,55 +1,69 @@
 "use client";
 import Link from "next/link";
-import { CheckCircle, Award, Heart, Shield, Users, type LucideIcon } from "lucide-react";
+import {
+  CheckCircle,
+  Award,
+  Heart,
+  Shield,
+  GraduationCap,
+  type LucideIcon,
+} from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { usePageContent } from "@/components/cms/usePageContent";
 
-const valueIcons: LucideIcon[] = [Shield, Heart, Award, Users];
+const valueIcons: LucideIcon[] = [Shield, Heart, Award, GraduationCap];
 
 const FALLBACK = {
   hero: {
     title: "About\nLumina Medi Spa",
-    subtitle: "Woman-Owned. Medical-Grade. Results Driven.",
+    subtitle: "Evidence-Based. Personalized. Natural Results.",
     content:
-      "At Lumina Medi Spa, we combine advanced medical aesthetics with personalized care to help you look refreshed, natural, and confident in your own skin.",
+      "At Lumina Medi Spa, we combine evidence-based medical aesthetics with personalized treatment plans to help you achieve refreshed, natural-looking results. Every treatment begins with a thorough consultation, ensuring your concerns, goals, and unique features guide every recommendation.",
   },
-  story: {
-    subtitle: "Our Beginning",
-    title: "Where Medical Science Meets Artistry",
-    content:
-      "Lumina Medi Spa was born from a simple conviction: that every person deserves access to safe, effective, and personalized aesthetic care — delivered with warmth, honesty, and expertise.\n\nFounded by Catherine, a Registered Nurse with over a decade of experience in medical aesthetics, Lumina has become Mississauga's trusted destination for those seeking results that look and feel authentically them.",
+  team: {
+    subtitle: "Our Specialists",
+    title: "Meet Our Team",
     items: [
-      "Catherine Zhang|RN, Founder & Lead Injector|\"My passion has always been helping people feel confident in their own skin — not by chasing perfection, but by celebrating the beauty that's already there.\"",
+      "Catherine|Registered Nurse & Lead Injector|Catherine is a Registered Nurse with clinical experience in both medical-surgical nursing and primary care. She completed advanced neuromodulator and dermal filler training through the Canadian Association of Medical Aesthetics (CAMA) and is passionate about providing safe, evidence-based aesthetic treatments with natural-looking results. Her approach focuses on patient education, individualized care, and enhancing each client's unique features with precision and professionalism.",
+      "Wendy|Medical Aesthetician|Wendy is a Medical Aesthetician with professional training in advanced skincare treatments. She enjoys getting to know each client, understanding their goals, and working together to achieve results that feel right for them. Seeing her clients' progress over time is the most rewarding part of what she does.",
     ],
   },
   values: {
-    title: "Our Values",
-    subtitle: "What Guides Us",
+    title: "What Guides Us",
+    subtitle: "Our Approach",
     items: [
-      "Medical Safety First|All treatments are performed with rigorous medical standards and oversight by licensed professionals.",
-      "Genuine Care|We listen. Every consultation begins with understanding your goals, concerns, and lifestyle.",
-      "Expertise & Precision|With 10+ years in medical aesthetics, our technique is refined, artistic, and evidence-based.",
-      "You-Centered Results|We believe in enhancing your natural beauty — never altering who you are, only elevating it.",
+      "Safety First|Your safety is our highest priority. Every treatment is performed using evidence-based techniques with a focus on patient education, comfort, and professional standards.",
+      "Personalized Care|No two clients are alike. We take the time to understand your goals and create customized treatment plans tailored to your unique needs.",
+      "Natural-Looking Results|We believe the best aesthetic treatments enhance your natural features while preserving your individuality.",
+      "Ongoing Excellence|We are committed to continuing education and staying current with the latest advancements in medical aesthetics to provide safe and effective care.",
     ],
   },
   credentials: {
     title: "Credentials & Training",
     items: [
-      "Registered Nurse (RN) — Ontario College of Nurses",
-      "Certified Medical Aesthetic Injector",
-      "Advanced Injectable Training — Botox, Fillers, Mesotherapy",
+      "Registered Nurse (RN), College of Nurses of Ontario",
+      "Advanced Neuromodulators & Dermal Fillers Certificate – Canadian Association of Medical Aesthetics (CAMA)",
+      "Medical Aesthetician",
       "IPL & Laser Therapy Certified",
-      "Body Contouring & Muscle Stimulation Certified",
-      "Ongoing Education in Aesthetic Medicine",
+      "Ongoing Education in Medical Aesthetics",
     ],
   },
 };
 
+function parseTeamMember(raw: string) {
+  const parts = raw.split("|").map((s) => s.trim());
+  return {
+    name: parts[0] || "",
+    role: parts[1] || "",
+    bio: parts.slice(2).join("|") || "",
+  };
+}
+
 export default function AboutPageContent() {
   const { get } = usePageContent("about");
   const hero = get("hero");
-  const story = get("story");
+  const teamSec = get("team") || get("story");
   const valuesSec = get("values");
   const creds = get("credentials");
 
@@ -57,21 +71,18 @@ export default function AboutPageContent() {
   const heroSub = hero?.subtitle || FALLBACK.hero.subtitle;
   const heroContent = hero?.content || FALLBACK.hero.content;
 
-  const storySub = story?.subtitle || FALLBACK.story.subtitle;
-  const storyTitle = story?.title || FALLBACK.story.title;
-  const storyParas = (story?.content || FALLBACK.story.content)
-    .split(/\n\n+/)
-    .map((p) => p.trim())
-    .filter(Boolean);
-  const profile = (story?.items?.[0] || FALLBACK.story.items[0]).split("|");
-  const profileName = profile[0] || "Catherine Zhang";
-  const profileRole = profile[1] || "RN, Founder & Lead Injector";
-  const profileQuote = profile[2] || "";
+  const teamTitle = teamSec?.title || FALLBACK.team.title;
+  const teamSub = teamSec?.subtitle || FALLBACK.team.subtitle;
+  const teamItems = (
+    teamSec?.items?.length && teamSec.key !== "story"
+      ? teamSec.items
+      : FALLBACK.team.items
+  ).map(parseTeamMember);
 
   const valueItems = (valuesSec?.items?.length ? valuesSec.items : FALLBACK.values.items).map(
     (raw) => {
-      const [title, desc] = raw.split("|").map((s) => s.trim());
-      return { title: title || "", desc: desc || "" };
+      const [title, ...rest] = raw.split("|").map((s) => s.trim());
+      return { title: title || "", desc: rest.join("|") || "" };
     }
   );
   const credItems = creds?.items?.length ? creds.items : FALLBACK.credentials.items;
@@ -87,8 +98,8 @@ export default function AboutPageContent() {
             className="absolute inset-0 h-full w-full object-cover opacity-40"
           />
         )}
-        <div className="about-hero-content relative z-10 mx-auto flex max-w-7xl items-center px-4 py-24 sm:px-6 sm:py-28 lg:min-h-[min(92vh,820px)] lg:px-8 lg:py-32">
-          <ScrollReveal direction="right" className="max-w-xl lg:max-w-[520px]">
+        <div className="about-hero-content relative z-10 mx-auto flex max-w-7xl items-start px-4 pb-24 pt-40 sm:px-6 sm:pb-28 sm:pt-48 lg:min-h-[min(92vh,820px)] lg:items-center lg:px-8 lg:pb-32 lg:pt-56">
+          <ScrollReveal direction="right" className="max-w-xl lg:max-w-[560px] lg:translate-y-8">
             <h1 className="about-hero-title font-playfair leading-[1.08] tracking-tight text-warm-beige">
               {heroTitle.map((line) => (
                 <span key={line} className="mt-1 block first:mt-0">
@@ -98,61 +109,64 @@ export default function AboutPageContent() {
             </h1>
             <div className="about-hero-divider mt-5 flex items-center justify-start gap-0">
               <span className="about-hero-divider-line w-16" />
-              <svg viewBox="0 0 12 12" className="mx-3 h-[7px] w-[7px] shrink-0 text-gold/75" aria-hidden="true">
-                <path d="M6 0 L6.8 4.2 L11 5 L6.8 5.8 L6 10 L5.2 5.8 L1 5 L5.2 4.2 Z" fill="currentColor" />
+              <svg
+                viewBox="0 0 12 12"
+                className="mx-3 h-[7px] w-[7px] shrink-0 text-gold/75"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 0 L6.8 4.2 L11 5 L6.8 5.8 L6 10 L5.2 5.8 L1 5 L5.2 4.2 Z"
+                  fill="currentColor"
+                />
               </svg>
               <span className="about-hero-divider-line w-16" />
             </div>
-            <p className="about-hero-tagline mt-5 font-inter text-[10px] font-medium uppercase tracking-[0.28em] text-gold sm:text-[11px]">
+            <p className="about-hero-tagline mt-5 font-inter text-[10px] font-bold uppercase tracking-[0.28em] text-gold sm:text-[11px]">
               {heroSub}
             </p>
-            <p className="about-hero-desc mt-6 max-w-md font-inter text-sm font-light leading-relaxed text-warm-beige/80 sm:text-[15px]">
+            <p className="about-hero-desc mt-6 max-w-lg font-inter text-sm font-semibold leading-relaxed text-warm-beige/90 sm:text-[15px]">
               {heroContent}
             </p>
           </ScrollReveal>
         </div>
       </section>
 
+      {/* Meet Our Team */}
       <section className="section-pad section-warm">
         <div className="container-luxury">
-          <div className="about-story-grid items-center">
-            <ScrollReveal direction="left" className="about-story-profile">
-              <div className="flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-gold/25 bg-gradient-to-br from-[#F7EFE4] to-[#EDE3D3] p-10 shadow-card">
-                {story?.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={story.image} alt={profileName} className="mb-6 h-28 w-28 rounded-full object-cover" />
-                ) : (
-                  <div className="mb-6 flex h-28 w-28 items-center justify-center rounded-full border border-gold/30 bg-gradient-to-br from-gold/30 to-deep-gold/10">
-                    <span className="font-playfair text-5xl text-gold">{profileName.charAt(0)}</span>
-                  </div>
-                )}
-                <h3 className="mb-2 font-playfair text-2xl text-text-dark">{profileName}</h3>
-                <p className="mb-4 font-cormorant text-lg italic text-gold">{profileRole}</p>
-                <div className="mb-5 h-px w-12 bg-gold/30" />
-                <p className="text-center font-inter text-sm leading-relaxed text-soft-taupe">{profileQuote}</p>
-              </div>
-            </ScrollReveal>
+          <ScrollReveal>
+            <SectionHeading eyebrow={teamSub} title={teamTitle} />
+          </ScrollReveal>
 
-            <div className="about-story-content space-y-6">
-              <ScrollReveal direction="right">
-                <span className="mb-3 block font-inter text-[11px] uppercase tracking-[4px] text-gold/80">
-                  {storySub}
-                </span>
-                <h2 className="mb-5 font-playfair text-4xl leading-tight text-warm-beige">
-                  {storyTitle}
-                </h2>
-                <div className="mb-6 h-px w-10 bg-gold/40" />
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            {teamItems.map((member, i) => (
+              <ScrollReveal key={member.name} delay={i * 0.1}>
+                <article className="flex h-full flex-col rounded-2xl border border-gold/20 bg-ivory/95 p-7 sm:p-8 shadow-card transition-all duration-300 hover:border-gold/40 hover:shadow-gold-sm">
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold/30 bg-gradient-to-br from-gold/30 to-deep-gold/10">
+                      <span className="font-playfair text-2xl text-gold">
+                        {member.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-playfair text-2xl font-bold text-text-dark">
+                        {member.name}
+                      </h3>
+                      <p className="font-cormorant text-lg italic text-gold">{member.role}</p>
+                    </div>
+                  </div>
+                  <div className="mb-4 h-px w-12 bg-gold/30" />
+                  <p className="flex-1 font-inter text-sm font-medium leading-relaxed text-soft-taupe sm:text-[15px]">
+                    {member.bio}
+                  </p>
+                </article>
               </ScrollReveal>
-              {storyParas.map((p, i) => (
-                <ScrollReveal key={i} direction="right" delay={0.1 * (i + 1)}>
-                  <p className="font-inter text-base leading-relaxed text-soft-taupe">{p}</p>
-                </ScrollReveal>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* What Guides Us */}
       <section className="section-pad section-warm-alt">
         <div className="container-luxury">
           <ScrollReveal>
@@ -161,15 +175,17 @@ export default function AboutPageContent() {
               title={valuesSec?.title || FALLBACK.values.title}
             />
           </ScrollReveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
+          <div className="about-values-grid mt-12">
             {valueItems.map((v, i) => {
               const Icon = valueIcons[i % valueIcons.length];
               return (
                 <ScrollReveal key={v.title} delay={i * 0.08}>
-                  <div className="rounded-xl border border-gold/20 bg-ivory/95 p-6">
-                    <Icon size={22} className="mb-3 text-gold" />
-                    <h3 className="mb-2 font-playfair text-xl text-text-dark">{v.title}</h3>
-                    <p className="font-inter text-sm text-soft-taupe">{v.desc}</p>
+                  <div className="about-value-card">
+                    <div className="about-value-icon">
+                      <Icon size={22} className="text-gold" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="about-value-title">{v.title}</h3>
+                    <p className="about-value-desc">{v.desc}</p>
                   </div>
                 </ScrollReveal>
               );
@@ -178,19 +194,20 @@ export default function AboutPageContent() {
         </div>
       </section>
 
+      {/* Credentials */}
       <section className="section-pad section-warm">
         <div className="container-luxury max-w-3xl">
           <ScrollReveal>
-            <h2 className="mb-8 text-center font-playfair text-3xl text-warm-beige">
+            <h2 className="mb-8 text-center font-playfair text-3xl text-warm-beige md:text-4xl">
               {creds?.title || FALLBACK.credentials.title}
             </h2>
           </ScrollReveal>
           <ul className="space-y-3">
             {credItems.map((item, i) => (
               <ScrollReveal key={item} delay={i * 0.05}>
-                <li className="flex items-start gap-3">
+                <li className="flex items-start gap-3 rounded-xl border border-gold/15 bg-ivory/80 px-5 py-4">
                   <CheckCircle size={16} className="mt-0.5 flex-shrink-0 text-gold" />
-                  <span className="font-inter text-sm text-warm-beige/85">{item}</span>
+                  <span className="font-inter text-sm font-medium text-text-dark/90">{item}</span>
                 </li>
               </ScrollReveal>
             ))}

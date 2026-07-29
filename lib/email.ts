@@ -1,39 +1,61 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const SMTP_USER = process.env.SMTP_USER || "Luminamedispa@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "Luminamedispa@gmail.com";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "catherinezhang01@outlook.com";
+function getTransporter() {
+  const pass = process.env.SMTP_PASS;
+  if (!process.env.SMTP_USER || !pass) {
+    throw new Error(
+      "SMTP is not configured. Set SMTP_USER and SMTP_PASS (Gmail App Password) in .env.local / Vercel."
+    );
+  }
+
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass,
+    },
+  });
+}
 
 export async function sendContactEmail(data: {
   name: string;
   email: string;
   phone?: string;
+  location?: string;
   interestedService?: string;
   message: string;
+  source?: string;
 }) {
+  const transporter = getTransporter();
+  const isLead = data.source === "lead_popup";
+  const to = process.env.ADMIN_EMAIL || "Luminamedispa@gmail.com";
   await transporter.sendMail({
-    from: `"Lumina Medi Spa" <${process.env.SMTP_USER}>`,
-    to: ADMIN_EMAIL,
-    subject: `New Contact Inquiry from ${data.name}`,
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
+    to,
+    replyTo: data.email,
+    subject: isLead
+      ? `New Lead Capture from ${data.name}`
+      : `New Contact Inquiry from ${data.name}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #15110D; color: #E8D8C3; padding: 40px; border-radius: 12px;">
         <div style="text-align: center; margin-bottom: 30px;">
           <h1 style="color: #D6B56D; font-family: 'Playfair Display', serif; font-size: 24px;">Lumina Medi Spa</h1>
-          <p style="color: #A99782; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">New Contact Inquiry</p>
+          <p style="color: #A99782; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">${
+            isLead ? "Lead Capture Pop-up" : "New Contact Inquiry"
+          }</p>
         </div>
         <div style="background: rgba(214, 181, 109, 0.05); border: 1px solid rgba(214, 181, 109, 0.2); border-radius: 8px; padding: 24px;">
           <p><strong style="color: #D6B56D;">Name:</strong> ${data.name}</p>
           <p><strong style="color: #D6B56D;">Email:</strong> ${data.email}</p>
           ${data.phone ? `<p><strong style="color: #D6B56D;">Phone:</strong> ${data.phone}</p>` : ""}
-          ${data.interestedService ? `<p><strong style="color: #D6B56D;">Service Interest:</strong> ${data.interestedService}</p>` : ""}
+          ${data.location ? `<p><strong style="color: #D6B56D;">Location:</strong> ${data.location}</p>` : ""}
+          ${data.interestedService ? `<p><strong style="color: #D6B56D;">Offer / Service:</strong> ${data.interestedService}</p>` : ""}
           <p><strong style="color: #D6B56D;">Message:</strong></p>
           <p style="color: #A99782;">${data.message}</p>
         </div>
@@ -52,9 +74,11 @@ export async function sendBookingEmail(data: {
   clientType: string;
   message?: string;
 }) {
+  const transporter = getTransporter();
   await transporter.sendMail({
-    from: `"Lumina Medi Spa" <${process.env.SMTP_USER}>`,
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
     to: ADMIN_EMAIL,
+    replyTo: data.email,
     subject: `New Booking Inquiry from ${data.fullName}`,
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #15110D; color: #E8D8C3; padding: 40px; border-radius: 12px;">
@@ -84,6 +108,7 @@ export async function sendOrderConfirmationEmail(data: {
   total: number;
   orderId: string;
 }) {
+  const transporter = getTransporter();
   const itemsHtml = data.items
     .map(
       (item) => `
@@ -96,9 +121,8 @@ export async function sendOrderConfirmationEmail(data: {
     )
     .join("");
 
-  // Email to customer
   await transporter.sendMail({
-    from: `"Lumina Medi Spa" <${process.env.SMTP_USER}>`,
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
     to: data.email,
     subject: "Order Confirmation — Lumina Medi Spa",
     html: `
@@ -128,11 +152,16 @@ export async function sendOrderConfirmationEmail(data: {
     `,
   });
 
-  // Email to admin
   await transporter.sendMail({
-    from: `"Lumina Medi Spa" <${process.env.SMTP_USER}>`,
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
     to: ADMIN_EMAIL,
     subject: `New Order from ${data.customerName}`,
     html: `<p>New order received from ${data.customerName} (${data.email}). Total: $${data.total.toFixed(2)}. Order ID: ${data.orderId}</p>`,
   });
+}
+
+/** Verify SMTP credentials (optional health check). */
+export async function verifySmtpConnection() {
+  const transporter = getTransporter();
+  await transporter.verify();
 }

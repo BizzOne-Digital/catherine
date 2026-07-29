@@ -7,13 +7,16 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageContent } from "@/components/cms/usePageContent";
 
 const FALLBACK = {
-  subtitle: "Begin Your Transformation",
-  title: "Your Most Confident Self Awaits",
+  subtitle: "Let's Create a Treatment Plan That's Right for You",
+  title: "Ready to Get Started?",
   content:
-    "Take the first step toward results that feel effortlessly, beautifully you. Your complimentary consultation is waiting.",
+    "Book your complimentary consultation and discover personalized treatments designed around your unique goals.",
   ctaLabel: "Book Free Consultation",
   ctaHref: "/booking",
-  items: ["(905) 123-4567", "Lumina Medi Spa · 123 Luxury Lane, Mississauga, ON · By Appointment"],
+  items: [
+    "(437) 888-9022",
+    "Lumina Medi Spa · 42 Village Centre Place, Unit 100, Mississauga, ON L4Z 1V9 · By Appointment Only",
+  ],
 };
 
 export default function FinalCTA() {
@@ -29,10 +32,6 @@ export default function FinalCTA() {
   const footer = sec?.items?.[1] || FALLBACK.items[1];
   const phoneHref = `tel:+1${phone.replace(/\D/g, "")}`;
 
-  const titleParts = title.includes("Self")
-    ? title.split(/(Self)/i)
-    : [title];
-
   return (
     <section className="section-warm-deep relative overflow-hidden py-24 md:py-32">
       <GoldParticles count={30} />
@@ -47,11 +46,10 @@ export default function FinalCTA() {
               {subtitle}
             </span>
             <h2 className="mb-6 font-playfair text-4xl font-bold leading-tight text-text-dark sm:text-5xl lg:text-6xl">
-              {titleParts.length > 1 ? (
+              {title.includes("Started") ? (
                 <>
-                  {titleParts[0]}
-                  <em className="not-italic text-gold">{titleParts[1]}</em>
-                  {titleParts.slice(2).join("")}
+                  {title.replace(/Started\??/i, "").trim()}{" "}
+                  <em className="not-italic text-gold">Started?</em>
                 </>
               ) : (
                 title

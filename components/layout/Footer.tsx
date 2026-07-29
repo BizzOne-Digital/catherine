@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -10,6 +11,7 @@ import {
   Flower2,
 } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
+import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -17,9 +19,8 @@ const quickLinks = [
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Financing", href: "/financing" },
-  { label: "Gallery", href: "/gallery" },
+  { label: "Shop", href: "/shop" },
   { label: "FAQ", href: "/faq" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -40,23 +41,24 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function TikTokIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M16.5 3c.6 3.1 2.6 5.5 5.5 5.7v3.4c-2 0-3.9-.6-5.5-1.7v7.8c0 4-3.2 7.2-7.2 7.2S2.1 22.2 2.1 18.2s3.2-7.2 7.2-7.2c.4 0 .8 0 1.2.1v3.7a3.5 3.5 0 1 0 2.5 3.35V3h3.5z" />
-    </svg>
-  );
-}
-
-function YelpIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2l2.2 6.8H21l-5.5 4 2.1 6.7L12 15.8 6.4 19.5l2.1-6.7L3 8.8h6.8L12 2z" />
-    </svg>
-  );
-}
-
 export default function Footer() {
+  const { settings } = useSiteSettings();
+  const telHref = phoneToTel(settings.phone);
+  const addressLines = settings.address.split(",").map((s) => s.trim()).filter(Boolean);
+  const cityLine =
+    addressLines.length >= 2
+      ? addressLines.slice(-2).join(", ").replace(/\s+ON\s+.*/i, ", Ontario").replace(/L4Z.*/i, "").trim() ||
+        "Mississauga, Ontario"
+      : "Mississauga, Ontario";
+  const streetLine = addressLines.slice(0, -2).join(", ") || "42 Village Centre Place, Unit 100";
+  // Prefer explicit two-line display matching known address
+  const displayCity = settings.address.includes("Mississauga")
+    ? "Mississauga, Ontario"
+    : cityLine;
+  const displayStreet = settings.address.includes("Village Centre")
+    ? "42 Village Centre Place, Unit 100"
+    : streetLine;
+
   return (
     <footer className="footer-section relative overflow-hidden">
       <div className="relative z-10">
@@ -65,11 +67,8 @@ export default function Footer() {
           <div className="footer-main-grid">
             {/* Brand column */}
             <div className="footer-brand">
-              <Link href="/" className="mb-5 flex items-center gap-3">
-                <IntroLogo className="h-28 w-28 sm:h-32 sm:w-32" />
-                <span className="font-playfair text-lg font-semibold tracking-wide text-gold lg:text-xl">
-                  Lumina Medi Spa
-                </span>
+              <Link href="/" className="mb-5 inline-flex items-center" aria-label="Lumina Medi Spa home">
+                <IntroLogo className="h-36 w-36 sm:h-40 sm:w-40" />
               </Link>
 
               <p className="footer-brand-text max-w-sm font-inter text-[15px] font-medium leading-relaxed text-text-dark">
@@ -87,7 +86,7 @@ export default function Footer() {
               </p>
               <div className="mt-3 flex items-center gap-2.5">
                 <a
-                  href="https://instagram.com/luminamedispa"
+                  href={settings.instagramUrl || "https://instagram.com/luminamedispa"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer-social-btn"
@@ -95,15 +94,17 @@ export default function Footer() {
                 >
                   <Instagram size={15} />
                 </a>
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-btn"
-                  aria-label="Facebook"
-                >
-                  <FacebookIcon size={15} />
-                </a>
+                {settings.facebookUrl ? (
+                  <a
+                    href={settings.facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-btn"
+                    aria-label="Facebook"
+                  >
+                    <FacebookIcon size={15} />
+                  </a>
+                ) : null}
               </div>
             </div>
 
@@ -147,24 +148,27 @@ export default function Footer() {
               <h4 className="footer-col-title">Contact</h4>
               <ul className="footer-contact-list">
                 <li>
-                  <a href="tel:+16479299450" className="footer-contact-item">
+                  <a href={telHref} className="footer-contact-item">
                     <span className="footer-contact-icon">
                       <Phone size={13} />
                     </span>
-                    (647) 929-9450
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:catherinezhang01@outlook.com" className="footer-contact-item">
-                    <span className="footer-contact-icon">
-                      <Mail size={13} />
-                    </span>
-                    catherinezhang01@outlook.com
+                    {settings.phone}
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://instagram.com/luminamedispa"
+                    href={`mailto:${settings.email}`}
+                    className="footer-contact-item whitespace-nowrap"
+                  >
+                    <span className="footer-contact-icon">
+                      <Mail size={13} />
+                    </span>
+                    {settings.email}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={settings.instagramUrl || "https://instagram.com/luminamedispa"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="footer-contact-item"
@@ -176,11 +180,14 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <span className="footer-contact-item">
-                    <span className="footer-contact-icon">
+                  <span className="footer-contact-item items-start">
+                    <span className="footer-contact-icon mt-0.5">
                       <MapPin size={13} />
                     </span>
-                    Mississauga, Ontario
+                    <span className="flex min-w-0 flex-col gap-0.5 leading-snug">
+                      <span className="whitespace-nowrap">{displayCity}</span>
+                      <span className="text-[11px] opacity-80">{displayStreet}</span>
+                    </span>
                   </span>
                 </li>
               </ul>
@@ -198,7 +205,7 @@ export default function Footer() {
                 </span>
               </h3>
               <p className="footer-cta-text">
-                Personalized care. Natural-looking results. Confidence that shines.
+                Personalized care. Natural-looking results. Treatments designed around you.
               </p>
               <Link href="/booking" className="footer-btn-primary group mt-5 inline-flex w-full justify-center sm:w-auto">
                 Book Now
@@ -224,21 +231,21 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="footer-bottom-bar border-t border-gold/15">
+        {/* Bottom bar — white background + black text for contrast */}
+        <div className="footer-bottom-bar">
           <div className="container-luxury flex flex-col items-center gap-4 px-4 py-5 sm:px-6 lg:flex-row lg:justify-between lg:px-8">
             <div className="footer-disclaimer flex max-w-xl items-start gap-2.5">
-              <Shield size={14} className="mt-0.5 shrink-0 text-gold/60" strokeWidth={1.4} />
-              <p className="font-inter text-[10px] leading-relaxed text-warm-beige/45">
+              <Shield size={14} className="mt-0.5 shrink-0 text-black/70" strokeWidth={1.4} />
+              <p className="font-inter text-[10px] leading-relaxed text-black">
                 Information on this website is for general educational and aesthetic consultation
                 purposes only and does not replace medical advice, diagnosis, or treatment. Results
                 vary by individual.
               </p>
             </div>
 
-            <Sparkles size={10} className="hidden shrink-0 text-gold/50 lg:block" aria-hidden="true" />
+            <Sparkles size={10} className="hidden shrink-0 text-black/40 lg:block" aria-hidden="true" />
 
-            <p className="footer-copyright shrink-0 font-inter text-[10px] tracking-wide text-warm-beige/45">
+            <p className="footer-copyright shrink-0 font-inter text-[10px] tracking-wide text-black">
               © 2026 Lumina Medi Spa. All rights reserved.
             </p>
           </div>

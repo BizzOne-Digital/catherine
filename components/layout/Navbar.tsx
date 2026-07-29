@@ -5,10 +5,12 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Menu, X } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
+import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
 
 const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Shop", href: "/shop" },
   { label: "Financing", href: "/financing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -20,6 +22,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const heroNav = isHome && !scrolled;
+  const { settings } = useSiteSettings();
+  const telHref = phoneToTel(settings.phone);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -46,18 +50,15 @@ export default function Navbar() {
         <nav
           className={`mx-auto flex max-w-7xl items-center transition-all duration-500 ${
             heroNav
-              ? "nav-pill-bar gap-2 rounded-xl border border-gold/40 bg-[#FAF4EB]/95 px-2 py-0.5 shadow-[0_4px_20px_rgba(196,151,47,0.18)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-0.5"
+              ? "nav-pill-bar gap-2 rounded-xl border border-gold/40 bg-[#FAF4EB]/95 px-2 py-0 shadow-[0_4px_20px_rgba(196,151,47,0.18)] backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-0"
               : scrolled
-                ? "border-b border-gold/25 bg-[#FAF4EB]/95 px-4 py-0.5 shadow-card backdrop-blur-xl sm:px-6 lg:px-8"
-                : "bg-transparent px-4 py-1 sm:px-6 lg:px-8 lg:py-1.5"
+                ? "border-b border-gold/25 bg-[#FAF4EB]/95 px-4 py-0 shadow-card backdrop-blur-xl sm:px-6 lg:px-8"
+                : "bg-transparent px-4 py-0.5 sm:px-6 lg:px-8 lg:py-1"
           }`}
         >
-          {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            <IntroLogo className="h-[4rem] w-[4rem] shrink-0 sm:h-[4.5rem] sm:w-[4.5rem] lg:h-[5rem] lg:w-[5rem]" />
-            <span className="hidden font-playfair text-lg font-semibold tracking-wide text-gold sm:block lg:text-xl">
-              Lumina Medi Spa
-            </span>
+          {/* Logo — mark only, no text name */}
+          <Link href="/" className="flex shrink-0 items-center" aria-label="Lumina Medi Spa home">
+            <IntroLogo className="h-[3.75rem] w-[3.75rem] shrink-0 sm:h-[4.25rem] sm:w-[4.25rem] lg:h-[4.75rem] lg:w-[4.75rem]" />
           </Link>
 
           <span className="nav-divider hidden h-7 w-px shrink-0 bg-gold/30 xl:block" aria-hidden="true" />
@@ -84,9 +85,9 @@ export default function Navbar() {
               Book Now
             </Link>
             <a
-              href="tel:+19051234567"
+              href={telHref}
               className="nav-phone-btn hidden md:flex"
-              aria-label="Call Lumina Medi Spa"
+              aria-label={`Call ${settings.businessName} at ${settings.phone}`}
             >
               <Phone size={15} />
             </a>
@@ -112,9 +113,13 @@ export default function Navbar() {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex items-center justify-between border-b border-gold/15 px-6 py-5">
-              <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
-                <IntroLogo className="h-[4.5rem] w-[4.5rem] sm:h-[5.25rem] sm:w-[5.25rem]" />
-                <span className="font-playfair text-lg font-semibold text-gold">Lumina Medi Spa</span>
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center"
+                aria-label="Lumina Medi Spa home"
+              >
+                <IntroLogo className="h-[4rem] w-[4rem] sm:h-[4.5rem] sm:w-[4.5rem]" />
               </Link>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -158,12 +163,12 @@ export default function Navbar() {
                   Book Consultation
                 </Link>
                 <a
-                  href="tel:+16479299450"
+                  href={telHref}
                   onClick={() => setMobileOpen(false)}
                   className="hero-btn-secondary flex items-center justify-center gap-2"
                 >
                   <Phone size={15} />
-                  Call (647) 929-9450
+                  Call {settings.phone}
                 </a>
               </motion.div>
             </nav>

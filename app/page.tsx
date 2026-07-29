@@ -4,7 +4,7 @@ import TrustReviews from "@/components/home/TrustReviews";
 import FeaturedTreatments from "@/components/home/FeaturedTreatments";
 import AboutPreview from "@/components/home/AboutPreview";
 import SignatureCare from "@/components/home/SignatureCare";
-import GalleryPreview from "@/components/home/GalleryPreview";
+import ProductPreview from "@/components/home/ProductPreview";
 import FinalCTA from "@/components/home/FinalCTA";
 import FinancingCallout from "@/components/ui/FinancingCallout";
 import Navbar from "@/components/layout/Navbar";
@@ -13,7 +13,7 @@ import Footer from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "Lumina Medi Spa | Medical Aesthetics in Mississauga",
   description:
-    "Reveal your best skin with personalized medical aesthetics for natural, beautiful results at Lumina Medi Spa in Mississauga.",
+    "Expert injectables, advanced skin treatments, laser services, and body sculpting at Lumina Medi Spa in Mississauga.",
 };
 
 export default function HomePage() {
@@ -26,7 +26,7 @@ export default function HomePage() {
         <TrustReviews />
         <AboutPreview />
         <SignatureCare />
-        <GalleryPreview />
+        <ProductPreview />
         <section className="section-pad-sm section-warm">
           <div className="container-luxury">
             <FinancingCallout />

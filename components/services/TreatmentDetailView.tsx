@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, CheckCircle, DollarSign, Star } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsImage from "@/components/cms/CmsImage";
+import BeforeAfterCompare from "@/components/ui/BeforeAfterCompare";
 import { resolveCmsImage } from "@/lib/cmsImage";
 
 type Section = {
@@ -23,13 +24,47 @@ type TreatmentDetail = {
   categoryTitle: string;
   shortDescription: string;
   price: string;
+  hidePrice?: boolean;
   image: string;
+  beforeImage?: string;
+  afterImage?: string;
+  bookingUrl?: string;
   popular: boolean;
   sections: Section[];
 };
 
 function paragraphs(text: string) {
   return text.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+}
+
+function BookButton({
+  href,
+  label = "Book This Treatment",
+  className = "",
+}: {
+  href: string;
+  label?: string;
+  className?: string;
+}) {
+  const external = href.startsWith("http");
+  const cls =
+    className ||
+    "inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-deep-gold";
+
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
+        {label}
+        <ArrowRight size={16} />
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={cls}>
+      {label}
+      <ArrowRight size={16} />
+    </Link>
+  );
 }
 
 export default function TreatmentDetailView({
@@ -45,7 +80,6 @@ export default function TreatmentDetailView({
 
   useEffect(() => {
     let cancelled = false;
-
     const load = () => {
       setLoading(true);
       const qs = new URLSearchParams({
@@ -70,7 +104,6 @@ export default function TreatmentDetailView({
           if (!cancelled) setLoading(false);
         });
     };
-
     load();
     const onFocus = () => load();
     window.addEventListener("focus", onFocus);
@@ -92,8 +125,8 @@ export default function TreatmentDetailView({
     return (
       <div className="container-luxury py-24 text-center">
         <h1 className="mb-4 font-playfair text-3xl text-text-dark">Treatment not found</h1>
-        <Link href={`/services/${categorySlug}`} className="text-gold hover:underline">
-          Back to category
+        <Link href="/services" className="text-gold hover:underline">
+          Back to Services
         </Link>
       </div>
     );
@@ -103,17 +136,26 @@ export default function TreatmentDetailView({
   const hero = sections.find((s) => s.type === "hero");
   const ideal = sections.find((s) => s.type === "ideal_for");
   const recovery = sections.find((s) => s.type === "recovery");
+  const includes = sections.find(
+    (s) => s.type === "custom" && (s.title || "").toLowerCase().includes("include")
+  );
   const rest = sections.filter(
-    (s) => s.type !== "hero" && s.type !== "ideal_for" && s.type !== "recovery"
+    (s) =>
+      s.type !== "hero" &&
+      s.type !== "ideal_for" &&
+      s.type !== "recovery" &&
+      s !== includes
   );
   const heroImage = resolveCmsImage(hero?.image || treatment.image, "");
   const heroTitle = hero?.title || treatment.name;
-  // Intro: hero section text, else card shortDescription (admin "short description")
   const heroContent = (hero?.content || "").trim() || treatment.shortDescription;
+  const showPrice = !treatment.hidePrice && Boolean((treatment.price || "").trim());
+  const bookHref = (treatment.bookingUrl || "").trim() || "/booking";
+  const beforeImg = resolveCmsImage(treatment.beforeImage || "", "");
+  const afterImg = resolveCmsImage(treatment.afterImage || "", "");
 
   return (
     <div className="min-h-screen">
-      {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#FFFBF6] py-16 sm:py-20 lg:py-24">
         <div className="container-luxury">
           <Link
@@ -125,9 +167,7 @@ export default function TreatmentDetailView({
           </Link>
 
           <ScrollReveal>
-            <div
-              className={`grid items-center gap-12 ${heroImage ? "lg:grid-cols-2" : ""}`}
-            >
+            <div className={`grid items-center gap-12 ${heroImage ? "lg:grid-cols-2" : ""}`}>
               <div className={heroImage ? "" : "mx-auto max-w-3xl text-center"}>
                 {treatment.popular && (
                   <div className={`mb-4 flex ${heroImage ? "" : "justify-center"}`}>
@@ -149,20 +189,16 @@ export default function TreatmentDetailView({
                     ))}
                   </div>
                 )}
-                <div className={`mb-8 flex items-center gap-2 ${heroImage ? "" : "justify-center"}`}>
-                  <DollarSign size={20} className="text-gold" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-text-soft">Price</p>
-                    <p className="text-lg font-bold text-gold">{treatment.price}</p>
+                {showPrice && (
+                  <div className={`mb-8 flex items-center gap-2 ${heroImage ? "" : "justify-center"}`}>
+                    <DollarSign size={20} className="text-gold" />
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-text-soft">Price</p>
+                      <p className="text-lg font-bold text-gold">{treatment.price}</p>
+                    </div>
                   </div>
-                </div>
-                <Link
-                  href="/booking"
-                  className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-deep-gold"
-                >
-                  Book This Treatment
-                  <ArrowRight size={16} />
-                </Link>
+                )}
+                <BookButton href={bookHref} />
               </div>
 
               {heroImage && (
@@ -182,7 +218,55 @@ export default function TreatmentDetailView({
         </div>
       </section>
 
-      {/* Remaining sections */}
+      {beforeImg && afterImg && (
+        <section className="section-pad bg-white">
+          <div className="container-luxury mx-auto max-w-4xl">
+            <ScrollReveal>
+              <h2 className="mb-8 text-center font-playfair text-3xl font-bold text-text-dark">
+                Before &amp; After
+              </h2>
+              <BeforeAfterCompare
+                beforeSrc={beforeImg}
+                afterSrc={afterImg}
+                beforeAlt={`${treatment.name} before`}
+                afterAlt={`${treatment.name} after`}
+              />
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
+
+      {includes && (includes.items?.length || includes.content) && (
+        <section className="section-pad bg-gradient-to-b from-[#FFFBF6] to-white">
+          <div className="container-luxury mx-auto max-w-4xl">
+            <ScrollReveal>
+              <h2 className="mb-8 font-playfair text-3xl font-bold text-text-dark sm:text-4xl">
+                {includes.title || "Treatments Include"}
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {(includes.items || []).map((item, i) => {
+                  const [label, ...restParts] = item.split(" — ");
+                  const desc = restParts.join(" — ");
+                  return (
+                    <div
+                      key={i}
+                      className="rounded-xl border border-gold/15 bg-white p-5 shadow-sm"
+                    >
+                      <p className="font-playfair text-lg font-semibold text-text-dark">{label}</p>
+                      {desc && (
+                        <p className="mt-2 font-inter text-sm leading-relaxed text-soft-taupe">
+                          {desc}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
+
       {rest.map((section, idx) => {
         const altBg = idx % 2 === 1;
         const sectionImage = resolveCmsImage(section.image, "");
@@ -200,22 +284,6 @@ export default function TreatmentDetailView({
                     <h2 className="mb-8 font-playfair text-3xl font-bold text-text-dark sm:text-4xl">
                       {section.title || "Benefits"}
                     </h2>
-                    {section.content && (
-                      <p className="mb-6 text-lg font-medium leading-relaxed text-text-soft">
-                        {section.content}
-                      </p>
-                    )}
-                    {hasImage && (
-                      <div className="relative mb-8 h-56 overflow-hidden rounded-2xl sm:h-72">
-                        <CmsImage
-                          src={sectionImage}
-                          alt={section.title || "Benefits"}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 800px"
-                        />
-                      </div>
-                    )}
                     <div className="grid gap-4 sm:grid-cols-2">
                       {(section.items || []).map((benefit, i) => (
                         <div
@@ -234,14 +302,15 @@ export default function TreatmentDetailView({
           );
         }
 
-        // about / custom
         return (
           <section
             key={section.id}
             className={`section-pad ${altBg ? "bg-gradient-to-b from-[#FFFBF6] to-white" : "bg-white"}`}
           >
             <div className="container-luxury">
-              <div className={`mx-auto max-w-4xl ${hasImage ? "grid items-center gap-10 lg:grid-cols-2 lg:max-w-5xl" : ""}`}>
+              <div
+                className={`mx-auto max-w-4xl ${hasImage ? "grid items-center gap-10 lg:grid-cols-2 lg:max-w-5xl" : ""}`}
+              >
                 <ScrollReveal>
                   {section.title && (
                     <h2 className="mb-6 font-playfair text-3xl font-bold text-text-dark sm:text-4xl">
@@ -275,7 +344,6 @@ export default function TreatmentDetailView({
         );
       })}
 
-      {/* Ideal For + Recovery pair */}
       {(ideal || recovery) && (
         <section className="section-pad bg-white">
           <div className="container-luxury">
@@ -283,17 +351,6 @@ export default function TreatmentDetailView({
               {ideal && (
                 <ScrollReveal>
                   <div className="rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/5 to-gold/10 p-8">
-                    {resolveCmsImage(ideal.image, "") && (
-                      <div className="relative mb-5 h-40 overflow-hidden rounded-xl">
-                        <CmsImage
-                          src={ideal.image}
-                          alt={ideal.title || "Ideal For"}
-                          fill
-                          className="object-cover"
-                          sizes="400px"
-                        />
-                      </div>
-                    )}
                     <h3 className="mb-4 font-playfair text-2xl font-bold text-gold">
                       {ideal.title || "Ideal For"}
                     </h3>
@@ -304,21 +361,14 @@ export default function TreatmentDetailView({
               {recovery && (
                 <ScrollReveal delay={0.1}>
                   <div className="rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/5 to-gold/10 p-8">
-                    {resolveCmsImage(recovery.image, "") && (
-                      <div className="relative mb-5 h-40 overflow-hidden rounded-xl">
-                        <CmsImage
-                          src={recovery.image}
-                          alt={recovery.title || "Recovery"}
-                          fill
-                          className="object-cover"
-                          sizes="400px"
-                        />
-                      </div>
-                    )}
                     <h3 className="mb-4 font-playfair text-2xl font-bold text-gold">
                       {recovery.title || "Recovery"}
                     </h3>
-                    <p className="font-medium leading-relaxed text-text-dark">{recovery.content}</p>
+                    <div className="space-y-4 font-medium leading-relaxed text-text-dark">
+                      {paragraphs(recovery.content).map((p, i) => (
+                        <p key={i}>{p}</p>
+                      ))}
+                    </div>
                   </div>
                 </ScrollReveal>
               )}
@@ -327,20 +377,17 @@ export default function TreatmentDetailView({
         </section>
       )}
 
-      {/* CTA */}
       <section className="section-pad-sm bg-[#FFFBF6] text-center">
         <div className="container-luxury max-w-xl">
           <ScrollReveal>
             <h2 className="mb-4 font-playfair text-3xl text-text-dark">Ready to Begin?</h2>
             <p className="mb-7 font-cormorant text-lg italic text-soft-taupe">
-              Book your complimentary consultation to discuss this treatment.
+              Book your treatment or complimentary consultation today.
             </p>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link href="/booking" className="btn-gold rounded-sm">
-                Book Free Consultation
-              </Link>
-              <Link href={`/services/${treatment.categorySlug}`} className="btn-outline-gold rounded-sm">
-                View Category
+              <BookButton href={bookHref} label="Book Now" className="btn-gold rounded-sm inline-flex items-center gap-2" />
+              <Link href="/services" className="btn-outline-gold rounded-sm">
+                All Services
               </Link>
             </div>
           </ScrollReveal>

@@ -9,6 +9,7 @@ export interface IBookingInquiry extends Document {
   preferredTime?: string;
   clientType: "new" | "returning";
   message?: string;
+  marketingConsent?: boolean;
   status: "new" | "contacted" | "booked" | "closed";
   createdAt: Date;
   updatedAt: Date;
@@ -24,6 +25,7 @@ const BookingInquirySchema = new Schema<IBookingInquiry>(
     preferredTime: { type: String },
     clientType: { type: String, enum: ["new", "returning"], default: "new" },
     message: { type: String },
+    marketingConsent: { type: Boolean, default: false },
     status: { type: String, enum: ["new", "contacted", "booked", "closed"], default: "new" },
   },
   { timestamps: true }

@@ -19,14 +19,15 @@ type FormData = z.infer<typeof schema>;
 const services = [
   "Botox / Neuromodulators",
   "Dermal Fillers",
-  "Mesotherapy",
+  "Lip Augmentation",
+  "Mesotherapy/Skin Booster",
+  "Microneedling",
   "Customized Facial",
   "IPL Photofacial",
   "Laser Hair Removal",
   "Muscle Toning",
-  "Body Sculpting",
-  "Shop / Products",
-  "General Inquiry",
+  "Skin Consultation",
+  "Other / Not Sure",
 ];
 
 export default function ContactForm() {

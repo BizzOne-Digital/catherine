@@ -115,10 +115,10 @@ export default function ServicesPage() {
       <CmsPageHero
         slug="services"
         fallback={{
-          eyebrow: "Luxury Treatments",
-          title: "Our Services",
+          eyebrow: "",
+          title: "Our Treatments",
           content:
-            "Expert injectables, advanced skin treatments, facials, laser services, and body sculpting — tailored with precision, safety, and genuine care.",
+            "Explore personalized medical aesthetic treatments - from injectables and advanced skin rejuvenation to laser services, facials, and muscle toning, all delivered with safety, precision, and genuine care.",
         }}
       />
 

@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node scripts/seed.mjs",
-    "seed:pages": "node scripts/seed-pages.mjs"
+    "seed:pages": "node scripts/seed-pages.mjs",
+    "seed:products": "node scripts/seed-products.mjs",
+    "seed:services": "node scripts/seed-services.mjs",
+    "seed:pricing": "node scripts/seed-pricing.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",

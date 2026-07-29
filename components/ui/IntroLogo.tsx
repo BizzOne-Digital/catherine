@@ -66,9 +66,9 @@ export default function IntroLogo({
   return (
     <Image
       src="/images/logo.png"
-      alt="Lumina Medi Spa"
-      width={240}
-      height={264}
+      alt="Lumina"
+      width={610}
+      height={501}
       className={`${className} object-contain`}
       onError={() => setUseFallback(true)}
       priority

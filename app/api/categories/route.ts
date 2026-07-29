@@ -27,7 +27,7 @@ export async function GET() {
         icon: c.icon,
         order: c.order,
         treatmentCount: countMap[String(c._id)] || 0,
-        detailPage: `/services/${c.slug}`,
+        detailPage: c.detailPage?.trim() || `/services/${c.slug}`,
       })),
     });
   } catch (err) {

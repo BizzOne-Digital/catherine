@@ -21,25 +21,29 @@ interface Settings {
   announcementBarEnabled: boolean;
   metaTitle: string;
   metaDescription: string;
+  leadOfferTitle: string;
+  leadOfferSubtitle: string;
 }
 
 const defaults: Settings = {
   businessName: "Lumina Medi Spa",
   tagline: "Medical Aesthetics Designed Around You",
-  phone: "(905) 123-4567",
-  email: "hello@luminamedispa.ca",
-  address: "123 Luxury Lane, Suite 200, Mississauga, ON L5B 1M7",
+  phone: "(437) 888-9022",
+  email: "Luminamedispa@gmail.com",
+  address: "42 Village Centre Place, Unit 100, Mississauga, ON L4Z 1V9",
   instagramUrl: "https://instagram.com/luminamedispa",
   facebookUrl: "",
   googleMapsUrl: "",
-  hoursMonFri: "9:00 AM – 7:00 PM",
-  hoursSat: "10:00 AM – 5:00 PM",
-  hoursSun: "Closed",
+  hoursMonFri: "10:00 AM – 7:00 PM (By Appointment)",
+  hoursSat: "10:00 AM – 7:00 PM (By Appointment)",
+  hoursSun: "10:00 AM – 6:00 PM (By Appointment)",
   announcementBarText: "✦ Complimentary Skin Consultation — Book Today ✦",
   announcementBarEnabled: true,
   metaTitle: "Lumina Medi Spa | Medical Aesthetics in Mississauga",
   metaDescription:
     "Expert injectables, advanced skin treatments, laser services, and body sculpting — personalized with genuine care.",
+  leadOfferTitle: "Free Consultation",
+  leadOfferSubtitle: "20% Off on Your First Treatment",
 };
 
 export default function AdminSettingsPage() {
@@ -247,6 +251,28 @@ export default function AdminSettingsPage() {
               className="admin-input resize-none"
               value={settings.metaDescription}
               onChange={(e) => setField("metaDescription", e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="admin-card space-y-4">
+          <h3 className="border-b border-gold/10 pb-3 font-playfair text-lg text-warm-beige">
+            Lead Capture Pop-up
+          </h3>
+          <div>
+            <label className="admin-label">Offer Title</label>
+            <input
+              className="admin-input"
+              value={settings.leadOfferTitle}
+              onChange={(e) => setField("leadOfferTitle", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="admin-label">Offer Subtitle</label>
+            <input
+              className="admin-input"
+              value={settings.leadOfferSubtitle}
+              onChange={(e) => setField("leadOfferSubtitle", e.target.value)}
             />
           </div>
         </div>

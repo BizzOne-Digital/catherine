@@ -17,7 +17,11 @@ export interface ITreatment extends Document {
   categorySlug: string;
   shortDescription: string;
   price: string;
+  hidePrice: boolean;
   image: string;
+  beforeImage: string;
+  afterImage: string;
+  bookingUrl: string;
   popular: boolean;
   isActive: boolean;
   order: number;
@@ -50,8 +54,12 @@ const TreatmentSchema = new Schema<ITreatment>(
     categoryId: { type: Schema.Types.ObjectId, ref: "ServiceCategory", required: true },
     categorySlug: { type: String, required: true },
     shortDescription: { type: String, default: "" },
-    price: { type: String, required: true },
+    price: { type: String, default: "" },
+    hidePrice: { type: Boolean, default: false },
     image: { type: String, default: "" },
+    beforeImage: { type: String, default: "" },
+    afterImage: { type: String, default: "" },
+    bookingUrl: { type: String, default: "" },
     popular: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     order: { type: Number, default: 0 },

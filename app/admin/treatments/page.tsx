@@ -42,6 +42,10 @@ interface Treatment {
   shortDescription: string;
   price: string;
   image: string;
+  beforeImage?: string;
+  afterImage?: string;
+  bookingUrl?: string;
+  hidePrice?: boolean;
   popular: boolean;
   isActive: boolean;
   order: number;
@@ -64,6 +68,10 @@ const emptyForm = {
   shortDescription: "",
   price: "",
   image: "",
+  beforeImage: "",
+  afterImage: "",
+  bookingUrl: "",
+  hidePrice: false,
   popular: false,
   isActive: true,
   order: 0,
@@ -170,6 +178,10 @@ export default function AdminTreatmentsPage() {
       shortDescription: t.shortDescription || "",
       price: t.price,
       image: t.image || "",
+      beforeImage: t.beforeImage || "",
+      afterImage: t.afterImage || "",
+      bookingUrl: t.bookingUrl || "",
+      hidePrice: !!t.hidePrice,
       popular: t.popular,
       isActive: t.isActive,
       order: t.order,
@@ -474,13 +486,44 @@ export default function AdminTreatmentsPage() {
                   value={form.image}
                   onChange={(url) => setForm({ ...form, image: url })}
                 />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <ImageUploadField
+                    label="Before image"
+                    folder="misc"
+                    value={form.beforeImage}
+                    onChange={(url) => setForm({ ...form, beforeImage: url })}
+                  />
+                  <ImageUploadField
+                    label="After image"
+                    folder="misc"
+                    value={form.afterImage}
+                    onChange={(url) => setForm({ ...form, afterImage: url })}
+                  />
+                </div>
+                <div>
+                  <label className="admin-label">Fresha / booking URL</label>
+                  <input
+                    className="admin-input"
+                    value={form.bookingUrl}
+                    onChange={(e) => setForm({ ...form, bookingUrl: e.target.value })}
+                    placeholder="https://www.fresha.com/..."
+                  />
+                </div>
+                <label className="flex items-center gap-2 font-inter text-sm text-warm-beige">
+                  <input
+                    type="checkbox"
+                    checked={form.hidePrice}
+                    onChange={(e) => setForm({ ...form, hidePrice: e.target.checked })}
+                  />
+                  Hide price on service pages
+                </label>
                 <label className="flex items-center gap-2 font-inter text-sm text-warm-beige">
                   <input
                     type="checkbox"
                     checked={form.popular}
                     onChange={(e) => setForm({ ...form, popular: e.target.checked })}
                   />
-                  Popular
+                  Popular (shows on homepage)
                 </label>
                 <label className="flex items-center gap-2 font-inter text-sm text-warm-beige">
                   <input

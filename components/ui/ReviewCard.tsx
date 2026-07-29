@@ -58,8 +58,8 @@ export default function ReviewCard({ clientName, rating, reviewText, reviewDate,
       <StarRating rating={rating} />
 
       {/* Text */}
-      <p className="font-inter text-sm text-text-dark/80 leading-relaxed line-clamp-3 flex-1">
-        "{reviewText}"
+      <p className="flex-1 font-inter text-sm leading-relaxed text-text-dark/80 line-clamp-6">
+        &ldquo;{reviewText}&rdquo;
       </p>
 
       {/* Bottom border accent */}

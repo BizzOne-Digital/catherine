@@ -17,7 +17,16 @@ interface PricingItem {
 }
 
 const empty: Omit<PricingItem, "_id"> = { treatmentName: "", category: "", price: "Consultation Required", duration: "", description: "", isActive: true, order: 0 };
-const categories = ["Injectables", "Dermal Fillers", "Skin Treatments", "Laser & Light", "Body"];
+const categories = [
+  "Injectables",
+  "Lip Filler",
+  "Mesotherapy / Skin Boosters",
+  "Microneedling",
+  "Skin Treatments",
+  "IPL Laser and Light",
+  "Laser Hair Removal",
+  "Muscle Toning",
+];
 
 export default function AdminPricingPage() {
   const router = useRouter();

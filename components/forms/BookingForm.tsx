@@ -16,30 +16,30 @@ const schema = z.object({
   clientType: z.enum(["new", "returning"]),
   message: z.string().optional(),
   consent: z.boolean().refine((v) => v === true, "You must agree to be contacted"),
+  marketingConsent: z.boolean().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
-
-const treatments = [
-  "Botox / Neuromodulators",
-  "Dermal Fillers",
-  "Lip Augmentation",
-  "Cheek Contouring",
-  "Mesotherapy",
-  "Customized Facial",
-  "IPL Photofacial",
-  "Laser Hair Removal",
-  "Muscle Toning",
-  "Body Sculpting",
-  "Skin Consultation",
-  "Other / Not Sure",
-];
 
 const timeSlots = [
   "Morning (9am – 12pm)",
   "Afternoon (12pm – 3pm)",
   "Late Afternoon (3pm – 5pm)",
   "Evening (5pm – 7pm)",
+];
+
+const treatmentOptions = [
+  "Botox / Neuromodulators",
+  "Dermal Fillers",
+  "Lip Augmentation",
+  "Mesotherapy/Skin Booster",
+  "Microneedling",
+  "Customized Facial",
+  "IPL Photofacial",
+  "Laser Hair Removal",
+  "Muscle Toning",
+  "Skin Consultation",
+  "Other / Not Sure",
 ];
 
 export default function BookingForm() {
@@ -71,17 +71,18 @@ export default function BookingForm() {
 
   if (submitted) {
     return (
-      <div className="text-center py-12 px-6">
-        <div className="w-16 h-16 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-5">
+      <div className="px-6 py-12 text-center">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
           <span className="text-3xl">✓</span>
         </div>
-        <h3 className="font-playfair text-2xl text-gold mb-3">Inquiry Received!</h3>
-        <p className="font-inter text-sm text-soft-taupe max-w-sm mx-auto leading-relaxed">
-          Thank you for reaching out. We&apos;ll review your inquiry and get back to you within 24 hours to confirm your appointment.
+        <h3 className="mb-3 font-playfair text-2xl text-gold">Inquiry Received!</h3>
+        <p className="mx-auto max-w-sm font-inter text-sm leading-relaxed text-soft-taupe">
+          Thank you for reaching out. We&apos;ll review your inquiry and get back to you within 24
+          hours to confirm your appointment.
         </p>
         <button
           onClick={() => setSubmitted(false)}
-          className="mt-6 font-inter text-sm text-gold/60 hover:text-gold transition-colors"
+          className="mt-6 font-inter text-sm text-gold/60 transition-colors hover:text-gold"
         >
           Submit Another Inquiry →
         </button>
@@ -91,16 +92,13 @@ export default function BookingForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Name + Email */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="admin-label">Full Name *</label>
-          <input
-            {...register("fullName")}
-            placeholder="Your full name"
-            className="admin-input"
-          />
-          {errors.fullName && <p className="mt-1 text-xs text-red-400">{errors.fullName.message}</p>}
+          <input {...register("fullName")} placeholder="Your full name" className="admin-input" />
+          {errors.fullName && (
+            <p className="mt-1 text-xs text-red-400">{errors.fullName.message}</p>
+          )}
         </div>
         <div>
           <label className="admin-label">Email Address *</label>
@@ -114,14 +112,13 @@ export default function BookingForm() {
         </div>
       </div>
 
-      {/* Phone + Treatment */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="admin-label">Phone Number *</label>
           <input
             {...register("phone")}
             type="tel"
-            placeholder="(905) 555-0123"
+            placeholder="(437) 888-9022"
             className="admin-input"
           />
           {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone.message}</p>}
@@ -130,16 +127,19 @@ export default function BookingForm() {
           <label className="admin-label">Treatment Interest *</label>
           <select {...register("treatmentInterest")} className="admin-input">
             <option value="">Select a treatment</option>
-            {treatments.map((t) => (
-              <option key={t} value={t}>{t}</option>
+            {treatmentOptions.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
             ))}
           </select>
-          {errors.treatmentInterest && <p className="mt-1 text-xs text-red-400">{errors.treatmentInterest.message}</p>}
+          {errors.treatmentInterest && (
+            <p className="mt-1 text-xs text-red-400">{errors.treatmentInterest.message}</p>
+          )}
         </div>
       </div>
 
-      {/* Date + Time */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="admin-label">Preferred Date</label>
           <input
@@ -154,28 +154,24 @@ export default function BookingForm() {
           <select {...register("preferredTime")} className="admin-input">
             <option value="">Select a time</option>
             {timeSlots.map((t) => (
-              <option key={t} value={t}>{t}</option>
+              <option key={t} value={t}>
+                {t}
+              </option>
             ))}
           </select>
         </div>
       </div>
 
-      {/* Client Type */}
       <div>
         <label className="admin-label">Are you a new or returning client?</label>
-        <div className="flex gap-4 mt-2">
+        <div className="mt-2 flex gap-4">
           {[
             { value: "new", label: "New Client" },
             { value: "returning", label: "Returning Client" },
           ].map(({ value, label }) => (
-            <label key={value} className="flex items-center gap-2 cursor-pointer group">
-              <input
-                {...register("clientType")}
-                type="radio"
-                value={value}
-                className="accent-gold"
-              />
-              <span className="font-inter text-sm text-soft-taupe group-hover:text-warm-beige transition-colors">
+            <label key={value} className="group flex cursor-pointer items-center gap-2">
+              <input {...register("clientType")} type="radio" value={value} className="accent-gold" />
+              <span className="font-inter text-sm text-soft-taupe transition-colors group-hover:text-warm-beige">
                 {label}
               </span>
             </label>
@@ -183,7 +179,6 @@ export default function BookingForm() {
         </div>
       </div>
 
-      {/* Message */}
       <div>
         <label className="admin-label">Additional Notes</label>
         <textarea
@@ -194,27 +189,38 @@ export default function BookingForm() {
         />
       </div>
 
-      {/* Consent */}
-      <div>
-        <label className="flex items-start gap-3 cursor-pointer group">
+      <div className="space-y-3">
+        <div>
+          <label className="group flex cursor-pointer items-start gap-3">
+            <input
+              {...register("consent")}
+              type="checkbox"
+              className="mt-0.5 flex-shrink-0 accent-gold"
+            />
+            <span className="font-inter text-xs leading-relaxed text-soft-taupe transition-colors group-hover:text-warm-beige">
+              I consent to be contacted by Lumina Medi Spa regarding my booking inquiry. I understand
+              my information will be kept private and used only for this purpose.
+            </span>
+          </label>
+          {errors.consent && <p className="mt-1 text-xs text-red-400">{errors.consent.message}</p>}
+        </div>
+        <label className="group flex cursor-pointer items-start gap-3">
           <input
-            {...register("consent")}
+            {...register("marketingConsent")}
             type="checkbox"
-            className="accent-gold mt-0.5 flex-shrink-0"
+            className="mt-0.5 flex-shrink-0 accent-gold"
           />
-          <span className="font-inter text-xs text-soft-taupe group-hover:text-warm-beige transition-colors leading-relaxed">
-            I consent to be contacted by Lumina Medi Spa regarding my booking inquiry. I understand my information
-            will be kept private and used only for this purpose.
+          <span className="font-inter text-xs leading-relaxed text-soft-taupe transition-colors group-hover:text-warm-beige">
+            I would like to receive emails from Lumina Medi Spa with exclusive offers, treatment
+            updates, and skincare news. I can unsubscribe at any time.
           </span>
         </label>
-        {errors.consent && <p className="mt-1 text-xs text-red-400">{errors.consent.message}</p>}
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-gold rounded-sm w-full flex items-center justify-center gap-3 group disabled:opacity-60 py-4"
+        className="btn-gold group flex w-full items-center justify-center gap-3 rounded-sm py-4 disabled:opacity-60"
       >
         {isSubmitting ? (
           <>
@@ -229,7 +235,7 @@ export default function BookingForm() {
         )}
       </button>
 
-      <p className="font-inter text-xs text-center text-soft-taupe/50">
+      <p className="text-center font-inter text-xs text-soft-taupe/50">
         We&apos;ll confirm your appointment within 24 hours. For urgent requests, call us directly.
       </p>
     </form>

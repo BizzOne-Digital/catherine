@@ -7,7 +7,6 @@ import {
   MessageSquare,
   Sparkles,
   FolderTree,
-  FileText,
   ArrowRight,
   RefreshCw,
 } from "lucide-react";
@@ -18,7 +17,6 @@ interface Stats {
   inquiries: number;
   categories: number;
   treatments: number;
-  blog: number;
 }
 
 const quickLinks = [
@@ -35,7 +33,6 @@ export default function AdminDashboard() {
     inquiries: 0,
     categories: 0,
     treatments: 0,
-    blog: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -51,14 +48,12 @@ export default function AdminDashboard() {
       fetch("/api/admin/inquiries").then((r) => r.json()).catch(() => ({ inquiries: [] })),
       fetch("/api/admin/categories").then((r) => r.json()).catch(() => ({ categories: [] })),
       fetch("/api/admin/treatments").then((r) => r.json()).catch(() => ({ treatments: [] })),
-      fetch("/api/admin/blog").then((r) => r.json()).catch(() => ({ posts: [] })),
-    ]).then(([b, i, c, t, bl]) => {
+    ]).then(([b, i, c, t]) => {
       setStats({
         bookings: b.bookings?.length || 0,
         inquiries: i.inquiries?.length || 0,
         categories: c.categories?.length || 0,
         treatments: t.treatments?.length || 0,
-        blog: bl.posts?.length || 0,
       });
       setLoading(false);
     });
@@ -69,7 +64,6 @@ export default function AdminDashboard() {
     { label: "Inquiries", value: stats.inquiries, icon: MessageSquare },
     { label: "Categories", value: stats.categories, icon: FolderTree },
     { label: "Treatments", value: stats.treatments, icon: Sparkles },
-    { label: "Blog Posts", value: stats.blog, icon: FileText },
   ];
 
   return (
@@ -80,7 +74,7 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 sm:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
             {statCards.map(({ label, value, icon: Icon }) => (
               <div key={label} className="admin-card text-center">
                 <Icon size={20} className="text-gold mx-auto mb-2" />

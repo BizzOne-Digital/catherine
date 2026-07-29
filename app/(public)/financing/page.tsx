@@ -1,88 +1,57 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Check,
   CreditCard,
   FileCheck,
+  PenLine,
   Sparkles,
   ThumbsUp,
-  ChevronDown,
 } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsPageHero from "@/components/cms/CmsPageHero";
+import { FINANCING_DISCLAIMER, MEDICARD_APPLY_URL } from "@/lib/financing";
 
 export const metadata: Metadata = {
   title: "Flexible Financing | Lumina Medi Spa",
   description:
-    "Flexible payment plans through Beautifi. Split the cost of your treatments into manageable monthly payments with fast approvals designed for medical aesthetics.",
+    "Flexible payment options through Medicard by iFinance. Spread the cost of eligible Lumina Medi Spa treatments over manageable monthly payments.",
 };
 
-const benefits = [
-  {
-    icon: CreditCard,
-    title: "Budget-friendly plans",
-    description:
-      "Split the cost of your treatment into manageable monthly payments instead of paying everything upfront.",
-  },
-  {
-    icon: Sparkles,
-    title: "Built for aesthetics",
-    description:
-      "Beautifi is purpose-built for cosmetic and medical aesthetic treatments — not a generic loan.",
-  },
-  {
-    icon: ThumbsUp,
-    title: "Access more of what you want",
-    description:
-      "Combine treatments or choose a package now and pay over time, without compromising on your goals.",
-  },
+const howItWorks = [
+  "Financing available for eligible treatments.",
+  "Loan amounts from $500 to $50,000.",
+  "Flexible repayment terms from 12 to 84 months (subject to approval).",
+  "Competitive interest rates starting from 7.95%, based on the applicant's creditworthiness and income.",
+  "Simple online application with a quick approval process.",
 ];
 
-const steps = [
+const applySteps = [
   {
     step: "01",
     icon: FileCheck,
-    title: "Apply online in minutes",
-    description:
-      "Complete Beautifi's quick, secure online application. Checking your options is fast and simple.",
+    title: "Complete the online Medicard application",
+    description: "Apply securely online through Medicard by iFinance in just a few minutes.",
   },
   {
     step: "02",
     icon: ThumbsUp,
-    title: "Get a fast decision",
-    description:
-      "Beautifi specialises in medical aesthetics financing, so decisions are quick and tailored to treatments like ours.",
+    title: "Receive a financing decision",
+    description: "Get a quick decision so you can move forward with confidence.",
   },
   {
     step: "03",
-    icon: Check,
-    title: "Book your treatment",
-    description:
-      "Once approved, choose a monthly plan that fits your budget and book your Lumina appointment with confidence.",
-  },
-];
-
-const faqs = [
-  {
-    question: "What is Beautifi?",
-    answer:
-      "Beautifi is a financing partner that specialises in medical aesthetic and cosmetic treatments. It lets you spread the cost of your care into affordable monthly payments.",
+    icon: PenLine,
+    title: "Sign your loan agreement electronically",
+    description: "If approved, review and sign your agreement online — no paperwork hassle.",
   },
   {
-    question: "How do I apply?",
-    answer:
-      "You can apply directly through Beautifi's secure online application. It only takes a few minutes, and decisions are typically fast.",
-  },
-  {
-    question: "Which treatments can I finance?",
-    answer:
-      "Most of our treatments are eligible, including injectables, fillers, laser packages and body sculpting. Ask our team and we'll help you plan.",
-  },
-  {
-    question: "Will financing affect my treatment options?",
-    answer:
-      "Not at all. Financing simply gives you more flexibility in how you pay, so you can choose the plan that's right for your skin and goals.",
+    step: "04",
+    icon: Sparkles,
+    title: "Begin your treatment",
+    description: "Start your Lumina treatment while making convenient monthly payments.",
   },
 ];
 
@@ -92,23 +61,26 @@ export default function FinancingPage() {
       <CmsPageHero
         slug="financing"
         fallback={{
-          eyebrow: "Flexible Payments",
-          title: "Care today, paid your way with|Beautifi",
+          eyebrow: "Medicard by iFinance",
+          title: "Flexible Payment Options|with Medicard",
           content:
-            "At Lumina, we believe great care shouldn't come with financial strain. Our partnership with Beautifi lets you access the treatments you want with flexible, affordable monthly payments.",
+            "We believe aesthetic treatments should be accessible. That's why Lumina Medi Spa proudly offers financing through Medicard, allowing eligible clients to spread the cost of their treatment over manageable monthly payments.",
         }}
       />
 
       <div className="container-luxury relative z-10 -mt-2 pb-10 text-center sm:-mt-4 sm:pb-12">
-        <ScrollReveal delay={0.15} className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <ScrollReveal
+          delay={0.15}
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
           <a
-            href="https://www.beautifi.com/"
+            href={MEDICARD_APPLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Apply with Beautifi (opens in a new tab)"
+            aria-label="Apply with Medicard by iFinance (opens in a new tab)"
             className="btn-gold rounded-sm inline-flex items-center gap-3 group font-bold"
           >
-            Apply with Beautifi
+            Apply with Medicard
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
           </a>
           <Link href="/booking" className="btn-outline-gold rounded-sm font-bold">
@@ -117,59 +89,137 @@ export default function FinancingPage() {
         </ScrollReveal>
       </div>
 
-      {/* Benefits */}
+      {/* Intro + QR */}
       <section className="section-pad section-warm">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 items-stretch">
-            {benefits.map(({ icon: Icon, title, description }, i) => (
-              <ScrollReveal key={title} delay={i * 0.1} className="h-full">
-                <div className="relative flex h-full min-h-[16rem] flex-col items-center p-6 pt-8 text-center rounded-xl border border-gold/20 surface-card transition-all duration-500 hover:border-gold/40 hover:shadow-gold-sm hover:-translate-y-1">
-                  <div className="mb-4 mt-2 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/10">
-                    <Icon size={24} className="text-gold" strokeWidth={1.5} />
-                  </div>
-                  <h3 className="mb-3 shrink-0 font-playfair text-xl text-gold font-bold">
-                    {title}
-                  </h3>
-                  <p className="flex-1 font-inter text-sm leading-relaxed text-soft-taupe font-medium">
-                    {description}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+            <ScrollReveal>
+              <span className="mb-4 block font-inter text-[11px] font-semibold uppercase tracking-[4px] text-gold/80">
+                Beauty now. Pay later!
+              </span>
+              <h2 className="mb-5 font-playfair text-3xl font-bold leading-tight text-text-dark md:text-4xl">
+                Flexible Payment Options with{" "}
+                <span className="text-gold">Medicard</span>
+              </h2>
+              <div className="mb-6 h-px w-12 bg-gold/50" />
+              <p className="mb-6 font-inter text-base font-medium leading-relaxed text-soft-taupe">
+                We believe aesthetic treatments should be accessible. That&apos;s why Lumina Medi
+                Spa proudly offers financing through Medicard, allowing eligible clients to spread
+                the cost of their treatment over manageable monthly payments.
+              </p>
+              <div className="mb-8 flex items-start gap-3 rounded-xl border border-gold/20 bg-ivory/95 p-4">
+                <CreditCard size={20} className="mt-0.5 shrink-0 text-gold" strokeWidth={1.5} />
+                <p className="font-inter text-sm font-medium leading-relaxed text-soft-taupe">
+                  Apply online at{" "}
+                  <a
+                    href={MEDICARD_APPLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-gold underline-offset-2 hover:underline"
+                  >
+                    apply.medicard.com/25759
+                  </a>{" "}
+                  or scan the QR code to get started.
+                </p>
+              </div>
+              <a
+                href={MEDICARD_APPLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold inline-flex items-center gap-3 rounded-sm font-bold group"
+              >
+                Start Your Application
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              </a>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.12}>
+              <a
+                href={MEDICARD_APPLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative mx-auto block max-w-md overflow-hidden rounded-2xl border border-gold/25 shadow-gold-sm transition-all duration-500 hover:border-gold/45 hover:shadow-gold lg:mx-0"
+                aria-label="Scan QR code or click to apply with Medicard"
+              >
+                <Image
+                  src="/images/financing/medicard-qr.png"
+                  alt="Medicard by iFinance — Beauty now. Pay later! Scan the QR code to apply for financing."
+                  width={900}
+                  height={600}
+                  className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  priority
+                />
+              </a>
+              <p className="mt-4 text-center font-cormorant text-base italic text-soft-taupe lg:text-left">
+                Scan to apply · Medicard by iFinance
+              </p>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
       <section className="section-pad section-warm-alt">
-        <div className="container-luxury">
-          <ScrollReveal className="text-center mb-14">
-            <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block font-semibold">
-              Simple Process
+        <div className="container-luxury max-w-4xl">
+          <ScrollReveal className="mb-12 text-center">
+            <span className="mb-4 block font-inter text-[11px] font-semibold uppercase tracking-[4px] text-gold/80">
+              At a Glance
             </span>
-            <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl text-text-dark leading-tight mb-4 font-bold">
+            <h2 className="mb-4 font-playfair text-3xl font-bold leading-tight text-text-dark md:text-4xl lg:text-5xl">
               How It <span className="text-gold">Works</span>
             </h2>
-            <div className="w-12 h-px bg-gold/50 mx-auto mb-5" />
-            <p className="font-inter text-base text-soft-taupe max-w-2xl mx-auto font-medium">
-              Three simple steps to flexible care
+            <div className="mx-auto mb-5 h-px w-12 bg-gold/50" />
+          </ScrollReveal>
+
+          <ul className="space-y-4">
+            {howItWorks.map((item, i) => (
+              <ScrollReveal key={item} delay={i * 0.06}>
+                <li className="flex items-start gap-4 rounded-xl border border-gold/20 bg-ivory/95 p-5 transition-all duration-300 hover:border-gold/40">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gold/25 bg-gold/10">
+                    <Check size={14} className="text-gold" strokeWidth={2.5} />
+                  </span>
+                  <p className="font-inter text-sm font-medium leading-relaxed text-text-dark sm:text-base">
+                    {item}
+                  </p>
+                </li>
+              </ScrollReveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Applying Is Easy */}
+      <section className="section-pad section-warm">
+        <div className="container-luxury">
+          <ScrollReveal className="mb-14 text-center">
+            <span className="mb-4 block font-inter text-[11px] font-semibold uppercase tracking-[4px] text-gold/80">
+              Simple Process
+            </span>
+            <h2 className="mb-4 font-playfair text-3xl font-bold leading-tight text-text-dark md:text-4xl lg:text-5xl">
+              Applying Is <span className="text-gold">Easy</span>
+            </h2>
+            <div className="mx-auto mb-5 h-px w-12 bg-gold/50" />
+            <p className="mx-auto max-w-2xl font-inter text-base font-medium text-soft-taupe">
+              Four simple steps from application to treatment
             </p>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 items-stretch max-w-5xl mx-auto">
-            {steps.map(({ step, icon: Icon, title, description }, i) => (
-              <ScrollReveal key={step} delay={i * 0.1} className="h-full">
-                <div className="relative flex h-full min-h-[15rem] flex-col items-center p-6 pt-8 text-center rounded-xl border border-gold/20 surface-card transition-all duration-500 hover:border-gold/40 hover:shadow-gold-sm">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {applySteps.map(({ step, icon: Icon, title, description }, i) => (
+              <ScrollReveal key={step} delay={i * 0.08} className="h-full">
+                <div className="relative flex h-full min-h-[15rem] flex-col items-center rounded-xl border border-gold/20 surface-card p-6 pt-8 text-center transition-all duration-500 hover:border-gold/40 hover:shadow-gold-sm">
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-ivory px-3">
-                    <span className="font-cormorant text-sm italic text-gold/60 font-semibold">{step}</span>
+                    <span className="font-cormorant text-sm italic font-semibold text-gold/60">
+                      {step}
+                    </span>
                   </div>
                   <div className="mb-4 mt-2 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/10">
                     <Icon size={22} className="text-gold" strokeWidth={1.5} />
                   </div>
-                  <h3 className="mb-2 shrink-0 font-playfair text-lg text-text-dark font-bold">
+                  <h3 className="mb-2 shrink-0 font-playfair text-lg font-bold text-text-dark">
                     {title}
                   </h3>
-                  <p className="flex-1 font-inter text-sm leading-relaxed text-soft-taupe font-medium">
+                  <p className="flex-1 font-inter text-sm font-medium leading-relaxed text-soft-taupe">
                     {description}
                   </p>
                 </div>
@@ -177,61 +227,27 @@ export default function FinancingPage() {
             ))}
           </div>
 
-          <ScrollReveal delay={0.3} className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <ScrollReveal
+            delay={0.3}
+            className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          >
             <a
-              href="https://www.beautifi.com/"
+              href={MEDICARD_APPLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold rounded-sm inline-flex items-center gap-3 group font-bold"
+              className="btn-gold inline-flex items-center gap-3 rounded-sm font-bold group"
             >
-              Apply with Beautifi
+              Apply with Medicard
               <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </a>
             <Link href="/booking" className="btn-outline-gold rounded-sm font-bold">
               Book a Consultation
             </Link>
           </ScrollReveal>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="section-pad section-warm">
-        <div className="container-luxury">
-          <ScrollReveal className="text-center mb-14">
-            <span className="font-inter text-[11px] tracking-[4px] uppercase text-gold/80 mb-4 block font-semibold">
-              Good to Know
-            </span>
-            <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl text-text-dark leading-tight mb-4 font-bold">
-              Financing <span className="text-gold">FAQs</span>
-            </h2>
-            <div className="w-12 h-px bg-gold/50 mx-auto" />
-          </ScrollReveal>
-
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map(({ question, answer }, i) => (
-              <ScrollReveal key={question} delay={i * 0.08}>
-                <details className="group rounded-xl border border-gold/20 bg-ivory/95 transition-all duration-300 hover:border-gold/40">
-                  <summary className="flex cursor-pointer items-center justify-between p-6 font-playfair text-lg text-text-dark font-bold">
-                    {question}
-                    <ChevronDown
-                      size={20}
-                      className="text-gold transition-transform group-open:rotate-180"
-                    />
-                  </summary>
-                  <div className="px-6 pb-6 pt-2">
-                    <p className="font-inter text-sm leading-relaxed text-soft-taupe font-medium">
-                      {answer}
-                    </p>
-                  </div>
-                </details>
-              </ScrollReveal>
-            ))}
-          </div>
 
           <ScrollReveal delay={0.4} className="mt-10 text-center">
-            <p className="mx-auto max-w-2xl font-inter text-xs leading-relaxed text-soft-taupe italic">
-              Financing is provided by Beautifi, subject to their terms and approval. Lumina Medi
-              Spa is a partner clinic and does not make lending decisions.
+            <p className="mx-auto max-w-2xl font-inter text-xs italic leading-relaxed text-soft-taupe">
+              {FINANCING_DISCLAIMER}
             </p>
           </ScrollReveal>
         </div>
@@ -241,10 +257,10 @@ export default function FinancingPage() {
       <section className="section-pad-sm section-warm-deep text-center">
         <div className="container-luxury max-w-xl">
           <ScrollReveal>
-            <h2 className="mb-4 font-playfair text-3xl text-text-dark font-bold">
+            <h2 className="mb-4 font-playfair text-3xl font-bold text-text-dark">
               Questions About Financing?
             </h2>
-            <p className="mb-7 font-cormorant text-lg italic text-soft-taupe font-medium">
+            <p className="mb-7 font-cormorant text-lg italic font-medium text-soft-taupe">
               Our team is happy to walk you through the process during your complimentary
               consultation.
             </p>
