@@ -21,9 +21,10 @@ const StoredUploadSchema = new Schema<IStoredUpload>(
       required: true,
       index: true,
     },
-    filename: { type: String, required: true },
+    filename: { type: String, required: true, index: true },
     mimeType: { type: String, required: true },
     size: { type: Number, required: true },
+    // Binary image bytes — lives in MongoDB (works on Vercel; no local disk)
     data: { type: Buffer, required: true },
   },
   { timestamps: true }
@@ -31,8 +32,5 @@ const StoredUploadSchema = new Schema<IStoredUpload>(
 
 StoredUploadSchema.index({ folder: 1, filename: 1 }, { unique: true });
 
-if (mongoose.models.StoredUpload) {
-  delete mongoose.models.StoredUpload;
-}
-
-export default mongoose.model<IStoredUpload>("StoredUpload", StoredUploadSchema);
+export default mongoose.models.StoredUpload ||
+  mongoose.model<IStoredUpload>("StoredUpload", StoredUploadSchema);

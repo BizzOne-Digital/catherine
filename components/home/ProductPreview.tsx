@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageContent } from "@/components/cms/usePageContent";
+import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
 
 interface Product {
@@ -76,15 +76,12 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         >
           <div className="relative h-52 w-full overflow-hidden bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4]">
             {img ? (
-              <Image
+              <CmsImage
                 src={img}
                 alt={product.name}
                 fill
                 className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, 25vw"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none";
-                }}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">

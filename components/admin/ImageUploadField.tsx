@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { Loader2, Upload, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { resolveCmsImage } from "@/lib/cmsImage";
@@ -13,28 +12,30 @@ const JPEG_QUALITY = 0.8;
 /** Resize/compress in browser so phone photos fit Vercel body limits. */
 async function compressImage(file: File): Promise<File> {
   if (!file.type.startsWith("image/") || file.type === "image/gif") {
-    return file; // keep GIF as-is (animation)
+    return file;
   }
 
-  const bitmap = await createImageBitmap(file);
-  let { width, height } = bitmap;
-  if (width > MAX_EDGE || height > MAX_EDGE) {
-    const scale = MAX_EDGE / Math.max(width, height);
-    width = Math.round(width * scale);
-    height = Math.round(height * scale);
-  }
+  try {
+    const bitmap = await createImageBitmap(file);
+    let { width, height } = bitmap;
+    if (width > MAX_EDGE || height > MAX_EDGE) {
+      const scale = MAX_EDGE / Math.max(width, height);
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
+    }
 
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return file;
-  ctx.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bitmap.close();
+      return file;
+    }
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
 
-  const preferWebp = typeof canvas.toBlob === "function";
-  const blob: Blob | null = await new Promise((resolve) => {
-    if (preferWebp) {
+    const blob: Blob | null = await new Promise((resolve) => {
       canvas.toBlob(
         (b) => {
           if (b) resolve(b);
@@ -43,16 +44,16 @@ async function compressImage(file: File): Promise<File> {
         "image/webp",
         JPEG_QUALITY
       );
-    } else {
-      resolve(null);
-    }
-  });
+    });
 
-  if (!blob) return file;
+    if (!blob || blob.size === 0) return file;
 
-  const ext = blob.type === "image/webp" ? "webp" : "jpg";
-  const base = file.name.replace(/\.[^.]+$/, "") || "image";
-  return new File([blob], `${base}.${ext}`, { type: blob.type });
+    const ext = blob.type === "image/webp" ? "webp" : "jpg";
+    const base = file.name.replace(/\.[^.]+$/, "") || "image";
+    return new File([blob], `${base}.${ext}`, { type: blob.type });
+  } catch {
+    return file;
+  }
 }
 
 export default function ImageUploadField({
@@ -81,9 +82,14 @@ export default function ImageUploadField({
         body.append("replaceUrl", value);
       }
 
-      const r = await fetch("/api/upload", { method: "POST", body });
-      const d = await r.json();
+      const r = await fetch("/api/upload", {
+        method: "POST",
+        body,
+        credentials: "include",
+      });
+      const d = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(d.error || "Upload failed");
+      if (!d.url) throw new Error("Upload succeeded but no URL returned");
       onChange(d.url);
       toast.success("Image uploaded");
     } catch (e) {
@@ -134,21 +140,17 @@ export default function ImageUploadField({
           )}
         </div>
         {previewSrc && (
-          <div className="relative mt-2 h-28 w-full overflow-hidden rounded-lg border border-gold/15 bg-luxury-black/40">
-            {previewSrc.startsWith("/api/uploads/") ||
-            previewSrc.startsWith("/") ? (
-              <Image
-                src={previewSrc}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="400px"
-                unoptimized={previewSrc.startsWith("/api/uploads/")}
-              />
-            ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={previewSrc} alt="" className="h-full w-full object-cover" />
-            )}
+          <div className="relative mt-2 flex h-28 w-full items-center justify-center overflow-hidden rounded-lg border border-gold/15 bg-luxury-black/40">
+            {/* Use plain img for Mongo API URLs — avoids next/image optimizer issues */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewSrc}
+              alt=""
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.opacity = "0.3";
+              }}
+            />
           </div>
         )}
       </div>

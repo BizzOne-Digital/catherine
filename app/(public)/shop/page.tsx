@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsPageHero from "@/components/cms/CmsPageHero";
+import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
 
 type Product = {
@@ -99,7 +99,7 @@ export default function ShopPage() {
                       >
                         <div className="relative h-56 bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4]">
                           {img ? (
-                            <Image
+                            <CmsImage
                               src={img}
                               alt={product.name}
                               fill

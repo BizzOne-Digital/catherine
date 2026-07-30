@@ -1,6 +1,6 @@
 "use client";
 import Image, { type ImageProps } from "next/image";
-import { resolveCmsImage, DEFAULT_CMS_IMAGE } from "@/lib/cmsImage";
+import { resolveCmsImage, DEFAULT_CMS_IMAGE, isMongoUploadUrl } from "@/lib/cmsImage";
 
 type Props = Omit<ImageProps, "src"> & {
   src?: string | null;
@@ -17,8 +17,40 @@ export default function CmsImage({
   const resolved = resolveCmsImage(src, fallback);
   if (!resolved) return null;
 
-  const unoptimized =
-    resolved.startsWith("/api/uploads/") || rest.unoptimized === true;
+  // Mongo-stored uploads: plain <img> avoids next/image optimizer issues on API routes
+  if (isMongoUploadUrl(resolved)) {
+    const { fill, className, style, width, height } = rest;
 
-  return <Image src={resolved} alt={alt} {...rest} unoptimized={unoptimized} />;
+    if (fill) {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={resolved}
+          alt={alt || ""}
+          className={className}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            ...(typeof style === "object" && style ? style : {}),
+          }}
+        />
+      );
+    }
+
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={resolved}
+        alt={alt || ""}
+        className={className}
+        style={style}
+        width={typeof width === "number" ? width : undefined}
+        height={typeof height === "number" ? height : undefined}
+      />
+    );
+  }
+
+  return <Image src={resolved} alt={alt} {...rest} />;
 }

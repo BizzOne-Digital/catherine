@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { ArrowLeft, ShoppingBag, Loader2 } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
 
 type Product = {
@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
           <ScrollReveal>
             <div className="relative aspect-square overflow-hidden rounded-2xl border border-gold/20 bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4]">
               {img ? (
-                <Image
+                <CmsImage
                   src={img}
                   alt={product.name}
                   fill
