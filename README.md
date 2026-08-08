@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lumina Medi Spa
+
+Next.js 14 medi-spa site with MongoDB CMS and Stripe Checkout for retail products.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp .env.example .env.local
+# Fill in MONGODB_URI and other secrets in .env.local
+npm run seed
+npm run seed:products
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Admin: [http://localhost:3000/admin](http://localhost:3000/admin)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stripe shop checkout
+
+Retail products on `/shop` use Stripe Checkout (CAD).
+
+1. Add keys to `.env.local`:
+   - `STRIPE_SECRET_KEY` — from [Stripe Dashboard](https://dashboard.stripe.com/apikeys) (use test keys locally)
+   - `STRIPE_WEBHOOK_SECRET` — webhook signing secret
+   - `NEXT_PUBLIC_SITE_URL` — e.g. `http://localhost:3000` or your production URL
+2. Local webhooks (required for order emails + admin Orders):
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe-webhook
+```
+
+Copy the `whsec_...` value into `STRIPE_WEBHOOK_SECRET`.
+
+3. Production: point a Stripe webhook to `https://your-domain/api/stripe-webhook` for event `checkout.session.completed`.
+
+Checkout flow: cart / Buy Now → `POST /api/create-checkout-session` → Stripe hosted Checkout → `/shop/success` or `/shop/cancel`. Paid sessions are stored as Orders and shown under **Admin → Orders**.
+
+## Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run seed` | Seed core CMS data |
+| `npm run seed:products` | Seed shop products |
+| `npm run seed:pricing` | Seed treatment pricing |
+| `npm run seed:services` | Seed services |
+| `npm run seed:pages` | Seed page content |
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Stripe Checkout](https://stripe.com/docs/payments/checkout)

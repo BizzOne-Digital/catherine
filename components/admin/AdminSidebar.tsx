@@ -5,7 +5,7 @@ import IntroLogo from "@/components/ui/IntroLogo";
 import {
   LayoutDashboard, FolderTree, Sparkles, Calendar,
   MessageSquare, HelpCircle, Settings, LogOut, X, Layers,
-  ShoppingBag, DollarSign,
+  ShoppingBag, DollarSign, Package,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -14,6 +14,7 @@ const navItems = [
   { label: "Categories", href: "/admin/categories", icon: FolderTree },
   { label: "Treatments", href: "/admin/treatments", icon: Sparkles },
   { label: "Products", href: "/admin/products", icon: ShoppingBag },
+  { label: "Orders", href: "/admin/orders", icon: Package },
   { label: "Pricing", href: "/admin/pricing", icon: DollarSign },
   { label: "Pages", href: "/admin/pages", icon: Layers },
   { label: "Bookings", href: "/admin/bookings", icon: Calendar },

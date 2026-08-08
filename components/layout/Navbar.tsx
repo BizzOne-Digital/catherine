@@ -3,9 +3,10 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, ShoppingBag } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
 import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
+import { useCart } from "@/components/shop/CartProvider";
 
 const navLinks = [
   { label: "Services", href: "/services" },
@@ -24,6 +25,7 @@ export default function Navbar() {
   const heroNav = isHome && !scrolled;
   const { settings } = useSiteSettings();
   const telHref = phoneToTel(settings.phone);
+  const { itemCount, openCart, hydrated } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -81,6 +83,19 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative p-2 text-text-dark transition-colors hover:text-gold"
+              aria-label={`Open cart${hydrated && itemCount > 0 ? `, ${itemCount} items` : ""}`}
+            >
+              <ShoppingBag size={20} />
+              {hydrated && itemCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 font-inter text-[10px] font-semibold text-luxury-black">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              )}
+            </button>
             <Link href="/booking" className="nav-book-btn hidden md:inline-flex">
               Book Now
             </Link>
@@ -155,6 +170,17 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openCart();
+                  }}
+                  className="hero-btn-secondary flex w-full items-center justify-center gap-2"
+                >
+                  <ShoppingBag size={15} />
+                  Cart{hydrated && itemCount > 0 ? ` (${itemCount})` : ""}
+                </button>
                 <Link
                   href="/booking"
                   onClick={() => setMobileOpen(false)}

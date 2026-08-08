@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import ShopProviders from "@/components/shop/ShopProviders";
 
 export const metadata: Metadata = {
   title: "Lumina Medi Spa | Medical Aesthetics in Mississauga",
@@ -33,21 +34,23 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-ivory text-text-dark font-inter antialiased">
-        {children}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: "#15110D",
-              color: "#E8D8C3",
-              border: "1px solid rgba(214,181,109,0.3)",
-              fontFamily: "Inter, sans-serif",
-            },
-            success: {
-              iconTheme: { primary: "#D6B56D", secondary: "#080604" },
-            },
-          }}
-        />
+        <ShopProviders>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#15110D",
+                color: "#E8D8C3",
+                border: "1px solid rgba(214,181,109,0.3)",
+                fontFamily: "Inter, sans-serif",
+              },
+              success: {
+                iconTheme: { primary: "#D6B56D", secondary: "#080604" },
+              },
+            }}
+          />
+        </ShopProviders>
       </body>
     </html>
   );

@@ -1,46 +1,93 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
+import { getHstTaxRateId, getSiteUrl, getStripe, toAbsoluteImageUrl } from "@/lib/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-04-10",
-});
+const MAX_QTY = 20;
 
 export async function POST(req: NextRequest) {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json(
+      { error: "Stripe is not configured. Set STRIPE_SECRET_KEY." },
+      { status: 503 }
+    );
+  }
+
   try {
-    const { items } = await req.json();
+    const body = await req.json();
+    const items = body?.items;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "No items provided" }, { status: 400 });
     }
 
+    if (items.length > 50) {
+      return NextResponse.json({ error: "Too many line items" }, { status: 400 });
+    }
+
     await connectDB();
+    const stripe = getStripe();
+    const hstTaxRateId = await getHstTaxRateId(stripe);
 
-    // Build line items from DB to prevent price tampering
-    const lineItems = await Promise.all(
-      items.map(async (item: { productId: string; quantity: number }) => {
-        const product = await Product.findById(item.productId);
-        if (!product) throw new Error(`Product not found: ${item.productId}`);
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    const metaParts: string[] = [];
 
-        const price = product.salePrice ?? product.price;
+    for (const item of items) {
+      const productId = item?.productId;
+      const quantity = Math.min(
+        MAX_QTY,
+        Math.max(1, Math.floor(Number(item?.quantity) || 1))
+      );
 
-        return {
-          price_data: {
-            currency: "cad",
-            product_data: {
-              name: product.name,
-              images: product.image ? [product.image] : [],
-              description: product.shortDescription || undefined,
-            },
-            unit_amount: Math.round(price * 100),
+      if (!productId || typeof productId !== "string") {
+        return NextResponse.json({ error: "Invalid productId" }, { status: 400 });
+      }
+
+      const product = await Product.findById(productId);
+      if (!product || !product.isActive) {
+        return NextResponse.json(
+          { error: `Product unavailable: ${productId}` },
+          { status: 400 }
+        );
+      }
+
+      if (product.stockStatus === "out_of_stock") {
+        return NextResponse.json(
+          { error: `${product.name} is out of stock` },
+          { status: 400 }
+        );
+      }
+
+      const price = product.salePrice ?? product.price;
+      if (typeof price !== "number" || price <= 0) {
+        return NextResponse.json(
+          { error: `Invalid price for ${product.name}` },
+          { status: 400 }
+        );
+      }
+
+      const imageUrl = toAbsoluteImageUrl(product.image);
+
+      lineItems.push({
+        price_data: {
+          currency: "cad",
+          product_data: {
+            name: product.name,
+            ...(imageUrl ? { images: [imageUrl] } : {}),
+            description: product.shortDescription || undefined,
+            metadata: { productId: product._id.toString() },
           },
-          quantity: item.quantity,
-        };
-      })
-    );
+          unit_amount: Math.round(price * 100),
+        },
+        quantity,
+        tax_rates: [hstTaxRateId],
+      });
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+      metaParts.push(`${product._id.toString()}:${quantity}`);
+    }
+
+    const siteUrl = getSiteUrl();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -52,14 +99,20 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ["CA", "US"],
       },
+      phone_number_collection: {
+        enabled: true,
+      },
       metadata: {
         source: "lumina-medi-spa-shop",
+        tax: "HST_13",
+        items: metaParts.join(",").slice(0, 500),
       },
     });
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Stripe checkout error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Checkout failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -7,6 +7,8 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsPageHero from "@/components/cms/CmsPageHero";
 import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
+import AddToCartButton from "@/components/shop/AddToCartButton";
+import { formatCartPrice } from "@/components/shop/CartProvider";
 
 type Product = {
   _id: string;
@@ -18,11 +20,8 @@ type Product = {
   salePrice?: number;
   image: string;
   category: string;
+  stockStatus?: "in_stock" | "out_of_stock" | "limited";
 };
-
-function formatPrice(n: number) {
-  return n % 1 === 0 ? `CA$${n.toFixed(0)}` : `CA$${n.toFixed(2)}`;
-}
 
 export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -90,13 +89,14 @@ export default function ShopPage() {
                   product.image,
                   "/images/placeholder-product.svg"
                 );
+                const outOfStock = product.stockStatus === "out_of_stock";
                 return (
                   <ScrollReveal key={product._id} delay={(i % 6) * 0.05} className="h-full">
-                    <Link href={`/shop/${product.slug}`} className="block h-full">
-                      <motion.article
-                        className="group flex h-full flex-col overflow-hidden rounded-xl border border-gold/20 bg-ivory/95 shadow-card transition-all duration-500 hover:border-gold/40"
-                        whileHover={{ y: -4 }}
-                      >
+                    <motion.article
+                      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-gold/20 bg-ivory/95 shadow-card transition-all duration-500 hover:border-gold/40"
+                      whileHover={{ y: -4 }}
+                    >
+                      <Link href={`/shop/${product.slug}`} className="block">
                         <div className="relative h-56 bg-gradient-to-br from-[#EDE3D3] to-[#F7EFE4]">
                           {img ? (
                             <CmsImage
@@ -114,25 +114,59 @@ export default function ShopPage() {
                           <span className="absolute left-3 top-3 rounded-full border border-gold/25 bg-white/90 px-2.5 py-1 font-inter text-[10px] uppercase tracking-wider text-gold">
                             {product.category}
                           </span>
+                          {outOfStock && (
+                            <span className="absolute right-3 top-3 rounded-full border border-soft-taupe/30 bg-white/95 px-2.5 py-1 font-inter text-[10px] uppercase tracking-wider text-soft-taupe">
+                              Sold out
+                            </span>
+                          )}
                         </div>
-                        <div className="flex flex-1 flex-col p-6">
+                      </Link>
+                      <div className="flex flex-1 flex-col p-6">
+                        <Link href={`/shop/${product.slug}`}>
                           <h2 className="mb-2 font-playfair text-xl font-bold text-text-dark transition-colors group-hover:text-gold">
                             {product.name}
                           </h2>
-                          <p className="mb-4 flex-1 font-inter text-sm leading-relaxed text-soft-taupe">
+                          <p className="mb-4 font-inter text-sm leading-relaxed text-soft-taupe">
                             {product.shortDescription}
                           </p>
-                          <div className="flex items-center justify-between border-t border-gold/10 pt-4">
+                        </Link>
+                        <div className="mt-auto space-y-3 border-t border-gold/10 pt-4">
+                          <div className="flex items-center justify-between gap-2">
                             <span className="font-playfair text-xl text-gold">
-                              {formatPrice(product.price)}
+                              {product.salePrice ? (
+                                <>
+                                  {formatCartPrice(product.salePrice)}{" "}
+                                  <span className="ml-1 text-sm text-soft-taupe/50 line-through">
+                                    {formatCartPrice(product.price)}
+                                  </span>
+                                </>
+                              ) : (
+                                formatCartPrice(product.price)
+                              )}
                             </span>
-                            <span className="inline-flex items-center gap-1.5 font-inter text-xs font-semibold uppercase tracking-wider text-gold/80">
+                            <Link
+                              href={`/shop/${product.slug}`}
+                              className="inline-flex items-center gap-1.5 font-inter text-xs font-semibold uppercase tracking-wider text-gold/80 hover:text-gold"
+                            >
                               Details <ArrowRight size={12} />
-                            </span>
+                            </Link>
                           </div>
+                          <AddToCartButton
+                            product={{
+                              productId: product._id,
+                              name: product.name,
+                              price: product.price,
+                              salePrice: product.salePrice,
+                              image: product.image,
+                              slug: product.slug,
+                              stockStatus: product.stockStatus,
+                            }}
+                            stopPropagation
+                            className="btn-outline-gold w-full rounded-sm py-2.5 text-sm"
+                          />
                         </div>
-                      </motion.article>
-                    </Link>
+                      </div>
+                    </motion.article>
                   </ScrollReveal>
                 );
               })}

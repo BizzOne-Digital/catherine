@@ -11,6 +11,8 @@ export interface IOrder extends Document {
   customerName: string;
   email: string;
   phone?: string;
+  shippingAddress?: string;
+  billingAddress?: string;
   items: IOrderItem[];
   subtotal: number;
   tax?: number;
@@ -27,6 +29,8 @@ const OrderSchema = new Schema<IOrder>(
     customerName: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String },
+    shippingAddress: { type: String },
+    billingAddress: { type: String },
     items: [
       {
         name: { type: String, required: true },
@@ -36,9 +40,9 @@ const OrderSchema = new Schema<IOrder>(
       },
     ],
     subtotal: { type: Number, required: true },
-    tax: { type: Number },
+    tax: { type: Number, default: 0 },
     total: { type: Number, required: true },
-    stripeSessionId: { type: String },
+    stripeSessionId: { type: String, unique: true, sparse: true },
     paymentStatus: { type: String, enum: ["pending", "paid", "failed"], default: "pending" },
     orderStatus: { type: String, enum: ["new", "processing", "completed", "cancelled"], default: "new" },
   },

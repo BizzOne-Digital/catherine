@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, ShoppingBag, Loader2 } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Loader2, Minus, Plus } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
+import AddToCartButton from "@/components/shop/AddToCartButton";
+import { formatCartPrice } from "@/components/shop/CartProvider";
 
 type Product = {
   _id: string;
@@ -19,17 +21,15 @@ type Product = {
   salePrice?: number;
   image: string;
   category: string;
+  stockStatus?: "in_stock" | "out_of_stock" | "limited";
 };
-
-function formatPrice(n: number) {
-  return n % 1 === 0 ? `CA$${n.toFixed(0)}` : `CA$${n.toFixed(2)}`;
-}
 
 export default function ProductDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (!slug) return;
@@ -64,6 +64,16 @@ export default function ProductDetailPage() {
 
   const img = resolveCmsImage(product.image, "/images/placeholder-product.svg");
   const paras = product.description.split(/\n\n+/).filter(Boolean);
+  const outOfStock = product.stockStatus === "out_of_stock";
+  const cartProduct = {
+    productId: product._id,
+    name: product.name,
+    price: product.price,
+    salePrice: product.salePrice,
+    image: product.image,
+    slug: product.slug,
+    stockStatus: product.stockStatus,
+  };
 
   return (
     <section className="section-pad section-warm pb-24 pt-28">
@@ -92,6 +102,11 @@ export default function ProductDetailPage() {
                   <ShoppingBag size={48} className="text-gold/40" />
                 </div>
               )}
+              {outOfStock && (
+                <span className="absolute left-4 top-4 rounded-full border border-soft-taupe/30 bg-white/95 px-3 py-1 font-inter text-[10px] uppercase tracking-wider text-soft-taupe">
+                  Sold out
+                </span>
+              )}
             </div>
           </ScrollReveal>
 
@@ -105,15 +120,20 @@ export default function ProductDetailPage() {
             <p className="mt-4 font-playfair text-2xl text-gold">
               {product.salePrice ? (
                 <>
-                  {formatPrice(product.salePrice)}{" "}
+                  {formatCartPrice(product.salePrice)}{" "}
                   <span className="ml-2 text-base text-soft-taupe/50 line-through">
-                    {formatPrice(product.price)}
+                    {formatCartPrice(product.price)}
                   </span>
                 </>
               ) : (
-                formatPrice(product.price)
+                formatCartPrice(product.price)
               )}
             </p>
+            {product.stockStatus === "limited" && (
+              <p className="mt-2 font-inter text-xs uppercase tracking-wider text-amber-700/80">
+                Limited stock
+              </p>
+            )}
             <p className="mt-4 font-inter text-base leading-relaxed text-soft-taupe">
               {product.shortDescription}
             </p>
@@ -147,13 +167,55 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link href="/booking" className="hero-btn-primary text-center">
-                Book a Consultation
-              </Link>
-              <Link href="/contact" className="btn-outline-gold rounded-sm text-center">
-                Ask About This Product
-              </Link>
+            <div className="mt-10 space-y-4">
+              {!outOfStock && (
+                <div className="flex items-center gap-3">
+                  <span className="font-inter text-sm text-soft-taupe">Quantity</span>
+                  <div className="inline-flex items-center rounded-full border border-gold/25 bg-white/70">
+                    <button
+                      type="button"
+                      className="p-2 text-text-dark hover:text-gold"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus size={14} />
+                    </button>
+                    <span className="min-w-[2rem] text-center font-inter text-sm">{quantity}</span>
+                    <button
+                      type="button"
+                      className="p-2 text-text-dark hover:text-gold"
+                      onClick={() => setQuantity((q) => Math.min(20, q + 1))}
+                      aria-label="Increase quantity"
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <AddToCartButton
+                  product={cartProduct}
+                  quantity={quantity}
+                  mode="add"
+                  className="hero-btn-primary flex-1"
+                />
+                <AddToCartButton
+                  product={cartProduct}
+                  quantity={quantity}
+                  mode="buyNow"
+                  className="btn-outline-gold flex-1 rounded-sm"
+                />
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link href="/booking" className="btn-outline-gold flex-1 rounded-sm text-center">
+                  Book a Consultation
+                </Link>
+                <Link href="/contact" className="text-center font-inter text-sm text-soft-taupe underline-offset-4 hover:text-gold hover:underline sm:py-3">
+                  Ask About This Product
+                </Link>
+              </div>
             </div>
           </ScrollReveal>
         </div>
