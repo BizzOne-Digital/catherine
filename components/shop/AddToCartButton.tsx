@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
-import { Loader2, ShoppingBag } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { type MouseEvent } from "react";
+import { ShoppingBag } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   type CartStockStatus,
@@ -35,16 +36,16 @@ export default function AddToCartButton({
   label,
   stopPropagation = false,
 }: Props) {
+  const router = useRouter();
   const { addItem } = useCart();
-  const [loading, setLoading] = useState(false);
   const outOfStock = product.stockStatus === "out_of_stock";
 
-  const handleClick = async (e: MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
     if (stopPropagation) {
       e.preventDefault();
       e.stopPropagation();
     }
-    if (outOfStock || loading) return;
+    if (outOfStock) return;
 
     const payload = {
       productId: product.productId,
@@ -63,25 +64,9 @@ export default function AddToCartButton({
       return;
     }
 
-    setLoading(true);
-    try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: [{ productId: product.productId, quantity }],
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || "Unable to start checkout");
-      }
-      window.location.href = data.url;
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Checkout failed";
-      toast.error(message);
-      setLoading(false);
-    }
+    addItem(payload, { openDrawer: false });
+    toast.success("Ready for checkout");
+    router.push("/shop/checkout");
   };
 
   const defaultLabel =
@@ -97,14 +82,10 @@ export default function AddToCartButton({
     <button
       type="button"
       onClick={handleClick}
-      disabled={outOfStock || loading}
+      disabled={outOfStock}
       className={`${className} inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50`}
     >
-      {loading ? (
-        <Loader2 size={15} className="animate-spin" />
-      ) : mode === "add" ? (
-        <ShoppingBag size={15} />
-      ) : null}
+      {mode === "add" ? <ShoppingBag size={15} /> : null}
       {label || defaultLabel}
     </button>
   );

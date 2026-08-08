@@ -34,7 +34,7 @@ type CartContextValue = {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (item: AddItemInput) => void;
+  addItem: (item: AddItemInput, opts?: { openDrawer?: boolean }) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
   clearCart: () => void;
@@ -90,7 +90,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = useCallback(() => setIsOpen(false), []);
   const toggleCart = useCallback(() => setIsOpen((v) => !v), []);
 
-  const addItem = useCallback((item: AddItemInput) => {
+  const addItem = useCallback((item: AddItemInput, opts?: { openDrawer?: boolean }) => {
     if (item.stockStatus === "out_of_stock") return;
     const qty = clampQty(item.quantity ?? 1);
     setItems((prev) => {
@@ -116,7 +116,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         },
       ];
     });
-    setIsOpen(true);
+    if (opts?.openDrawer !== false) setIsOpen(true);
   }, []);
 
   const updateQuantity = useCallback((productId: string, quantity: number) => {

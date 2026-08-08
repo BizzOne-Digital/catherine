@@ -5,7 +5,7 @@ import { XCircle } from "lucide-react";
 import { useCart } from "@/components/shop/CartProvider";
 
 export default function ShopCancelPage() {
-  const { openCart, itemCount } = useCart();
+  const { itemCount } = useCart();
 
   return (
     <section className="section-pad section-warm pb-24 pt-32">
@@ -15,13 +15,14 @@ export default function ShopCancelPage() {
           Checkout cancelled
         </h1>
         <p className="mt-4 font-inter text-base leading-relaxed text-soft-taupe">
-          Your payment was not completed. Your cart is still saved if you want to try again.
+          Your payment was not completed. Your cart and details are still saved if you want to try
+          again.
         </p>
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           {itemCount > 0 ? (
-            <button type="button" onClick={openCart} className="hero-btn-primary">
-              Return to Cart
-            </button>
+            <Link href="/shop/checkout" className="hero-btn-primary">
+              Return to Checkout
+            </Link>
           ) : (
             <Link href="/shop" className="hero-btn-primary">
               Back to Shop

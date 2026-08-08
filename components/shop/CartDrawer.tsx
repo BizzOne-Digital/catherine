@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Minus, Plus, ShoppingBag, Trash2, X, Loader2 } from "lucide-react";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import {
   cartUnitPrice,
   formatCartPrice,
@@ -14,6 +13,7 @@ import CmsImage from "@/components/cms/CmsImage";
 import { calcHst, HST_PERCENT } from "@/lib/shopTax";
 
 export default function CartDrawer() {
+  const router = useRouter();
   const {
     items,
     isOpen,
@@ -23,34 +23,13 @@ export default function CartDrawer() {
     subtotal,
     itemCount,
   } = useCart();
-  const [checkingOut, setCheckingOut] = useState(false);
   const estimatedTax = calcHst(subtotal);
   const estimatedTotal = Math.round((subtotal + estimatedTax) * 100) / 100;
 
-  const checkout = async () => {
-    if (items.length === 0 || checkingOut) return;
-    setCheckingOut(true);
-    try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((i) => ({
-            productId: i.productId,
-            quantity: i.quantity,
-          })),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || "Unable to start checkout");
-      }
-      window.location.href = data.url;
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Checkout failed";
-      toast.error(message);
-      setCheckingOut(false);
-    }
+  const goToCheckout = () => {
+    if (items.length === 0) return;
+    closeCart();
+    router.push("/shop/checkout");
   };
 
   return (
@@ -211,22 +190,14 @@ export default function CartDrawer() {
                   </span>
                 </div>
                 <p className="mb-4 font-inter text-[11px] leading-relaxed text-soft-taupe">
-                  13% HST is applied at Stripe Checkout. Shipping address collected on the next step.
+                  Next: enter your details, then pay securely with Stripe (13% HST included).
                 </p>
                 <button
                   type="button"
-                  onClick={checkout}
-                  disabled={checkingOut}
-                  className="hero-btn-primary flex w-full items-center justify-center gap-2 disabled:opacity-60"
+                  onClick={goToCheckout}
+                  className="hero-btn-primary flex w-full items-center justify-center gap-2"
                 >
-                  {checkingOut ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Redirecting…
-                    </>
-                  ) : (
-                    "Checkout with Stripe"
-                  )}
+                  Proceed to Checkout
                 </button>
                 <button
                   type="button"

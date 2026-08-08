@@ -79,15 +79,21 @@ export async function POST(req: NextRequest) {
       const total = (session.amount_total || 0) / 100;
 
       const customerName =
+        session.metadata?.customerName ||
         session.customer_details?.name ||
         session.shipping_details?.name ||
         "Customer";
-      const email = session.customer_details?.email || "";
-      const phone = session.customer_details?.phone || undefined;
+      const email = session.customer_details?.email || session.customer_email || "";
+      const phone =
+        session.metadata?.phone ||
+        session.customer_details?.phone ||
+        undefined;
 
-      const shippingAddress = formatAddress(
-        session.shipping_details?.address || session.customer_details?.address || null
-      );
+      const shippingAddress =
+        session.metadata?.shippingAddress ||
+        formatAddress(
+          session.shipping_details?.address || session.customer_details?.address || null
+        );
       const billingAddress = formatAddress(session.customer_details?.address || null);
 
       const newOrder = await Order.create({
