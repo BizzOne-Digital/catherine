@@ -38,9 +38,9 @@ const SiteSettingSchema = new Schema<ISiteSetting>(
     instagramUrl: { type: String, default: "https://instagram.com/luminamedispa" },
     facebookUrl: { type: String, default: "" },
     googleMapsUrl: { type: String, default: "" },
-    hoursMonFri: { type: String, default: "10:00 AM – 7:00 PM (By Appointment)" },
-    hoursSat: { type: String, default: "10:00 AM – 7:00 PM (By Appointment)" },
-    hoursSun: { type: String, default: "10:00 AM – 6:00 PM (By Appointment)" },
+    hoursMonFri: { type: String, default: "Call for information and by appointment 📅" },
+    hoursSat: { type: String, default: "Call for information and by appointment 📅" },
+    hoursSun: { type: String, default: "Call for information and by appointment 📅" },
     announcementBarText: {
       type: String,
       default: "✦ Complimentary Skin Consultation — Book Today ✦",

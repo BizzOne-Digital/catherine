@@ -97,6 +97,21 @@ export default function FeaturedTreatments() {
           (t: { popular?: boolean }) => t.popular
         );
         if (!popular.length) return;
+
+        // Preferred homepage order: Botox/Dysport first, Lip Filler second
+        const rank = (t: { slug?: string; name?: string }) => {
+          const s = `${t.slug || ""} ${t.name || ""}`.toLowerCase();
+          if (s.includes("botox") || s.includes("dysport")) return 0;
+          if (s.includes("lip-filler") || s.includes("lip filler")) return 1;
+          return 100;
+        };
+        popular.sort(
+          (
+            a: { slug?: string; name?: string },
+            b: { slug?: string; name?: string }
+          ) => rank(a) - rank(b)
+        );
+
         setCards(
           popular.slice(0, 6).map(
             (

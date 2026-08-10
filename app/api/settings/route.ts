@@ -24,8 +24,13 @@ export async function GET() {
         !normalized.email.toLowerCase().includes("luminamedispa") ||
         !normalized.address.includes("Village Centre");
 
+      const staleHours =
+        /AM|PM|–|-/.test(String(doc.hoursMonFri || "")) ||
+        String(doc.hoursMonFri || "").toLowerCase().includes("10:00");
+
       const needsPatch =
         staleContact ||
+        staleHours ||
         !doc.instagramUrl ||
         !doc.hoursMonFri ||
         !doc.hoursSat ||
@@ -39,6 +44,13 @@ export async function GET() {
                 phone: DEFAULT_SITE_SETTINGS.phone,
                 email: DEFAULT_SITE_SETTINGS.email,
                 address: DEFAULT_SITE_SETTINGS.address,
+              }
+            : {}),
+          ...(staleHours
+            ? {
+                hoursMonFri: DEFAULT_SITE_SETTINGS.hoursMonFri,
+                hoursSat: DEFAULT_SITE_SETTINGS.hoursSat,
+                hoursSun: DEFAULT_SITE_SETTINGS.hoursSun,
               }
             : {}),
         };

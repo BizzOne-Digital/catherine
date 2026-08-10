@@ -23,12 +23,6 @@ export default function ContactBookingView({ cmsSlug = "booking" }: Props) {
   const { settings } = useSiteSettings();
   const telHref = phoneToTel(settings.phone);
 
-  const hours = [
-    { day: "Monday – Friday", hours: settings.hoursMonFri },
-    { day: "Saturday", hours: settings.hoursSat },
-    { day: "Sunday", hours: settings.hoursSun },
-  ];
-
   return (
     <>
       <CmsPageHero slug={cmsSlug} fallback={HERO} />
@@ -90,22 +84,10 @@ export default function ContactBookingView({ cmsSlug = "booking" }: Props) {
                     <li className="flex gap-3">
                       <Clock size={15} className="mt-0.5 flex-shrink-0 text-gold" />
                       <div className="min-w-0 flex-1">
-                        <p className="mb-2 font-inter text-xs text-soft-taupe">
-                          Hours (By Appointment Only)
+                        <p className="mb-1 font-inter text-xs text-soft-taupe">Hours</p>
+                        <p className="font-inter text-sm leading-relaxed text-warm-beige">
+                          Call for information and by appointment 📅
                         </p>
-                        <ul className="space-y-1.5">
-                          {hours.map(({ day, hours: h }) => (
-                            <li
-                              key={day}
-                              className="flex flex-col gap-0.5 border-b border-gold/10 pb-1.5 last:border-0 last:pb-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3"
-                            >
-                              <span className="font-inter text-xs text-soft-taupe">{day}</span>
-                              <span className="font-inter text-xs text-warm-beige sm:shrink-0 sm:text-right">
-                                {h}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
                       </div>
                     </li>
                   </ul>
