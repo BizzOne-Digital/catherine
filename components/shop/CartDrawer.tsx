@@ -125,12 +125,11 @@ export default function CartDrawer() {
                             <div className="inline-flex items-center rounded-full border border-gold/25 bg-ivory/80">
                               <button
                                 type="button"
-                                className="p-1.5 text-text-dark hover:text-gold disabled:opacity-40"
+                                className="p-1.5 text-text-dark hover:text-gold"
                                 onClick={() =>
                                   updateQuantity(item.productId, item.quantity - 1)
                                 }
                                 aria-label="Decrease quantity"
-                                disabled={checkingOut}
                               >
                                 <Minus size={14} />
                               </button>
@@ -139,12 +138,11 @@ export default function CartDrawer() {
                               </span>
                               <button
                                 type="button"
-                                className="p-1.5 text-text-dark hover:text-gold disabled:opacity-40"
+                                className="p-1.5 text-text-dark hover:text-gold"
                                 onClick={() =>
                                   updateQuantity(item.productId, item.quantity + 1)
                                 }
                                 aria-label="Increase quantity"
-                                disabled={checkingOut}
                               >
                                 <Plus size={14} />
                               </button>
@@ -154,7 +152,6 @@ export default function CartDrawer() {
                               onClick={() => removeItem(item.productId)}
                               className="p-1.5 text-soft-taupe transition-colors hover:text-red-500"
                               aria-label={`Remove ${item.name}`}
-                              disabled={checkingOut}
                             >
                               <Trash2 size={15} />
                             </button>
