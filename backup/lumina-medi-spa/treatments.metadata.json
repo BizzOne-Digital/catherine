@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"categoryId":{"$numberInt":"1"},"slug":{"$numberInt":"1"}},"name":"categoryId_1_slug_1","background":true,"unique":true}],"uuid":"a04ffec9f5f74af184cfc2ecabcdae8b","collectionName":"treatments","type":"collection"}

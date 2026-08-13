@@ -1,0 +1,114 @@
+MIDJOURNEY PROMPTS FOR LUMINA MEDI SPA TREATMENT IMAGES
+=======================================================
+
+Color Palette: Warm beige (#FAF4EB), Gold (#C4972F), White
+Style: Professional medical spa aesthetic, clean, luxurious
+Format: All prompts use --ar 16:10 --style raw --v 6
+
+=======================================================
+INJECTABLES & WRINKLE RELAXERS (2 treatments)
+=======================================================
+
+1. BOTOX
+Close-up of a serene woman's face receiving a precise Botox injection near the forehead, medical professional's gloved hand holding syringe, soft natural lighting, luxury medical spa setting with warm beige and gold accents, professional and reassuring atmosphere, focus on precision and care --ar 16:10 --style raw --v 6
+
+2. DYSPORT & NUCEIVA
+Professional aesthetic treatment scene, woman relaxing during neuromodulator injection, medical professional applying treatment to forehead lines, elegant spa room with warm beige tones and gold details, soft diffused lighting, serene and comfortable atmosphere, premium medical aesthetics --ar 16:10 --style raw --v 6
+
+=======================================================
+DERMAL FILLERS & SKIN BOOSTERS (3 treatments)
+=======================================================
+
+3. DERMAL FILLERS
+Elegant woman receiving cheek filler treatment, medical professional's hands carefully injecting hyaluronic acid filler, side profile view, luxury medi spa interior with beige and gold color scheme, soft professional lighting, sophisticated and refined aesthetic treatment scene --ar 16:10 --style raw --v 6
+
+4. LIP FILLER
+Close-up of beautiful lips receiving precise filler injection, medical professional's gloved hands with syringe, warm and inviting medi spa setting with gold and beige accents, soft focus background, luxurious and elegant treatment atmosphere, natural enhancement focus --ar 16:10 --style raw --v 6
+
+5. SKIN BOOSTER INJECTIONS
+Woman with glowing skin receiving Profhilo skin booster injections on face, medical aesthetician applying treatment, bright and clean medical spa room with warm beige walls and gold details, hydration and radiance concept, professional skincare treatment scene --ar 16:10 --style raw --v 6
+
+=======================================================
+FACIALS & SKIN HEALTH (3 treatments)
+=======================================================
+
+6. PURIFYING DEEP CLEAN FACIAL
+Relaxed woman lying down receiving LED light therapy facial treatment, colorful therapeutic lights glowing on face, clean and modern spa room with beige and gold tones, professional aesthetician nearby, calming and rejuvenating atmosphere, medical-grade skincare --ar 16:10 --style raw --v 6
+
+7. SIGNATURE RELAXATION FACIAL
+Peaceful woman enjoying a luxury facial massage, aesthetician's hands gently working on face and neck, serene spa treatment room with warm beige linens and gold accents, soft ambient lighting, tranquil and pampering atmosphere, premium relaxation experience --ar 16:10 --style raw --v 6
+
+8. CHEMICAL PEEL
+Professional chemical peel application, aesthetician carefully applying peel solution to woman's face with brush, clinical yet luxurious spa setting with beige and gold color palette, bright and clean environment, skin resurfacing treatment, medical aesthetics --ar 16:10 --style raw --v 6
+
+=======================================================
+MICRONEEDLING & SKIN RESURFACING (2 treatments)
+=======================================================
+
+9. MICRONEEDLING
+Close-up of microneedling pen being used on woman's face, precise collagen induction treatment, modern medical spa setting with warm beige and gold accents, professional skincare device in focus, clinical yet comfortable atmosphere, skin rejuvenation concept --ar 16:10 --style raw --v 6
+
+10. IPL PHOTOFACIAL
+Woman receiving IPL photofacial treatment, bright therapeutic light device on face with protective eyewear, high-tech medical spa equipment, clean white and beige treatment room with gold details, advanced skin rejuvenation technology, professional aesthetic medicine --ar 16:10 --style raw --v 6
+
+=======================================================
+LASER HAIR REMOVAL (3 treatments)
+=======================================================
+
+11. LASER HAIR REMOVAL - SMALL AREA (Face)
+Professional performing laser hair removal on woman's upper lip and chin area, medical-grade laser device in use, luxury medical spa setting with beige and gold color scheme, precise and comfortable treatment, smooth skin concept --ar 16:10 --style raw --v 6
+
+12. LASER HAIR REMOVAL - LARGE AREA (Legs)
+Woman lying comfortably while receiving laser hair removal on legs, medical professional using advanced laser device, clean and modern treatment room with warm beige tones and gold accents, professional body care, silky smooth skin results --ar 16:10 --style raw --v 6
+
+13. FULL BODY LASER HAIR REMOVAL
+Comprehensive body laser hair removal treatment scene, woman on treatment bed, medical professional with laser equipment treating multiple areas, spacious luxury medical spa with beige walls and gold details, advanced technology, complete body care solution --ar 16:10 --style raw --v 6
+
+=======================================================
+BODY SCULPTING & CONTOURING (1 treatment)
+=======================================================
+
+14. BODY SCULPTING WITH HIFEM
+Woman experiencing HIFEM body sculpting treatment on abdomen, high-tech electromagnetic device attached to body, modern medical spa room with warm beige and gold interior, non-invasive body contouring, fitness and wellness concept, muscle toning technology --ar 16:10 --style raw --v 6
+
+=======================================================
+ADDITIONAL TREATMENT IMAGES (if needed)
+=======================================================
+
+15. UNDER EYE FILLER (if category expands)
+Delicate under-eye filler injection, woman's face in soft focus, medical professional carefully treating tear trough area, luxury medi spa with beige and gold aesthetic, precision and care emphasis, dark circle and hollowness treatment --ar 16:10 --style raw --v 6
+
+16. GENERAL CONSULTATION
+Professional consultation scene, aesthetic practitioner discussing treatment options with client, reviewing face in well-lit mirror, elegant consultation room with beige walls and gold accents, personalized care and trust, medical spa interior --ar 16:10 --style raw --v 6
+
+17. TREATMENT ROOM
+Beautiful empty treatment room ready for clients, comfortable medical bed with beige linens, gold accents throughout, warm lighting, clean and inviting medical spa interior, professional equipment visible, luxury wellness environment --ar 16:10 --style raw --v 6
+
+18. BEFORE/AFTER RESULTS
+Split-screen style image showing skin transformation, woman's radiant glowing skin, natural beauty enhancement, warm beige and gold color grading, professional medical spa results, confident and beautiful expression --ar 16:10 --style raw --v 6
+
+=======================================================
+TIPS FOR GENERATING:
+=======================================================
+
+1. Use these prompts exactly as written in Midjourney
+2. If a result isn't perfect, try adding:
+   - "photorealistic, high resolution"
+   - "professional medical photography"
+   - "editorial style"
+   
+3. For more diversity, you can swap:
+   - "woman" with "diverse woman" or "man"
+   - Adjust age: "30-year-old woman" or "mature woman"
+   
+4. To make images more cohesive across the site:
+   - Keep the beige and gold color mentions consistent
+   - Use the same aspect ratio (16:10) for all
+   - Maintain --style raw --v 6 parameters
+
+5. If Midjourney gives you multiple variations:
+   - Choose the most professional and clean image
+   - Avoid overly clinical/sterile looks
+   - Prefer natural, warm, welcoming atmospheres
+
+=======================================================

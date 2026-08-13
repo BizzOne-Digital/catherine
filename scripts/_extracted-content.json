@@ -1,0 +1,272 @@
+{
+  "body-sculpting-contouring/body-sculpting-hifem": {
+    "h1": "Body Sculpting with HIFEM",
+    "heroP": "Build muscle and tone a target area — no downtime.",
+    "aboutText": "HIFEM (High-Intensity Focused Electromagnetic) technology induces powerful muscle contractions that build and tone targeted areas. This non-invasive treatment sculpts your body by increasing muscle mass while reducing fat.\n\nPopular treatment areas include abdomen, buttocks, arms, and thighs. No surgery, no needles, no downtime—just effective body contouring and muscle building.",
+    "items": [
+      "Builds and tones muscle",
+      "Reduces stubborn fat",
+      "Non-invasive treatment",
+      "No downtime required",
+      "Visible results in weeks",
+      "FDA-approved technology",
+      "Quick 30-minute sessions",
+      "Long-lasting sculpting"
+    ],
+    "ideal": "Anyone seeking to build muscle, tone problem areas, or enhance body contours without surgery. Perfect for those close to their ideal weight.",
+    "recovery": "No downtime. Some muscle soreness similar to an intense workout. Resume all activities immediately.",
+    "img": ""
+  },
+  "dermal-fillers-skin-boosters/dermal-fillers": {
+    "h1": "Dermal Fillers",
+    "heroP": "Restore volume and contour cheeks, jawline and chin with premium hyaluronic acid fillers.",
+    "aboutText": "Premium hyaluronic acid dermal fillers restore lost volume, enhance facial contours, and create beautifully balanced proportions. We use advanced techniques to sculpt and define your cheeks, jawline, chin, and other areas for natural, elegant results.\n\nOur careful approach focuses on enhancing your natural features while maintaining facial harmony. Results are immediate and can last 12-18 months, depending on the area treated and product used.",
+    "items": [
+      "Restores youthful volume and contours",
+      "Enhances cheekbones and jawline definition",
+      "Smooths deep folds and wrinkles",
+      "Immediate visible results",
+      "Long-lasting (12-18 months)",
+      "Reversible if needed",
+      "Natural-looking enhancement",
+      "Customizable treatment areas"
+    ],
+    "ideal": "Anyone experiencing volume loss in the face or seeking enhanced facial contours. Perfect for those wanting to restore youthful fullness to cheeks, define jawline, or add chin projection.",
+    "recovery": "Minimal downtime. Some swelling or bruising may occur for 3-7 days. Avoid strenuous exercise for 24-48 hours and follow post-care instructions.",
+    "img": ""
+  },
+  "dermal-fillers-skin-boosters/lip-filler": {
+    "h1": "Lip Filler",
+    "heroP": "Hydrate, define and gently enhance the lips with premium hyaluronic acid fillers.",
+    "aboutText": "Lip filler treatments use premium hyaluronic acid to add volume, enhance shape, and create beautiful definition. Our approach focuses on natural-looking results that complement your facial features and maintain your unique character.\n\nWhether you're seeking subtle hydration, more defined borders, or fuller volume, we customize each treatment to achieve your goals while maintaining balance and proportion.",
+    "items": [
+      "Adds natural-looking volume",
+      "Defines lip borders and cupid's bow",
+      "Hydrates and smooths fine lines",
+      "Immediate visible results",
+      "Customizable to your goals",
+      "Reversible if needed",
+      "Long-lasting (6-12 months)",
+      "Minimal downtime"
+    ],
+    "ideal": "Anyone seeking fuller, more defined lips, or wanting to restore volume lost with age. Perfect for those desiring hydration and a natural enhancement.",
+    "recovery": "Minimal downtime. Some swelling for 2-3 days. Avoid strenuous exercise for 24 hours and follow post-care instructions.",
+    "img": ""
+  },
+  "dermal-fillers-skin-boosters/skin-boosters": {
+    "h1": "Skin Booster Injections",
+    "heroP": "Profhilo & Juvéderm SkinVive for deep hydration and natural glow from within.",
+    "aboutText": "Skin boosters are injectable treatments that deliver hyaluronic acid directly into the skin to hydrate, improve texture, and enhance radiance. Unlike fillers, they spread evenly throughout the tissue for an all-over glow.\n\nProfhilo and SkinVive work from within to boost hydration, stimulate collagen, and improve skin quality. Results are natural-looking luminosity and improved skin texture.",
+    "items": [
+      "Deep hydration from within",
+      "Improves skin texture and radiance",
+      "Stimulates collagen production",
+      "Natural, glowing results",
+      "Suitable for all skin types",
+      "Minimal downtime",
+      "Long-lasting hydration",
+      "Complements other treatments"
+    ],
+    "ideal": "Dehydrated, dull skin, early signs of aging, or anyone seeking improved skin quality and radiance. Perfect as a maintenance treatment.",
+    "recovery": "Minimal downtime. Slight redness for 1-2 hours. Avoid makeup for 12 hours and follow post-care instructions.",
+    "img": ""
+  },
+  "facials-skin-health/chemical-peel": {
+    "h1": "Chemical Peel",
+    "heroP": "Resurface for brighter, clearer, more even-toned skin.",
+    "aboutText": "Chemical peels use medical-grade acids to exfoliate the top layers of skin, revealing fresher, brighter skin underneath. This treatment addresses pigmentation, acne scarring, fine lines, and uneven texture.\n\nWe offer customized peel strengths based on your skin type and concerns. Results improve with a series of treatments for optimal skin transformation.",
+    "items": [
+      "Reduces hyperpigmentation",
+      "Smooths fine lines and wrinkles",
+      "Improves acne scarring",
+      "Evens skin tone",
+      "Brightens complexion",
+      "Refines texture",
+      "Stimulates collagen production",
+      "Customizable strength"
+    ],
+    "ideal": "Pigmentation, acne scarring, sun damage, fine lines, or uneven texture. Best results with a treatment series.",
+    "recovery": "3-7 days of flaking depending on peel strength. Avoid sun exposure and follow post-care instructions carefully.",
+    "img": ""
+  },
+  "facials-skin-health/purifying-facial": {
+    "h1": "Purifying Deep Clean Facial",
+    "heroP": "Deep cleanse with custom LED light therapy for radiant, clear skin.",
+    "aboutText": "Our Purifying Deep Clean Facial is a medical-grade treatment that thoroughly cleanses, exfoliates, and purifies your skin. Combined with custom LED light therapy, this facial targets congestion, inflammation, and dullness.\n\nPerfect for acne-prone, congested, or oily skin types. LED therapy can be customized to target specific concerns including bacteria, inflammation, and healing.",
+    "items": [
+      "Deep pore cleansing",
+      "Reduces acne and breakouts",
+      "Minimizes inflammation",
+      "Custom LED light therapy",
+      "Balances oil production",
+      "Brightens complexion",
+      "No downtime",
+      "Immediate glow"
+    ],
+    "ideal": "Congested, acne-prone, or oily skin. Perfect for those seeking deep cleansing and clarifying treatments with therapeutic light benefits.",
+    "recovery": "No downtime. Skin may appear slightly pink for 1-2 hours. Can return to normal activities immediately.",
+    "img": ""
+  },
+  "facials-skin-health/relaxation-facial": {
+    "h1": "Signature Relaxation Facial",
+    "heroP": "Expert skincare meets a soothing face and neck massage for ultimate rejuvenation.",
+    "aboutText": "Our Signature Relaxation Facial combines medical-grade skincare with a therapeutic face and neck massage. This treatment is designed to hydrate, nourish, and restore while providing a deeply relaxing experience.\n\nPerfect for all skin types, this facial addresses your specific concerns while helping you unwind and destress. Leave feeling refreshed, radiant, and rejuvenated.",
+    "items": [
+      "Deeply hydrating and nourishing",
+      "Relaxing face and neck massage",
+      "Reduces stress and tension",
+      "Improves circulation",
+      "Brightens complexion",
+      "Customized to your skin type",
+      "No downtime",
+      "Instant glow"
+    ],
+    "ideal": "All skin types, especially those seeking relaxation and stress relief along with skincare benefits. Perfect for maintenance and self-care.",
+    "recovery": "No downtime. Skin may be slightly pink for 30 minutes. Can resume all activities immediately.",
+    "img": ""
+  },
+  "injectables-wrinkle-relaxers/botox": {
+    "h1": "Botox",
+    "heroP": "Smooth dynamic lines on the forehead, frown and crow's feet with the gold standard in wrinkle relaxers.",
+    "aboutText": "Botox is the gold standard for smoothing dynamic wrinkles caused by repeated facial expressions. Our precise injection technique targets specific muscles to soften forehead lines, frown lines (11s), and crow's feet while maintaining your natural expressions.\n\nThis FDA-approved treatment temporarily relaxes the muscles that cause wrinkles, resulting in smoother, more youthful-looking skin. Results typically appear within 3-5 days and continue to improve over two weeks.",
+    "items": [
+      "Smooths forehead lines and wrinkles",
+      "Reduces crow's feet and frown lines",
+      "Prevents new wrinkles from forming",
+      "Natural-looking results",
+      "No downtime required",
+      "Results last 3-4 months",
+      "Quick, comfortable treatment",
+      "FDA-approved and safe"
+    ],
+    "ideal": "Anyone looking to reduce the appearance of dynamic wrinkles and prevent future lines. Suitable for adults experiencing forehead lines, frown lines between the brows, or crow's feet around the eyes.",
+    "recovery": "No downtime required. Some minor redness or swelling may occur at injection sites for 1-2 hours. Avoid lying down for 4 hours post-treatment and avoid strenuous exercise for 24 hours.",
+    "img": ""
+  },
+  "injectables-wrinkle-relaxers/daxxify": {
+    "h1": "Daxxify",
+    "heroP": "Long-lasting neuromodulator with results up to 6 months.",
+    "aboutText": "Daxxify is the newest FDA-approved neuromodulator that offers longer-lasting results than traditional options. With peptide technology, it provides smooth, natural results that can last up to 6 months or more.\n\nThis innovative treatment uses a unique peptide formulation that helps the active ingredient work longer, meaning you can enjoy your results for twice as long as traditional neuromodulators.",
+    "items": [
+      "Longer-lasting results (6+ months)",
+      "Peptide-enhanced formula",
+      "Natural-looking smoothing",
+      "Fewer treatments per year",
+      "Fast-acting results",
+      "FDA-approved safety",
+      "Reduces maintenance visits",
+      "Cost-effective over time"
+    ],
+    "ideal": "Those seeking longer-lasting results with fewer maintenance appointments. Perfect for busy individuals who want to minimize treatment frequency while maintaining smooth, youthful skin.",
+    "recovery": "No downtime. Avoid strenuous exercise for 24 hours. Minor redness or swelling at injection sites may occur for 1-2 hours.",
+    "img": "/images/treatments/daxxify.jpg"
+  },
+  "injectables-wrinkle-relaxers/dysport-nuceiva": {
+    "h1": "Dysport & Nuceiva",
+    "heroP": "Alternative neuromodulators for fast-acting, natural smoothing results.",
+    "aboutText": "Dysport and Nuceiva are alternative neuromodulators that work similarly to Botox but may spread more evenly and take effect faster. These are excellent options for treating larger areas or for those seeking quicker results.\n\nBoth products contain the same active ingredient as Botox (botulinum toxin type A) but have slightly different formulations that can result in faster onset and more natural diffusion across treated areas.",
+    "items": [
+      "Fast-acting results (2-3 days)",
+      "Even diffusion for natural appearance",
+      "Treats larger surface areas effectively",
+      "Long-lasting smoothing",
+      "Minimal discomfort",
+      "Quick treatment sessions",
+      "FDA-approved safety",
+      "Natural-looking results"
+    ],
+    "ideal": "Clients seeking faster results or treating broader areas like the forehead. Also ideal for those who want to try an alternative to Botox or prefer a product that diffuses more naturally.",
+    "recovery": "No downtime. Avoid touching or massaging treated areas for 4 hours. Refrain from strenuous exercise and lying down for 4 hours post-treatment.",
+    "img": ""
+  },
+  "laser-hair-removal/full-body": {
+    "h1": "Full Body Laser Hair Removal",
+    "heroP": "All major body areas in one session (excludes back).",
+    "aboutText": "Our comprehensive full body laser hair removal package treats all major areas in one convenient session. Achieve completely smooth, hair-free skin from head to toe with our advanced medical-grade laser technology.\n\nThis package includes arms, legs, underarms, bikini line, and all other major areas (excludes back). Perfect for those seeking complete, long-lasting hair removal.",
+    "items": [
+      "Complete body hair removal",
+      "Most cost-effective option",
+      "Convenient all-in-one treatment",
+      "Permanent hair reduction",
+      "No more daily grooming",
+      "Smooth skin everywhere",
+      "Safe and effective",
+      "Long-lasting confidence"
+    ],
+    "ideal": "Anyone seeking comprehensive, permanent hair reduction across all major body areas. Best value for multiple treatment zones.",
+    "recovery": "No downtime. Some redness for 2-4 hours. Resume all activities immediately. Avoid sun exposure and follow aftercare guidelines.",
+    "img": ""
+  },
+  "laser-hair-removal/large-area": {
+    "h1": "Laser Hair Removal — Large Area",
+    "heroP": "Full legs, full arms, back or Brazilian.",
+    "aboutText": "Large area laser hair removal targets extensive treatment zones including full legs, full arms, back, chest, or Brazilian. Our medical-grade technology ensures effective, comfortable treatments for significant hair reduction.\n\nAchieve smooth, hair-free skin with a series of 6-8 treatments. Say goodbye to daily shaving and waxing forever.",
+    "items": [
+      "Permanent hair reduction on large areas",
+      "No more daily shaving routine",
+      "Eliminates ingrown hairs",
+      "Smooth, even skin texture",
+      "Safe for all skin types",
+      "Long-lasting results",
+      "Cost-effective over time",
+      "Comfortable treatment"
+    ],
+    "ideal": "Anyone seeking permanent hair reduction on large body areas. Perfect for those tired of time-consuming hair removal routines.",
+    "recovery": "No downtime. Mild redness for 2-4 hours. Resume normal activities immediately. Avoid sun exposure and follow post-care.",
+    "img": ""
+  },
+  "laser-hair-removal/small-area": {
+    "h1": "Laser Hair Removal — Small Area",
+    "heroP": "Lip, chin, underarms and other small areas.",
+    "aboutText": "Medical-grade laser hair removal targets small treatment areas including upper lip, chin, underarms, bikini line, and more. Our advanced technology safely and effectively reduces unwanted hair with long-lasting results.\n\nMost clients see significant hair reduction after 6-8 sessions. Quick, comfortable treatments with minimal downtime.",
+    "items": [
+      "Permanent hair reduction",
+      "Quick treatment sessions",
+      "Minimal discomfort",
+      "No ingrown hairs",
+      "Smooth, hair-free skin",
+      "Safe for all skin types",
+      "Cost-effective long-term",
+      "No daily shaving needed"
+    ],
+    "ideal": "Anyone tired of daily shaving, waxing, or dealing with ingrown hairs in small treatment areas. Suitable for all skin types and tones.",
+    "recovery": "No downtime. Slight redness for 1-2 hours. Can return to normal activities immediately. Avoid sun exposure.",
+    "img": ""
+  },
+  "microneedling-skin-resurfacing/ipl-photofacial": {
+    "h1": "IPL Photofacial",
+    "heroP": "Target sun damage, redness and uneven pigmentation.",
+    "aboutText": "IPL (Intense Pulsed Light) Photofacial uses broad-spectrum light to target pigmentation, sun damage, redness, and uneven skin tone. The light energy is absorbed by pigmented areas and blood vessels, breaking them down so your body can naturally eliminate them.\n\nThis non-invasive treatment effectively treats various skin concerns including age spots, freckles, rosacea, broken capillaries, and overall skin texture. Results improve progressively over several weeks as your skin heals and regenerates.",
+    "items": [
+      "Reduces sun damage and age spots",
+      "Minimizes redness and rosacea",
+      "Evens out skin tone",
+      "Reduces appearance of broken capillaries",
+      "Improves overall skin texture",
+      "No downtime required",
+      "Quick treatment sessions",
+      "Long-lasting results"
+    ],
+    "ideal": "Sun damage, age spots, rosacea, broken capillaries, uneven pigmentation, or anyone seeking to improve overall skin clarity and tone.",
+    "recovery": "Minimal downtime. Some redness for 2-4 hours post-treatment. Treated pigmentation may darken before flaking off over 1-2 weeks. Avoid sun exposure.",
+    "img": ""
+  },
+  "microneedling-skin-resurfacing/microneedling": {
+    "h1": "Microneedling",
+    "heroP": "Collagen-stimulating treatment for texture, pores and scars.",
+    "aboutText": "Microneedling uses fine needles to create controlled micro-injuries in the skin, triggering your body's natural healing response and boosting collagen and elastin production. This results in smoother, firmer, and more even-toned skin.\n\nIdeal for improving skin texture, reducing the appearance of acne scars, minimizing pore size, and addressing fine lines. Results appear gradually over several weeks as new collagen forms.",
+    "items": [
+      "Reduces acne scars and textural irregularities",
+      "Minimizes pore size",
+      "Improves fine lines and wrinkles",
+      "Enhances overall skin texture",
+      "Stimulates collagen production",
+      "Safe for all skin types",
+      "Minimal downtime",
+      "Long-lasting results"
+    ],
+    "ideal": "Acne scarring, enlarged pores, uneven texture, fine lines, or anyone seeking to improve overall skin quality and firmness.",
+    "recovery": "Mild redness for 24-48 hours. Skin may feel tight or sensitive for a few days. Avoid sun exposure and follow post-care instructions.",
+    "img": ""
+  }
+}
