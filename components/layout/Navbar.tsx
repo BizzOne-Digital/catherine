@@ -149,7 +149,7 @@ export default function Navbar() {
                   <AnimatePresence>
                     {servicesOpen && (
                       <motion.div
-                        className="absolute left-1/2 top-[calc(100%+0.65rem)] z-[120] w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-lg border border-gold/25 bg-[#FFFCF7]/98 shadow-[0_16px_48px_rgba(21,17,13,0.12)] backdrop-blur-xl"
+                        className="absolute left-1/2 top-[calc(100%+0.65rem)] z-[120] w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-lg border border-gold/25 bg-white shadow-[0_16px_48px_rgba(21,17,13,0.12)] backdrop-blur-xl"
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 6 }}

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node scripts/seed.mjs",
+    "seed:all": "node scripts/seed.mjs & node scripts/seed-products.mjs & node scripts/seed-pricing.mjs",
     "seed:pages": "node scripts/seed-pages.mjs",
     "seed:products": "node scripts/seed-products.mjs",
     "seed:services": "node scripts/seed-services.mjs",

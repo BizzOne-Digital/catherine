@@ -1,6 +1,8 @@
 "use client";
+import Image from "next/image";
 import CategoryTreatmentsGrid from "@/components/services/CategoryTreatmentsGrid";
 import CmsCategoryHero from "@/components/cms/CmsCategoryHero";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const fallback = [
   {
@@ -47,7 +49,30 @@ export default function Page() {
       />
       <section className="section-pad bg-white">
         <div className="container-luxury">
-          <CategoryTreatmentsGrid categorySlug="body-sculpting-contouring" fallback={fallback} />
+          <CategoryTreatmentsGrid 
+            categorySlug="body-sculpting-contouring" 
+            fallback={fallback}
+            listLayout={true}
+          />
+        </div>
+      </section>
+
+      <section className="section-pad bg-gradient-to-b from-[#FFFBF6] to-white">
+        <div className="container-luxury mx-auto max-w-lg">
+          <ScrollReveal>
+            <h2 className="mb-8 text-center font-playfair text-3xl font-bold text-text-dark">
+              Before &amp; After
+            </h2>
+            <div className="relative mx-auto aspect-[3/4] overflow-hidden rounded-2xl shadow-card">
+              <Image
+                src="/images/treatments/HIFEM-muscle-toning-before-and-after.png"
+                alt="HIFEM Muscle Toning before and after results"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 90vw, 512px"
+              />
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

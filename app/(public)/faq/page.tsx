@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import SectionHeading from "@/components/ui/SectionHeading";
+
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import CmsPageHero from "@/components/cms/CmsPageHero";
 

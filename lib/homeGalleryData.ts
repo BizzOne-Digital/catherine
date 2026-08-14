@@ -15,28 +15,33 @@ export type ClinicPhoto = {
 export const HOME_BEFORE_AFTER: BeforeAfterItem[] = [
   {
     service: "Botox / Dysport",
-    beforeSrc: "/images/gallery/gallery-2.jpg",
-    afterSrc: "/images/treatments/botox.jpg",
+    beforeSrc: "/images/treatments/botox-before-after.png",
+    afterSrc: "/images/treatments/botox-before-after.png",
   },
   {
     service: "Lip Filler",
-    beforeSrc: "/images/gallery/gallery-3.jpg",
-    afterSrc: "/images/treatments/lip-filler.jpg",
-  },
-  {
-    service: "Dermal Fillers",
-    beforeSrc: "/images/gallery/gallery-5.jpg",
-    afterSrc: "/images/treatments/dermal-fillers.jpg",
+    beforeSrc: "/images/treatments/lip-filler-before-after-2.png",
+    afterSrc: "/images/treatments/lip-filler-before-after-2.png",
   },
   {
     service: "Microneedling",
-    beforeSrc: "/images/gallery/gallery-1.jpg",
-    afterSrc: "/images/treatments/microneedling.jpg",
+    beforeSrc: "/images/treatments/Microneedling-before-and-after.png",
+    afterSrc: "/images/treatments/Microneedling-before-and-after.png",
   },
   {
     service: "BBL / IPL Photofacial",
-    beforeSrc: "/images/gallery/gallery-7.jpg",
-    afterSrc: "/images/treatments/ipl-photofacial.jpg",
+    beforeSrc: "/images/treatments/IPL-BBL-before-and-after.png",
+    afterSrc: "/images/treatments/IPL-BBL-before-and-after.png",
+  },
+  {
+    service: "BBL / IPL Photofacial (2)",
+    beforeSrc: "/images/treatments/IPL-BBL-before-and-after-1.png",
+    afterSrc: "/images/treatments/IPL-BBL-before-and-after-1.png",
+  },
+  {
+    service: "HIFEM Muscle Toning",
+    beforeSrc: "/images/treatments/HIFEM-muscle-toning-before-and-after.png",
+    afterSrc: "/images/treatments/HIFEM-muscle-toning-before-and-after.png",
   },
 ];
 

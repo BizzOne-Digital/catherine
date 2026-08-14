@@ -27,6 +27,7 @@ type TreatmentLike = {
 const HYDRAFACIAL_IMAGE = "/images/treatments/hydrafacial-main.png";
 const LED_THERAPY_IMAGE = "/images/treatments/led-therapy-facial.png";
 const MICRONEEDLING_IMAGE = "/images/treatments/microneedling-main.png";
+const IPL_BBL_IMAGE = "/images/treatments/IPL-BBL-main.png";
 
 const HYDRAFACIAL_SLUGS = new Set(["purifying-facial", "hydra-glow-facial"]);
 
@@ -82,6 +83,19 @@ export function getCombinedBeforeAfterGallery(
       "/images/treatments/lip-filler-before-after-1.png",
       "/images/treatments/lip-filler-before-after-2.png",
     ];
+  }
+  if (
+    categorySlug === "microneedling-skin-resurfacing" &&
+    treatmentSlug === "ipl-photofacial"
+  ) {
+    return [
+      "/images/treatments/IPL-BBL-before-and-after.png",
+      "/images/treatments/IPL-BBL-before-and-after-1.png",
+    ];
+  }
+  // Hide before/after on individual HIFEM treatment pages
+  if (categorySlug === "body-sculpting-contouring") {
+    return [];
   }
   return [];
 }
@@ -154,7 +168,11 @@ export function applyTreatmentOverrides<T extends TreatmentLike>(
     categorySlug === "microneedling-skin-resurfacing" &&
     treatmentSlug === "microneedling"
   ) {
-    return withHeroImage(treatment, MICRONEEDLING_IMAGE);
+    return {
+      ...withHeroImage(treatment, MICRONEEDLING_IMAGE),
+      beforeImage: "/images/treatments/Microneedling-before-and-after.png",
+      afterImage: "__combined__",
+    };
   }
 
   if (
@@ -162,13 +180,15 @@ export function applyTreatmentOverrides<T extends TreatmentLike>(
     treatmentSlug === "ipl-photofacial"
   ) {
     return {
-      ...withHeroImage(treatment, LED_THERAPY_IMAGE),
+      ...withHeroImage(treatment, IPL_BBL_IMAGE),
       shortDescription: IPL_SHORT_DESCRIPTION,
+      beforeImage: "",
+      afterImage: "",
       sections: (treatment.sections || []).map((section) => {
         if (section.type === "hero") {
           return {
             ...section,
-            image: LED_THERAPY_IMAGE,
+            image: IPL_BBL_IMAGE,
             content: IPL_SHORT_DESCRIPTION,
           };
         }
@@ -192,6 +212,15 @@ export function applyTreatmentOverrides<T extends TreatmentLike>(
       LED_THERAPY_SLUGS.has(treatmentSlug))
   ) {
     return withHeroImage(treatment, LED_THERAPY_IMAGE);
+  }
+
+  // Hide before/after images on all Body Sculpting (HIFEM) treatment detail pages
+  if (categorySlug === "body-sculpting-contouring") {
+    return {
+      ...treatment,
+      beforeImage: "",
+      afterImage: "",
+    };
   }
 
   return treatment;

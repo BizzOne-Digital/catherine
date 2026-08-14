@@ -3,7 +3,6 @@
 import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import BeforeAfterCompare from "@/components/ui/BeforeAfterCompare";
 import { HOME_BEFORE_AFTER, HOME_CLINIC_PHOTOS } from "@/lib/homeGalleryData";
 
 export default function HomeGallery() {
@@ -22,30 +21,30 @@ export default function HomeGallery() {
 
         <div className="mt-12">
           <ScrollReveal>
-            <div className="mb-6 flex items-end justify-between gap-4">
-              <div>
-                <p className="font-inter text-[11px] font-bold uppercase tracking-[0.24em] text-gold">
-                  Before & After
-                </p>
-                <h3 className="mt-2 font-playfair text-2xl font-bold text-text-dark sm:text-3xl">
-                  Treatment Results
-                </h3>
-              </div>
-              <p className="hidden max-w-xs font-inter text-sm text-soft-taupe sm:block">
-                Drag the slider to compare. Each result is labeled by service.
+            <div className="mb-6">
+              <p className="font-inter text-[11px] font-bold uppercase tracking-[0.24em] text-gold">
+                Before & After
               </p>
+              <h3 className="mt-2 font-playfair text-2xl font-bold text-text-dark sm:text-3xl">
+                Treatment Results
+              </h3>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {HOME_BEFORE_AFTER.map((item, i) => (
-              <ScrollReveal key={item.service} delay={i * 0.06}>
-                <BeforeAfterCompare
-                  beforeSrc={item.beforeSrc}
-                  afterSrc={item.afterSrc}
-                  title={item.service}
-                  subtitle="Before & after"
-                />
+              <ScrollReveal key={item.service} delay={i * 0.05}>
+                <figure className="group overflow-hidden rounded-xl shadow-card">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={item.beforeSrc}
+                      alt={`${item.service} - Before and After`}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                </figure>
               </ScrollReveal>
             ))}
           </div>

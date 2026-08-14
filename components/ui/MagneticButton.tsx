@@ -15,7 +15,6 @@ export default function MagneticButton({
   className = "",
   onClick,
   strength = 0.3,
-  as: Tag = "button",
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
