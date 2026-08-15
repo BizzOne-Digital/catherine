@@ -251,14 +251,14 @@ export default function TreatmentDetailView({
                 {combinedGallery.map((src, i) => (
                   <div
                     key={src}
-                    className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl shadow-card"
+                    className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-2xl shadow-card"
                   >
                     <CmsImage
                       src={src}
                       alt={`${treatment.name} before and after ${i + 1}`}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 90vw, 420px"
+                      sizes="(max-width: 768px) 90vw, 45vw"
                     />
                   </div>
                 ))}
@@ -270,18 +270,18 @@ export default function TreatmentDetailView({
 
       {combinedBeforeAfter && (
         <section className="section-pad bg-white">
-          <div className="container-luxury mx-auto max-w-lg">
+          <div className="container-luxury mx-auto max-w-md">
             <ScrollReveal>
               <h2 className="mb-8 text-center font-playfair text-3xl font-bold text-text-dark">
                 Before &amp; After
               </h2>
-              <div className="relative mx-auto aspect-[3/4] overflow-hidden rounded-2xl shadow-card">
+              <div className="relative mx-auto aspect-square overflow-hidden rounded-2xl shadow-card">
                 <CmsImage
                   src={combinedBeforeAfter}
                   alt={`${treatment.name} before and after`}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 90vw, 512px"
+                  sizes="(max-width: 768px) 90vw, 448px"
                 />
               </div>
             </ScrollReveal>

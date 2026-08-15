@@ -58,18 +58,18 @@ export default function Page() {
       </section>
 
       <section className="section-pad bg-gradient-to-b from-[#FFFBF6] to-white">
-        <div className="container-luxury mx-auto max-w-lg">
+        <div className="container-luxury mx-auto max-w-md">
           <ScrollReveal>
             <h2 className="mb-8 text-center font-playfair text-3xl font-bold text-text-dark">
               Before &amp; After
             </h2>
-            <div className="relative mx-auto aspect-[3/4] overflow-hidden rounded-2xl shadow-card">
+            <div className="relative mx-auto aspect-square overflow-hidden rounded-2xl shadow-card">
               <Image
                 src="/images/treatments/HIFEM-muscle-toning-before-and-after.png"
                 alt="HIFEM Muscle Toning before and after results"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 90vw, 512px"
+                sizes="(max-width: 768px) 90vw, 448px"
               />
             </div>
           </ScrollReveal>
