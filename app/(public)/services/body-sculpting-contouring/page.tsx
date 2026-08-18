@@ -11,28 +11,28 @@ const fallback = [
     popular: true,
     description: "Non-invasive muscle toning for one target area — abdomen, glutes, or arms.",
     price: "$149",
-    image: "/images/treatments/emsculpt.jpg",
+    image: "/images/treatments/hifem-muscle-toning.png",
   },
   {
     name: "Package of 4: Muscle Toning with HIFEM (Single Area)",
     slug: "hifem-single-area-package-4",
     description: "Four single-area sessions with package savings.",
     price: "$449",
-    image: "/images/treatments/emsculpt.jpg",
+    image: "/images/treatments/hifem-muscle-toning.png",
   },
   {
     name: "Muscle Toning with HIFEM (Two Areas)",
     slug: "hifem-two-areas",
     description: "Tone and strengthen two target areas in one session.",
     price: "$199",
-    image: "/images/treatments/emsculpt.jpg",
+    image: "/images/treatments/hifem-muscle-toning.png",
   },
   {
     name: "Package of 4: Muscle Toning with HIFEM (Two Areas)",
     slug: "hifem-two-areas-package-4",
     description: "Four two-area sessions with package savings.",
     price: "$599",
-    image: "/images/treatments/emsculpt.jpg",
+    image: "/images/treatments/hifem-muscle-toning.png",
   },
 ];
 

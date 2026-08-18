@@ -16,7 +16,7 @@ const fallback = [
     slug: "relaxation-facial",
     description: "Expert skincare meets a soothing face and neck massage.",
     price: "From $160",
-    image: "/images/treatments/led-therapy-facial.png",
+    image: "/images/treatments/signature-relaxation-facial.png",
   },
   {
     name: "Chemical Peel",

@@ -25,7 +25,9 @@ type TreatmentLike = {
 };
 
 const HYDRAFACIAL_IMAGE = "/images/treatments/hydrafacial-main.png";
-const LED_THERAPY_IMAGE = "/images/treatments/led-therapy-facial.png";
+const RELAXATION_FACIAL_IMAGE = "/images/treatments/signature-relaxation-facial.png";
+const HIFEM_IMAGE = "/images/treatments/hifem-muscle-toning.png";
+const LASER_IMAGE = "/images/treatments/laser-hair-removal.png";
 const MICRONEEDLING_IMAGE = "/images/treatments/microneedling-main.png";
 const IPL_BBL_IMAGE = "/images/treatments/IPL-BBL-main.png";
 
@@ -211,13 +213,17 @@ export function applyTreatmentOverrides<T extends TreatmentLike>(
     (categorySlug === "microneedling-skin-resurfacing" &&
       LED_THERAPY_SLUGS.has(treatmentSlug))
   ) {
-    return withHeroImage(treatment, LED_THERAPY_IMAGE);
+    return withHeroImage(treatment, RELAXATION_FACIAL_IMAGE);
+  }
+
+  if (categorySlug === "laser-hair-removal") {
+    return withHeroImage(treatment, LASER_IMAGE);
   }
 
   // Hide before/after images on all Body Sculpting (HIFEM) treatment detail pages
   if (categorySlug === "body-sculpting-contouring") {
     return {
-      ...treatment,
+      ...withHeroImage(treatment, HIFEM_IMAGE),
       beforeImage: "",
       afterImage: "",
     };

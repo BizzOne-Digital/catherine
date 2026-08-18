@@ -357,14 +357,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Medical-grade skincare combined with a soothing face and neck massage for a deeply restorative treatment experience.",
       price: "$145",
-      image: "/images/treatments/led-therapy-facial.png",
+      image: "/images/treatments/signature-relaxation-facial.png",
       order: 3,
       bookingUrl: `${FRESHA_MAIN}?service=s%3A21556106`,
       sections: buildSections({
         hero: {
           content:
             "Medical-grade skincare combined with a soothing face and neck massage for a deeply restorative treatment experience.",
-          image: "/images/treatments/led-therapy-facial.png",
+          image: "/images/treatments/signature-relaxation-facial.png",
         },
         about: {
           content:
@@ -393,14 +393,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "An express facial designed to refresh, cleanse, and hydrate your skin when you're short on time.",
       price: "$95",
-      image: "/images/treatments/led-therapy-facial.png",
+      image: "/images/treatments/signature-relaxation-facial.png",
       order: 4,
       bookingUrl: `${FRESHA_MAIN}?service=s%3A21760561`,
       sections: buildSections({
         hero: {
           content:
             "An express facial designed to refresh, cleanse, and hydrate your skin when you're short on time.",
-          image: "/images/treatments/led-therapy-facial.png",
+          image: "/images/treatments/signature-relaxation-facial.png",
         },
         about: {
           content:
@@ -428,7 +428,7 @@ export const treatmentsByCategory = {
       slug: "facial-package-5",
       shortDescription: "Save with a package of any facial — 5 sessions.",
       price: "$575",
-      image: "/images/treatments/led-therapy-facial.png",
+      image: "/images/treatments/signature-relaxation-facial.png",
       order: 5,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
@@ -444,7 +444,7 @@ export const treatmentsByCategory = {
       slug: "facial-package-3",
       shortDescription: "Save with a package of any facial — 3 sessions.",
       price: "$375",
-      image: "/images/treatments/led-therapy-facial.png",
+      image: "/images/treatments/signature-relaxation-facial.png",
       order: 6,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
@@ -460,7 +460,7 @@ export const treatmentsByCategory = {
       slug: "facial-package-2",
       shortDescription: "Save with a package of any facial — 2 sessions.",
       price: "$270",
-      image: "/images/treatments/led-therapy-facial.png",
+      image: "/images/treatments/signature-relaxation-facial.png",
       order: 7,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
@@ -566,14 +566,14 @@ export const treatmentsByCategory = {
         "Targeted laser hair reduction for unwanted facial hair, helping you achieve smoother skin with less frequent shaving or waxing.",
       price: "$55",
       hidePrice: false,
-      image: "/images/treatments/laser-face.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 1,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Targeted laser hair reduction for unwanted facial hair, helping you achieve smoother skin with less frequent shaving or waxing.",
-          image: "/images/treatments/laser-face.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -602,14 +602,14 @@ export const treatmentsByCategory = {
         "Effective laser hair reduction for medium-sized areas, helping you achieve smoother skin with less maintenance.",
       price: "$88",
       hidePrice: false,
-      image: "/images/treatments/laser-legs.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 2,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Effective laser hair reduction for medium-sized areas, helping you achieve smoother skin with less maintenance.",
-          image: "/images/treatments/laser-legs.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -639,14 +639,14 @@ export const treatmentsByCategory = {
         "Advanced laser hair reduction for larger treatment areas, helping you achieve smoother skin with less ongoing maintenance.",
       price: "$150",
       hidePrice: false,
-      image: "/images/treatments/laser-legs.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 3,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Advanced laser hair reduction for larger treatment areas, helping you achieve smoother skin with less ongoing maintenance.",
-          image: "/images/treatments/laser-legs.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -676,7 +676,7 @@ export const treatmentsByCategory = {
         "Comprehensive laser hair reduction for multiple treatment areas in one convenient session.",
       price: "$325",
       hidePrice: false,
-      image: "/images/treatments/laser-full-body.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       popular: true,
       order: 4,
       bookingUrl: FRESHA_MAIN,
@@ -684,7 +684,7 @@ export const treatmentsByCategory = {
         hero: {
           content:
             "Comprehensive laser hair reduction for multiple treatment areas in one convenient session.",
-          image: "/images/treatments/laser-full-body.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -714,14 +714,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Six sessions of small-area laser hair removal for the chin or upper lip — save with a package.",
       price: "$350",
-      image: "/images/treatments/laser-face.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 5,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Six sessions of small-area laser hair removal for the chin or upper lip — ideal for consistent results and better value.",
-          image: "/images/treatments/laser-face.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -749,14 +749,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Six sessions for one medium area — underarms, full arms, half legs, abdomen, or bikini.",
       price: "$479",
-      image: "/images/treatments/laser-legs.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 6,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Six sessions of medium-area laser hair removal — choose underarms, full arms, half legs, abdomen, or bikini.",
-          image: "/images/treatments/laser-legs.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -784,14 +784,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Six sessions for one large area — full legs, back, chest, or Brazilian.",
       price: "$599",
-      image: "/images/treatments/laser-legs.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 7,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Six sessions of large-area laser hair removal — full legs, back, chest, or Brazilian.",
-          image: "/images/treatments/laser-legs.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -819,14 +819,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Six full-body laser hair removal sessions for comprehensive, long-term results.",
       price: "$1200",
-      image: "/images/treatments/laser-full-body.jpg",
+      image: "/images/treatments/laser-hair-removal.png",
       order: 8,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Six full-body laser hair removal sessions — comprehensive hair reduction across multiple areas with package savings.",
-          image: "/images/treatments/laser-full-body.jpg",
+          image: "/images/treatments/laser-hair-removal.png",
         },
         about: {
           content:
@@ -858,9 +858,9 @@ export const treatmentsByCategory = {
         "Non-invasive electromagnetic muscle toning for one target area such as the abdomen, glutes, or arms.",
       price: "$149",
       hidePrice: false,
-      image: "/images/treatments/emsculpt.jpg",
+      image: "/images/treatments/hifem-muscle-toning.png",
       beforeImage: "/images/gallery/gallery-4.jpg",
-      afterImage: "/images/treatments/emsculpt.jpg",
+      afterImage: "/images/treatments/hifem-muscle-toning.png",
       popular: true,
       order: 1,
       bookingUrl: FRESHA_MAIN,
@@ -868,7 +868,7 @@ export const treatmentsByCategory = {
         hero: {
           content:
             "Non-invasive HIFEM muscle toning for one target area — tone, strengthen, and define with zero downtime.",
-          image: "/images/treatments/emsculpt.jpg",
+          image: "/images/treatments/hifem-muscle-toning.png",
         },
         about: {
           content:
@@ -895,14 +895,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Four sessions of single-area HIFEM muscle toning — save with a package.",
       price: "$449",
-      image: "/images/treatments/emsculpt.jpg",
+      image: "/images/treatments/hifem-muscle-toning.png",
       order: 2,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Four sessions of HIFEM muscle toning for one target area — ideal for consistent results and package savings.",
-          image: "/images/treatments/emsculpt.jpg",
+          image: "/images/treatments/hifem-muscle-toning.png",
         },
         about: {
           content:
@@ -929,14 +929,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "HIFEM muscle toning for two target areas in one session — e.g. abdomen and glutes.",
       price: "$199",
-      image: "/images/treatments/emsculpt.jpg",
+      image: "/images/treatments/hifem-muscle-toning.png",
       order: 3,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "HIFEM muscle toning for two target areas in one session — tone and strengthen multiple zones with zero downtime.",
-          image: "/images/treatments/emsculpt.jpg",
+          image: "/images/treatments/hifem-muscle-toning.png",
         },
         about: {
           content:
@@ -963,14 +963,14 @@ export const treatmentsByCategory = {
       shortDescription:
         "Four sessions of two-area HIFEM muscle toning — save with a package.",
       price: "$599",
-      image: "/images/treatments/emsculpt.jpg",
+      image: "/images/treatments/hifem-muscle-toning.png",
       order: 4,
       bookingUrl: FRESHA_MAIN,
       sections: buildSections({
         hero: {
           content:
             "Four sessions of two-area HIFEM muscle toning — comprehensive results with package savings.",
-          image: "/images/treatments/emsculpt.jpg",
+          image: "/images/treatments/hifem-muscle-toning.png",
         },
         about: {
           content:
