@@ -10,7 +10,6 @@ import {
   Activity,
   ScanFace,
   Flower2,
-  Info,
   type LucideIcon,
 } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -204,18 +203,6 @@ export default function PricingPage() {
           </div>
 
           <ScrollReveal delay={0.3} className="mt-14">
-            <div className="rounded-xl border border-gold/20 bg-[#FAF4EB] p-6">
-              <div className="flex items-start gap-3">
-                <Info size={20} className="mt-0.5 flex-shrink-0 text-gold" />
-                <p className="text-sm font-medium leading-relaxed text-soft-taupe">
-                  Prices shown are starting estimates for guidance only. Final pricing depends on
-                  your individual treatment plan and is confirmed during your consultation.
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.4} className="mt-14">
             <div className="relative overflow-hidden rounded-2xl border-2 border-gold/50 bg-white p-8 text-center shadow-gold-sm sm:p-10">
               <div className="relative z-10">
                 <h3 className="mb-3 font-playfair text-2xl sm:text-3xl font-bold text-text-dark">
