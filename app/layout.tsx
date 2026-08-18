@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ShopProviders from "@/components/shop/ShopProviders";
+import LeadCaptureGate from "@/components/ui/LeadCaptureGate";
 
 export const metadata: Metadata = {
   title: "Lumina Medi Spa | Medical Aesthetics in Mississauga",
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="bg-ivory text-text-dark font-inter antialiased">
         <ShopProviders>
           {children}
+          <LeadCaptureGate />
           <Toaster
             position="top-right"
             toastOptions={{

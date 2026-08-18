@@ -1,10 +1,7 @@
 /** Primary spa inbox for bookings, contact, and order notifications. */
 export const SPA_INBOX = "Luminamedispa@gmail.com";
 
+/** Spa inbox for all customer inquiry / order notifications (never the dev login email). */
 export function getAdminInbox() {
-  return (
-    process.env.ADMIN_EMAIL?.trim() ||
-    process.env.SMTP_USER?.trim() ||
-    SPA_INBOX
-  );
+  return SPA_INBOX;
 }

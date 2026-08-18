@@ -11,13 +11,11 @@ import {
 
 type Props = {
   title?: string;
-  subtitle?: string;
   className?: string;
 };
 
 export default function ClinicMap({
   title = "Visit Our Clinic",
-  subtitle = "42 Village Centre Place, Unit 100 · Mississauga, Ontario",
   className = "",
 }: Props) {
   const { settings } = useSiteSettings();
@@ -32,10 +30,7 @@ export default function ClinicMap({
             Location
           </span>
           <h2 className="font-playfair text-3xl font-bold text-text-dark sm:text-4xl">{title}</h2>
-          <p className="mx-auto mt-3 max-w-2xl font-inter text-sm leading-relaxed text-soft-taupe">
-            {subtitle}
-          </p>
-          <p className="mx-auto mt-2 flex items-center justify-center gap-2 font-inter text-sm text-warm-beige">
+          <p className="mx-auto mt-3 flex items-center justify-center gap-2 font-inter text-sm text-warm-beige">
             <MapPin size={15} className="text-gold" />
             {settings.address}
           </p>

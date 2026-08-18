@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
       metaParts.push(`${product._id.toString()}:${quantity}`);
     }
 
-    const siteUrl = getSiteUrl();
+    const siteUrl = getSiteUrl(req);
     const shippingAddress = formatCustomerShipping({
       ...customer,
       address1,

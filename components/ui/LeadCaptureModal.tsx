@@ -6,7 +6,7 @@ import { X, Loader2, Check } from "lucide-react";
 import { useSiteSettings } from "@/components/cms/useSiteSettings";
 
 const STORAGE_KEY = "lumina_lead_popup_seen";
-const SHOW_DELAY_MS = 1800;
+const SHOW_DELAY_MS = 1000;
 
 const inputClass =
   "w-full rounded-sm border border-black/15 bg-white px-3.5 py-3 font-inter text-sm text-black outline-none transition-colors placeholder:text-black/35 focus:border-black/40";

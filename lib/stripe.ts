@@ -19,8 +19,26 @@ export function getStripe(): Stripe {
   return stripeClient;
 }
 
-export function getSiteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+export function getSiteUrl(req?: { headers: Headers }) {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()?.replace(/\/$/, "");
+  if (fromEnv && !/localhost|127\.0\.0\.1/i.test(fromEnv)) {
+    return fromEnv;
+  }
+
+  if (req) {
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+    if (host && !/localhost|127\.0\.0\.1/i.test(host)) {
+      const proto = req.headers.get("x-forwarded-proto") || "https";
+      return `${proto}://${host}`.replace(/\/$/, "");
+    }
+  }
+
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) {
+    return `https://${vercel.replace(/\/$/, "")}`;
+  }
+
+  return fromEnv || "http://localhost:3000";
 }
 
 /** Stripe requires absolute HTTPS (or http for localhost) image URLs. */
