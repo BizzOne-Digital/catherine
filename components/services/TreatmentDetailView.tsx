@@ -7,6 +7,10 @@ import CmsImage from "@/components/cms/CmsImage";
 import BeforeAfterCompare from "@/components/ui/BeforeAfterCompare";
 import { resolveCmsImage } from "@/lib/cmsImage";
 import { applyTreatmentOverrides, getCombinedBeforeAfterGallery } from "@/lib/treatmentOverrides";
+import {
+  getTreatmentBookHref,
+  getTreatmentBookLabel,
+} from "@/lib/bookingConfig";
 
 type Section = {
   id: string;
@@ -157,7 +161,8 @@ export default function TreatmentDetailView({
   const heroTitle = hero?.title || treatment.name;
   const heroContent = (hero?.content || "").trim() || treatment.shortDescription;
   const showPrice = !treatment.hidePrice && Boolean((treatment.price || "").trim());
-  const bookHref = (treatment.bookingUrl || "").trim() || "/booking";
+  const bookHref = getTreatmentBookHref(treatment.categorySlug, treatment.slug);
+  const bookLabel = getTreatmentBookLabel(treatment.categorySlug);
   const combinedGallery = getCombinedBeforeAfterGallery(
     treatment.categorySlug,
     treatment.slug
@@ -220,7 +225,7 @@ export default function TreatmentDetailView({
                     </div>
                   </div>
                 )}
-                <BookButton href={bookHref} />
+                <BookButton href={bookHref} label={bookLabel} />
               </div>
 
               {heroImage && (
@@ -456,7 +461,7 @@ export default function TreatmentDetailView({
               Book your treatment or complimentary consultation today.
             </p>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <BookButton href={bookHref} label="Book Now" className="btn-gold rounded-sm inline-flex items-center gap-2" />
+              <BookButton href={bookHref} label={bookLabel} className="btn-gold rounded-sm inline-flex items-center gap-2" />
               <Link href="/services" className="btn-outline-gold rounded-sm">
                 All Services
               </Link>

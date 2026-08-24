@@ -5,6 +5,10 @@ import { DollarSign, Star, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CmsImage from "@/components/cms/CmsImage";
 import { resolveCmsImage } from "@/lib/cmsImage";
+import {
+  getTreatmentBookHref,
+  getTreatmentBookLabel,
+} from "@/lib/bookingConfig";
 
 export type TreatmentCard = {
   _id?: string;
@@ -76,7 +80,7 @@ export default function CategoryTreatmentsGrid({
         {treatments.map((treatment, index) => {
           const detailHref =
             treatment.detailPage || `/services/${categorySlug}/${treatment.slug}`;
-          const bookHref = (treatment.bookingUrl || "").trim() || detailHref;
+          const bookHref = getTreatmentBookHref(categorySlug, treatment.slug);
           const showPrice = !treatment.hidePrice && Boolean((treatment.price || "").trim());
           return (
             <ScrollReveal key={treatment._id || treatment.slug} delay={index * 0.05}>
@@ -104,23 +108,14 @@ export default function CategoryTreatmentsGrid({
                   >
                     Details
                   </Link>
-                  {bookHref.startsWith("http") ? (
-                    <a
-                      href={bookHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center rounded-full bg-gold px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-deep-gold"
-                    >
-                      Book
-                    </a>
-                  ) : (
-                    <Link
-                      href={bookHref}
-                      className="inline-flex items-center rounded-full bg-gold px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-deep-gold"
-                    >
-                      Book
-                    </Link>
-                  )}
+                  <Link
+                    href={bookHref}
+                    className="inline-flex items-center rounded-full bg-gold px-5 py-2.5 font-inter text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-deep-gold"
+                  >
+                    {getTreatmentBookLabel(categorySlug) === "Book Consultation"
+                      ? "Consult"
+                      : "Book"}
+                  </Link>
                 </div>
               </div>
             </ScrollReveal>

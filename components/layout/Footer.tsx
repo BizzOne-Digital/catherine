@@ -223,8 +223,8 @@ export default function Footer() {
               <p className="footer-cta-text">
                 Personalized care. Natural-looking results. Treatments designed around you.
               </p>
-              <Link href="/booking" className="footer-btn-primary group mt-5 inline-flex w-full justify-center sm:w-auto">
-                Book Now
+              <Link href="/book" className="footer-btn-primary group mt-5 inline-flex w-full justify-center sm:w-auto">
+                Book Online
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
               </Link>
               <div className="footer-cta-features">

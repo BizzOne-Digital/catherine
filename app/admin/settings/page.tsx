@@ -23,6 +23,7 @@ interface Settings {
   metaDescription: string;
   leadOfferTitle: string;
   leadOfferSubtitle: string;
+  googleAppointmentUrl: string;
 }
 
 const defaults: Settings = {
@@ -44,6 +45,7 @@ const defaults: Settings = {
     "Expert injectables, advanced skin treatments, laser services, and body sculpting — personalized with genuine care.",
   leadOfferTitle: "Free Consultation",
   leadOfferSubtitle: "20% Off on Your First Treatment",
+  googleAppointmentUrl: "",
 };
 
 export default function AdminSettingsPage() {
@@ -205,6 +207,25 @@ export default function AdminSettingsPage() {
               className="admin-input"
               value={settings.googleMapsUrl}
               onChange={(e) => setField("googleMapsUrl", e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="admin-card space-y-4">
+          <h3 className="border-b border-gold/10 pb-3 font-playfair text-lg text-warm-beige">
+            Online Booking (Google)
+          </h3>
+          <p className="font-inter text-xs leading-relaxed text-soft-taupe">
+            Paste your Google Appointment Schedules link from Google Calendar. Clients book on
+            luminamedispa.ca/book, then continue to Google to pick a time.
+          </p>
+          <div>
+            <label className="admin-label">Google Appointment URL</label>
+            <input
+              className="admin-input"
+              placeholder="https://calendar.google.com/calendar/appointments/..."
+              value={settings.googleAppointmentUrl}
+              onChange={(e) => setField("googleAppointmentUrl", e.target.value)}
             />
           </div>
         </div>

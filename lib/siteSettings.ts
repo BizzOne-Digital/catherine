@@ -18,6 +18,8 @@ export type SiteSettings = {
   metaDescription: string;
   leadOfferTitle: string;
   leadOfferSubtitle: string;
+  /** Google Appointment Schedules booking page URL */
+  googleAppointmentUrl: string;
 };
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
@@ -39,6 +41,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     "Expert injectables, advanced skin treatments, laser services, and body sculpting — personalized with genuine care.",
   leadOfferTitle: "Free Consultation",
   leadOfferSubtitle: "20% Off on Your First Treatment",
+  googleAppointmentUrl: "",
 };
 
 function pickString(...candidates: unknown[]): string | undefined {
@@ -98,7 +101,20 @@ export function normalizeSiteSettings(
       pickString(r.leadOfferTitle) || DEFAULT_SITE_SETTINGS.leadOfferTitle,
     leadOfferSubtitle:
       pickString(r.leadOfferSubtitle) || DEFAULT_SITE_SETTINGS.leadOfferSubtitle,
+    googleAppointmentUrl:
+      pickString(r.googleAppointmentUrl) || DEFAULT_SITE_SETTINGS.googleAppointmentUrl,
   };
+}
+
+/** Google Appointment Schedules link for Phase 1 online booking. */
+export function resolveGoogleAppointmentUrl(
+  settings: Pick<SiteSettings, "googleAppointmentUrl">
+): string {
+  return (
+    settings.googleAppointmentUrl?.trim() ||
+    process.env.NEXT_PUBLIC_GOOGLE_APPOINTMENT_URL?.trim() ||
+    ""
+  );
 }
 
 export function phoneToTel(phone: string) {

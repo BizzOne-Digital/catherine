@@ -56,10 +56,11 @@ const SiteSettingSchema = new Schema<ISiteSetting>(
         "Expert injectables, advanced skin treatments, laser services, and body sculpting — personalized with genuine care.",
     },
     leadOfferTitle: { type: String, default: "Free Consultation" },
-    leadOfferSubtitle: {
-      type: String,
-      default: "20% Off on Your First Treatment",
-    },
+  leadOfferSubtitle: {
+    type: String,
+    default: "20% Off on Your First Treatment",
+  },
+  googleAppointmentUrl: { type: String, default: "" },
   },
   { timestamps: true, strict: false }
 );

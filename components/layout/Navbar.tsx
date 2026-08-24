@@ -221,8 +221,8 @@ export default function Navbar() {
                 </span>
               )}
             </button>
-            <Link href="/booking" className="nav-book-btn hidden md:inline-flex">
-              Book Now
+            <Link href="/book" className="nav-book-btn hidden md:inline-flex">
+              Book Online
             </Link>
             <a
               href={telHref}
@@ -361,11 +361,18 @@ export default function Navbar() {
                   Cart{hydrated && itemCount > 0 ? ` (${itemCount})` : ""}
                 </button>
                 <Link
-                  href="/booking"
+                  href="/book"
                   onClick={() => setMobileOpen(false)}
                   className="hero-btn-primary block text-center"
                 >
-                  Book Consultation
+                  Book Online
+                </Link>
+                <Link
+                  href="/booking"
+                  onClick={() => setMobileOpen(false)}
+                  className="hero-btn-secondary block text-center"
+                >
+                  Free Consultation
                 </Link>
                 <a
                   href={telHref}
