@@ -34,7 +34,7 @@ export const HOME_BEFORE_AFTER: BeforeAfterItem[] = [
     afterSrc: "/images/treatments/IPL-BBL-before-and-after.png",
   },
   {
-    service: "BBL / IPL Photofacial (2)",
+    service: "BBL / IPL Photofacial — Back",
     beforeSrc: "/images/treatments/IPL-BBL-before-and-after-1.png",
     afterSrc: "/images/treatments/IPL-BBL-before-and-after-1.png",
   },

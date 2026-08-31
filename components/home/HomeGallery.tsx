@@ -33,7 +33,7 @@ export default function HomeGallery() {
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {HOME_BEFORE_AFTER.map((item, i) => (
-              <ScrollReveal key={item.service} delay={i * 0.05}>
+              <ScrollReveal key={`${item.service}-${i}`} delay={i * 0.05}>
                 <figure className="group overflow-hidden rounded-xl shadow-card">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
@@ -43,6 +43,9 @@ export default function HomeGallery() {
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
+                    <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-luxury-black/70 to-transparent px-4 py-3">
+                      <p className="font-playfair text-base text-white sm:text-lg">{item.service}</p>
+                    </figcaption>
                   </div>
                 </figure>
               </ScrollReveal>
