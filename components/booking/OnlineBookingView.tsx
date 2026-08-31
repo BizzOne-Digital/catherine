@@ -4,99 +4,146 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
+  ArrowLeft,
   ArrowRight,
   Calendar,
-  ExternalLink,
+  CheckCircle2,
   Loader2,
   Sparkles,
   Syringe,
 } from "lucide-react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import {
-  BOOKING_CATEGORY_LABELS,
-  isOnlineBookableCategory,
-} from "@/lib/bookingConfig";
+import { BOOKING_CATEGORY_LABELS } from "@/lib/bookingConfig";
+import { BOOKING_DEPOSIT_CAD, type BookableService } from "@/lib/bookableServices";
 import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
-import { resolveGoogleAppointmentUrl } from "@/lib/siteSettings";
+import { formatSlotLabel } from "@/lib/bookingSlots";
 
-type TreatmentRow = {
-  _id?: string;
-  name: string;
-  slug: string;
-  categorySlug: string;
-  price?: string;
-  hidePrice?: boolean;
-};
+type Step = "service" | "datetime" | "details";
+
+function groupServices(services: BookableService[]) {
+  const map: Record<string, BookableService[]> = {};
+  for (const s of services) {
+    if (!map[s.categorySlug]) map[s.categorySlug] = [];
+    map[s.categorySlug].push(s);
+  }
+  return map;
+}
 
 export default function OnlineBookingView() {
   const searchParams = useSearchParams();
   const preCategory = searchParams.get("category") || "";
   const preTreatment = searchParams.get("treatment") || "";
   const { settings } = useSiteSettings();
-  const googleUrl = resolveGoogleAppointmentUrl(settings);
   const telHref = phoneToTel(settings.phone);
 
-  const [loading, setLoading] = useState(true);
-  const [byCategory, setByCategory] = useState<Record<string, TreatmentRow[]>>({});
+  const [step, setStep] = useState<Step>("service");
+  const [services, setServices] = useState<BookableService[]>([]);
+  const [loadingServices, setLoadingServices] = useState(true);
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [slots, setSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    let cancelled = false;
-
-    fetch("/api/categories")
+    fetch("/api/booking/services")
       .then((r) => r.json())
-      .then(async (data) => {
-        const categories = (data.categories || []).filter((c: { slug: string }) =>
-          isOnlineBookableCategory(c.slug)
-        );
-        const entries = await Promise.all(
-          categories.map(async (cat: { slug: string; title: string }) => {
-            const r = await fetch(
-              `/api/treatments?category=${encodeURIComponent(cat.slug)}`
-            );
-            const d = await r.json();
-            const treatments = (d.treatments || []).map(
-              (t: TreatmentRow & { shortDescription?: string }) => ({
-                _id: t._id,
-                name: t.name,
-                slug: t.slug,
-                categorySlug: cat.slug,
-                price: t.price,
-                hidePrice: t.hidePrice,
-              })
-            );
-            return [cat.slug, treatments] as const;
-          })
-        );
-        if (cancelled) return;
-        const map: Record<string, TreatmentRow[]> = {};
-        for (const [slug, list] of entries) {
-          if (list.length) map[slug] = list;
-        }
-        setByCategory(map);
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
+      .then((d) => setServices(d.services || []))
+      .catch(() => setError("Could not load bookable treatments."))
+      .finally(() => setLoadingServices(false));
   }, []);
 
-  const selected = useMemo(() => {
-    if (!preCategory || !preTreatment) return null;
-    const list = byCategory[preCategory] || [];
-    return list.find((t) => t.slug === preTreatment) || null;
-  }, [byCategory, preCategory, preTreatment]);
-
-  const openGoogleBooking = (treatmentName?: string) => {
-    if (!googleUrl) return;
-    const url = new URL(googleUrl);
-    if (treatmentName) {
-      url.searchParams.set("treatment", treatmentName.slice(0, 120));
+  useEffect(() => {
+    if (!services.length || !preCategory || !preTreatment) return;
+    const match = services.find(
+      (s) => s.categorySlug === preCategory && s.treatmentSlug === preTreatment
+    );
+    if (match) {
+      setSelectedServiceId(match.id);
+      setStep("datetime");
     }
-    window.open(url.toString(), "_blank", "noopener,noreferrer");
+  }, [services, preCategory, preTreatment]);
+
+  const selectedService = services.find((s) => s.id === selectedServiceId);
+  const grouped = useMemo(() => groupServices(services), [services]);
+
+  const dateOptions = useMemo(() => {
+    const out: string[] = [];
+    const now = new Date();
+    for (let i = 0; i < 90; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() + i);
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Toronto",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).formatToParts(d);
+      const y = parts.find((p) => p.type === "year")?.value;
+      const m = parts.find((p) => p.type === "month")?.value;
+      const day = parts.find((p) => p.type === "day")?.value;
+      if (y && m && day) out.push(`${y}-${m}-${day}`);
+    }
+    return out;
+  }, []);
+
+  useEffect(() => {
+    if (!selectedServiceId || !selectedDate) {
+      setSlots([]);
+      return;
+    }
+    setLoadingSlots(true);
+    setSelectedSlot("");
+    fetch(
+      `/api/booking/availability?serviceId=${encodeURIComponent(selectedServiceId)}&date=${encodeURIComponent(selectedDate)}`
+    )
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || "Could not load times");
+        setSlots(d.slots || []);
+      })
+      .catch((err) => {
+        setSlots([]);
+        setError(err instanceof Error ? err.message : "Could not load times");
+      })
+      .finally(() => setLoadingSlots(false));
+  }, [selectedServiceId, selectedDate]);
+
+  const goToCheckout = async () => {
+    setError("");
+    if (!selectedServiceId || !selectedSlot || !customerName || !email || !phone) {
+      setError("Please complete all fields.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const r = await fetch("/api/booking/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceId: selectedServiceId,
+          startLocal: selectedSlot,
+          customerName,
+          email,
+          phone,
+        }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "Checkout failed");
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error("No checkout URL returned");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Checkout failed");
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -113,8 +160,9 @@ export default function OnlineBookingView() {
             </h1>
             <div className="mx-auto mb-5 h-px w-12 bg-gold/50" />
             <p className="mx-auto max-w-2xl font-inter text-base leading-relaxed text-soft-taupe">
-              Schedule facials, laser, muscle toning, microneedling, and IPL directly with
-              Lumina Medi Spa. Your appointment syncs with our clinic calendar.
+              Choose your treatment, pick a date and time, and pay a ${BOOKING_DEPOSIT_CAD}{" "}
+              CAD deposit to confirm. Your appointment is added to our clinic calendar
+              automatically.
             </p>
           </ScrollReveal>
         </div>
@@ -122,160 +170,213 @@ export default function OnlineBookingView() {
 
       <section className="section-pad section-warm">
         <div className="container-luxury max-w-3xl">
-          {selected && (
-            <ScrollReveal className="mb-8">
-              <div className="rounded-2xl border border-gold/30 bg-white p-6 shadow-card sm:p-8">
-                <p className="font-inter text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
-                  Selected treatment
-                </p>
-                <h2 className="mt-2 font-playfair text-2xl font-bold text-text-dark">
-                  {selected.name}
-                </h2>
-                {selected.price && !selected.hidePrice && (
-                  <p className="mt-1 font-playfair text-gold">{selected.price}</p>
-                )}
-                {googleUrl ? (
-                  <button
-                    type="button"
-                    onClick={() => openGoogleBooking(selected.name)}
-                    className="btn-gold mt-6 inline-flex w-full items-center justify-center gap-2 rounded-sm sm:w-auto"
-                  >
-                    <Calendar size={16} />
-                    Choose date &amp; time
-                    <ExternalLink size={14} />
-                  </button>
-                ) : (
-                  <p className="mt-4 font-inter text-sm text-soft-taupe">
-                    Online scheduling is being finalized. Please call{" "}
-                    <a href={telHref} className="font-semibold text-gold hover:underline">
-                      {settings.phone}
-                    </a>{" "}
-                    or{" "}
-                    <Link href="/contact" className="font-semibold text-gold hover:underline">
-                      contact us
-                    </Link>{" "}
-                    to book.
-                  </p>
-                )}
-              </div>
-            </ScrollReveal>
-          )}
-
-          {!selected && googleUrl && (
-            <ScrollReveal className="mb-10">
-              <div className="rounded-2xl border border-gold/25 bg-white p-6 text-center shadow-card sm:p-8">
-                <Calendar className="mx-auto mb-4 text-gold" size={32} />
-                <h2 className="font-playfair text-xl font-bold text-text-dark sm:text-2xl">
-                  Ready to schedule?
-                </h2>
-                <p className="mx-auto mt-2 max-w-md font-inter text-sm text-soft-taupe">
-                  Pick a time that works for you. Appointments are added to our clinic
-                  calendar automatically.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => openGoogleBooking()}
-                  className="btn-gold mt-6 inline-flex items-center gap-2 rounded-sm"
-                >
-                  Open scheduling calendar
-                  <ExternalLink size={14} />
-                </button>
-              </div>
-            </ScrollReveal>
-          )}
-
-          {!googleUrl && !selected && (
-            <ScrollReveal className="mb-10">
-              <div className="rounded-2xl border border-gold/20 bg-[#FAF4EB] p-6 text-center">
-                <p className="font-inter text-sm text-soft-taupe">
-                  Select a treatment below, or call{" "}
-                  <a href={telHref} className="font-semibold text-gold">
-                    {settings.phone}
-                  </a>{" "}
-                  to book.
-                </p>
-              </div>
-            </ScrollReveal>
-          )}
-
-          <ScrollReveal>
-            <h2 className="mb-6 font-playfair text-2xl font-bold text-text-dark">
-              Treatments you can book online
-            </h2>
-          </ScrollReveal>
-
-          {loading ? (
-            <div className="flex items-center justify-center gap-2 py-16 font-inter text-sm text-soft-taupe">
-              <Loader2 size={18} className="animate-spin text-gold" />
-              Loading treatments…
+          {error && (
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 font-inter text-sm text-red-800">
+              {error}
             </div>
-          ) : (
-            <div className="space-y-10">
-              {Object.entries(byCategory).map(([slug, treatments], idx) => (
-                <ScrollReveal key={slug} delay={idx * 0.05}>
-                  <div>
-                    <h3 className="mb-4 font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-gold">
-                      {BOOKING_CATEGORY_LABELS[slug] || slug}
-                    </h3>
-                    <ul className="space-y-3">
-                      {treatments.map((t) => {
-                        const isSelected =
-                          preCategory === slug && preTreatment === t.slug;
-                        const href = `/book?category=${encodeURIComponent(slug)}&treatment=${encodeURIComponent(t.slug)}`;
-                        return (
-                          <li key={t._id || t.slug}>
-                            <div
-                              className={`flex flex-col gap-3 rounded-xl border bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5 ${
-                                isSelected
+          )}
+
+          {step === "service" && (
+            <ScrollReveal>
+              <h2 className="mb-6 font-playfair text-2xl font-bold text-text-dark">
+                1. Select your treatment
+              </h2>
+              {loadingServices ? (
+                <div className="flex items-center gap-2 py-12 font-inter text-sm text-soft-taupe">
+                  <Loader2 size={18} className="animate-spin text-gold" />
+                  Loading treatments…
+                </div>
+              ) : (
+                <div className="space-y-10">
+                  {Object.entries(grouped).map(([slug, list]) => (
+                    <div key={slug}>
+                      <h3 className="mb-4 font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-gold">
+                        {BOOKING_CATEGORY_LABELS[slug] || slug}
+                      </h3>
+                      <ul className="space-y-2">
+                        {list.map((s) => (
+                          <li key={s.id}>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedServiceId(s.id);
+                                setStep("datetime");
+                                setError("");
+                              }}
+                              className={`flex w-full items-center justify-between rounded-xl border bg-white p-4 text-left transition hover:border-gold/40 sm:p-5 ${
+                                selectedServiceId === s.id
                                   ? "border-gold/50 shadow-gold-sm"
                                   : "border-gold/15"
                               }`}
                             >
-                              <div className="min-w-0">
-                                <p className="font-playfair text-lg font-semibold text-text-dark">
-                                  {t.name}
-                                </p>
-                                {t.price && !t.hidePrice && (
-                                  <p className="mt-0.5 font-inter text-sm text-gold">
-                                    {t.price}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="flex shrink-0 gap-2">
-                                <Link
-                                  href={`/services/${slug}/${t.slug}`}
-                                  className="inline-flex items-center rounded-sm border border-gold/30 px-4 py-2 font-inter text-xs font-semibold uppercase tracking-wider text-gold hover:bg-gold/5"
-                                >
-                                  Details
-                                </Link>
-                                {googleUrl ? (
-                                  <button
-                                    type="button"
-                                    onClick={() => openGoogleBooking(t.name)}
-                                    className="inline-flex items-center gap-1 rounded-sm bg-gold px-4 py-2 font-inter text-xs font-bold uppercase tracking-wider text-white hover:bg-deep-gold"
-                                  >
-                                    Book
-                                    <ArrowRight size={12} />
-                                  </button>
-                                ) : (
-                                  <Link
-                                    href={href}
-                                    className="inline-flex items-center gap-1 rounded-sm bg-gold px-4 py-2 font-inter text-xs font-bold uppercase tracking-wider text-white hover:bg-deep-gold"
-                                  >
-                                    Select
-                                    <ArrowRight size={12} />
-                                  </Link>
-                                )}
-                              </div>
-                            </div>
+                              <span className="font-playfair text-lg font-semibold text-text-dark">
+                                {s.name}
+                              </span>
+                              <span className="font-inter text-xs text-soft-taupe">
+                                {s.durationMinutes} min
+                              </span>
+                            </button>
                           </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollReveal>
+          )}
+
+          {step === "datetime" && selectedService && (
+            <ScrollReveal>
+              <button
+                type="button"
+                onClick={() => setStep("service")}
+                className="mb-4 inline-flex items-center gap-1 font-inter text-sm text-gold hover:text-deep-gold"
+              >
+                <ArrowLeft size={14} />
+                Change treatment
+              </button>
+              <h2 className="mb-2 font-playfair text-2xl font-bold text-text-dark">
+                2. Choose date &amp; time
+              </h2>
+              <p className="mb-6 font-inter text-sm text-soft-taupe">
+                {selectedService.name} · {selectedService.durationMinutes} minutes
+              </p>
+
+              <label className="mb-2 block font-inter text-xs font-bold uppercase tracking-wider text-gold">
+                Date
+              </label>
+              <select
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="mb-6 w-full rounded-lg border border-gold/25 bg-white px-4 py-3 font-inter text-sm text-text-dark"
+              >
+                <option value="">Select a date…</option>
+                {dateOptions.map((d) => (
+                  <option key={d} value={d}>
+                    {new Intl.DateTimeFormat("en-CA", {
+                      timeZone: "America/Toronto",
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }).format(new Date(`${d}T12:00:00Z`))}
+                  </option>
+                ))}
+              </select>
+
+              {selectedDate && (
+                <>
+                  <label className="mb-2 block font-inter text-xs font-bold uppercase tracking-wider text-gold">
+                    Available times (Eastern)
+                  </label>
+                  {loadingSlots ? (
+                    <div className="flex items-center gap-2 py-8 font-inter text-sm text-soft-taupe">
+                      <Loader2 size={16} className="animate-spin text-gold" />
+                      Checking availability…
+                    </div>
+                  ) : slots.length === 0 ? (
+                    <p className="font-inter text-sm text-soft-taupe">
+                      No times available this day. Try another date or call{" "}
+                      <a href={telHref} className="font-semibold text-gold">
+                        {settings.phone}
+                      </a>.
+                    </p>
+                  ) : (
+                    <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {slots.map((slot) => (
+                        <button
+                          key={slot}
+                          type="button"
+                          onClick={() => {
+                            setSelectedSlot(slot);
+                            setStep("details");
+                            setError("");
+                          }}
+                          className={`rounded-lg border px-3 py-2 font-inter text-sm transition ${
+                            selectedSlot === slot
+                              ? "border-gold bg-gold/10 text-text-dark"
+                              : "border-gold/20 bg-white text-text-dark hover:border-gold/40"
+                          }`}
+                        >
+                          {formatSlotLabel(slot).split(",").pop()?.trim()}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </ScrollReveal>
+          )}
+
+          {step === "details" && selectedService && selectedSlot && (
+            <ScrollReveal>
+              <button
+                type="button"
+                onClick={() => setStep("datetime")}
+                className="mb-4 inline-flex items-center gap-1 font-inter text-sm text-gold hover:text-deep-gold"
+              >
+                <ArrowLeft size={14} />
+                Change time
+              </button>
+              <h2 className="mb-2 font-playfair text-2xl font-bold text-text-dark">
+                3. Your details &amp; deposit
+              </h2>
+              <div className="mb-6 rounded-xl border border-gold/20 bg-white p-4 font-inter text-sm text-soft-taupe">
+                <p className="font-semibold text-text-dark">{selectedService.name}</p>
+                <p className="mt-1 flex items-center gap-2">
+                  <Calendar size={14} className="text-gold" />
+                  {formatSlotLabel(selectedSlot)}
+                </p>
+                <p className="mt-2 text-xs">
+                  ${BOOKING_DEPOSIT_CAD} CAD deposit required. Cancellations with less than 12
+                  hours notice may be charged 100% of the service fee.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Full name"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full rounded-lg border border-gold/25 bg-white px-4 py-3 font-inter text-sm"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-lg border border-gold/25 bg-white px-4 py-3 font-inter text-sm"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full rounded-lg border border-gold/25 bg-white px-4 py-3 font-inter text-sm"
+                />
+              </div>
+
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={goToCheckout}
+                className="btn-gold mt-6 inline-flex w-full items-center justify-center gap-2 rounded-sm disabled:opacity-60 sm:w-auto"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Redirecting to payment…
+                  </>
+                ) : (
+                  <>
+                    Pay ${BOOKING_DEPOSIT_CAD} deposit &amp; confirm
+                    <ArrowRight size={16} />
+                  </>
+                )}
+              </button>
+            </ScrollReveal>
           )}
 
           <ScrollReveal delay={0.2} className="mt-12">

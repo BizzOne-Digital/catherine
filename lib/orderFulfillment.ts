@@ -81,6 +81,10 @@ export async function fulfillOrderFromStripeSession(
     return null;
   }
 
+  if (session.metadata?.type === "appointment") {
+    return null;
+  }
+
   let order = await Order.findOne({ stripeSessionId: session.id });
   let created = false;
 

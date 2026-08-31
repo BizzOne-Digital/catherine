@@ -115,6 +115,63 @@ export async function sendBookingEmail(data: {
   });
 }
 
+export async function sendAppointmentConfirmationEmails(data: {
+  customerName: string;
+  email: string;
+  phone: string;
+  serviceName: string;
+  startLocal: string;
+  endLocal: string;
+  depositAmount: number;
+  appointmentId: string;
+}) {
+  const transporter = getTransporter();
+  const adminInbox = SPA_INBOX;
+  const when = data.startLocal.replace("T", " at ").slice(0, 16);
+
+  await transporter.sendMail({
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
+    to: data.email,
+    subject: "Your Lumina Medi Spa appointment is confirmed",
+    html: `
+      <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #15110D; color: #E8D8C3; padding: 40px; border-radius: 12px;">
+        <h1 style="color: #D6B56D; font-family: 'Playfair Display', serif; font-size: 26px;">Appointment Confirmed</h1>
+        <p style="color: #A99782; margin-top: 12px;">Thank you, ${escapeHtml(data.customerName)}!</p>
+        <div style="margin-top: 24px; padding: 20px; border: 1px solid rgba(214,181,109,0.25); border-radius: 8px;">
+          <p><strong style="color: #D6B56D;">Treatment:</strong> ${escapeHtml(data.serviceName)}</p>
+          <p><strong style="color: #D6B56D;">When:</strong> ${escapeHtml(when)} (Eastern Time)</p>
+          <p><strong style="color: #D6B56D;">Deposit paid:</strong> $${data.depositAmount.toFixed(2)} CAD</p>
+          <p style="margin-top: 16px; color: #A99782; font-size: 13px;">
+            A calendar invitation has been sent to this email. Cancellations with less than 12 hours notice may be charged 100% of the service fee per our no-show policy.
+          </p>
+        </div>
+        <p style="margin-top: 20px; color: #A99782; font-size: 12px;">Reference: ${escapeHtml(data.appointmentId)}</p>
+      </div>
+    `,
+  });
+
+  await transporter.sendMail({
+    from: `"Lumina Medi Spa" <${SMTP_USER}>`,
+    to: adminInbox,
+    replyTo: data.email,
+    subject: `New Online Booking — ${data.customerName} — ${data.serviceName}`,
+    html: `
+      <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; background: #15110D; color: #E8D8C3; padding: 40px; border-radius: 12px;">
+        <h1 style="color: #D6B56D; font-family: 'Playfair Display', serif; font-size: 24px;">New Online Booking</h1>
+        <div style="margin-top: 20px; padding: 20px; border: 1px solid rgba(214,181,109,0.25); border-radius: 8px;">
+          <p><strong style="color: #D6B56D;">Name:</strong> ${escapeHtml(data.customerName)}</p>
+          <p><strong style="color: #D6B56D;">Email:</strong> ${escapeHtml(data.email)}</p>
+          <p><strong style="color: #D6B56D;">Phone:</strong> ${escapeHtml(data.phone)}</p>
+          <p><strong style="color: #D6B56D;">Treatment:</strong> ${escapeHtml(data.serviceName)}</p>
+          <p><strong style="color: #D6B56D;">Start:</strong> ${escapeHtml(data.startLocal)}</p>
+          <p><strong style="color: #D6B56D;">End:</strong> ${escapeHtml(data.endLocal)}</p>
+          <p><strong style="color: #D6B56D;">Deposit:</strong> $${data.depositAmount.toFixed(2)} CAD</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
 export type OrderEmailData = {
   customerName: string;
   email: string;

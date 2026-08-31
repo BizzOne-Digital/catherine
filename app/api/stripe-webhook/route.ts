@@ -37,6 +37,18 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
 
     try {
+      if (session.metadata?.type === "appointment") {
+        const { fulfillAppointmentFromStripeSession } = await import(
+          "@/lib/appointmentFulfillment"
+        );
+        const result = await fulfillAppointmentFromStripeSession(session.id);
+        return NextResponse.json({
+          received: true,
+          appointmentId: result?.appointmentId,
+          emailSent: result?.emailSent,
+        });
+      }
+
       const result = await fulfillOrderFromStripeSession(session.id);
       return NextResponse.json({
         received: true,
@@ -44,8 +56,8 @@ export async function POST(req: NextRequest) {
         emailSent: result?.emailSent,
       });
     } catch (err) {
-      console.error("Order processing error:", err);
-      return NextResponse.json({ error: "Order processing failed" }, { status: 500 });
+      console.error("Checkout processing error:", err);
+      return NextResponse.json({ error: "Payment processing failed" }, { status: 500 });
     }
   }
 

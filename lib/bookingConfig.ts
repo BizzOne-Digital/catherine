@@ -1,4 +1,4 @@
-/** Online booking vs consultation inquiry routing (Phase 1 — Google Appointments). */
+/** Online booking vs consultation inquiry routing. */
 
 export const INQUIRY_ONLY_CATEGORIES = new Set([
   "injectables-wrinkle-relaxers",
