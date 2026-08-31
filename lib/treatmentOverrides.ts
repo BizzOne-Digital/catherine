@@ -95,7 +95,6 @@ export function getCombinedBeforeAfterGallery(
       "/images/treatments/IPL-BBL-before-and-after-1.png",
     ];
   }
-  // Hide before/after on individual HIFEM treatment pages
   if (categorySlug === "body-sculpting-contouring") {
     return [];
   }
@@ -220,7 +219,18 @@ export function applyTreatmentOverrides<T extends TreatmentLike>(
     return withHeroImage(treatment, LASER_IMAGE);
   }
 
-  // Hide before/after images on all Body Sculpting (HIFEM) treatment detail pages
+  if (
+    categorySlug === "body-sculpting-contouring" &&
+    treatmentSlug === "body-sculpting-hifem"
+  ) {
+    return {
+      ...withHeroImage(treatment, HIFEM_IMAGE),
+      beforeImage: "/images/treatments/HIFEM-muscle-toning-before-and-after.png",
+      afterImage: "__combined__",
+    };
+  }
+
+  // Hide before/after on other HIFEM package / two-area treatment pages
   if (categorySlug === "body-sculpting-contouring") {
     return {
       ...withHeroImage(treatment, HIFEM_IMAGE),
