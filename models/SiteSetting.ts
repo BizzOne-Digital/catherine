@@ -1,4 +1,9 @@
 import mongoose, { Schema, Document } from "mongoose";
+import {
+  DEFAULT_HOURS_MON_FRI,
+  DEFAULT_HOURS_SAT,
+  DEFAULT_HOURS_SUN,
+} from "@/lib/businessHours";
 
 export interface ISiteSetting extends Document {
   businessName: string;
@@ -38,9 +43,9 @@ const SiteSettingSchema = new Schema<ISiteSetting>(
     instagramUrl: { type: String, default: "https://instagram.com/luminamedispa" },
     facebookUrl: { type: String, default: "" },
     googleMapsUrl: { type: String, default: "" },
-    hoursMonFri: { type: String, default: "Call for information and by appointment 📅" },
-    hoursSat: { type: String, default: "Call for information and by appointment 📅" },
-    hoursSun: { type: String, default: "Call for information and by appointment 📅" },
+    hoursMonFri: { type: String, default: DEFAULT_HOURS_MON_FRI },
+    hoursSat: { type: String, default: DEFAULT_HOURS_SAT },
+    hoursSun: { type: String, default: DEFAULT_HOURS_SUN },
     announcementBarText: {
       type: String,
       default: "✦ Complimentary Skin Consultation — Book Today ✦",

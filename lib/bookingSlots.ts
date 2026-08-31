@@ -1,8 +1,12 @@
 import { addMinutes } from "date-fns";
 import type { BusyPeriod } from "@/lib/googleCalendar";
+import {
+  BUSINESS_HOURS,
+  getCloseHourForWeekday,
+} from "@/lib/businessHours";
 
 export const BOOKING_RULES = {
-  timeZone: "America/Toronto",
+  timeZone: BUSINESS_HOURS.timeZone,
   minNoticeHours: 12,
   maxAdvanceDays: 90,
   bufferMinutes: 10,
@@ -15,15 +19,14 @@ function getDayHours(dateStr: string): { open: number; close: number } | null {
   const weekday = new Intl.DateTimeFormat("en-US", {
     timeZone: BOOKING_RULES.timeZone,
     weekday: "long",
-  }).format(utcMid).toLowerCase();
+  })
+    .format(utcMid)
+    .toLowerCase();
 
-  if (["monday", "wednesday", "thursday", "friday", "saturday"].includes(weekday)) {
-    return { open: 10, close: 19 };
-  }
-  if (["tuesday", "sunday"].includes(weekday)) {
-    return { open: 10, close: 18 };
-  }
-  return { open: 10, close: 19 };
+  return {
+    open: BUSINESS_HOURS.openHour,
+    close: getCloseHourForWeekday(weekday),
+  };
 }
 
 function getTorontoParts(utc: Date) {

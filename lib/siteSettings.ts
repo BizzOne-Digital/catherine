@@ -1,5 +1,11 @@
 /** Canonical public-facing site settings + legacy field migration. */
 
+import {
+  DEFAULT_HOURS_MON_FRI,
+  DEFAULT_HOURS_SAT,
+  DEFAULT_HOURS_SUN,
+} from "@/lib/businessHours";
+
 export type SiteSettings = {
   businessName: string;
   tagline: string;
@@ -31,9 +37,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   instagramUrl: "https://instagram.com/luminamedispa",
   facebookUrl: "https://www.facebook.com/people/Lumina-Medi-Spa/61592873863862/",
   googleMapsUrl: "",
-  hoursMonFri: "Call for information and by appointment 📅",
-  hoursSat: "Call for information and by appointment 📅",
-  hoursSun: "Call for information and by appointment 📅",
+  hoursMonFri: DEFAULT_HOURS_MON_FRI,
+  hoursSat: DEFAULT_HOURS_SAT,
+  hoursSun: DEFAULT_HOURS_SUN,
   announcementBarText: "✦ Complimentary Skin Consultation — Book Today ✦",
   announcementBarEnabled: true,
   metaTitle: "Lumina Medi Spa | Medical Aesthetics in Mississauga",

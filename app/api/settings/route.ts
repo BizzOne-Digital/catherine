@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import SiteSetting from "@/models/SiteSetting";
+import { isPlaceholderHoursText } from "@/lib/businessHours";
 import {
   DEFAULT_SITE_SETTINGS,
   normalizeSiteSettings,
@@ -25,8 +26,9 @@ export async function GET() {
         !normalized.address.includes("Village Centre");
 
       const staleHours =
-        /AM|PM|–|-/.test(String(doc.hoursMonFri || "")) ||
-        String(doc.hoursMonFri || "").toLowerCase().includes("10:00");
+        isPlaceholderHoursText(doc.hoursMonFri) ||
+        isPlaceholderHoursText(doc.hoursSat) ||
+        isPlaceholderHoursText(doc.hoursSun);
 
       const needsPatch =
         staleContact ||

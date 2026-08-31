@@ -86,9 +86,11 @@ export default function ContactBookingView({ cmsSlug = "booking" }: Props) {
                       <Clock size={15} className="mt-0.5 flex-shrink-0 text-gold" />
                       <div className="min-w-0 flex-1">
                         <p className="mb-1 font-inter text-xs text-soft-taupe">Hours</p>
-                        <p className="font-inter text-sm leading-relaxed text-warm-beige">
-                          Call for information and by appointment 📅
-                        </p>
+                        <ul className="space-y-0.5 font-inter text-sm leading-relaxed text-warm-beige">
+                          <li>Monday – Friday: {settings.hoursMonFri}</li>
+                          <li>Saturday: {settings.hoursSat}</li>
+                          <li>Sunday: {settings.hoursSun}</li>
+                        </ul>
                       </div>
                     </li>
                   </ul>

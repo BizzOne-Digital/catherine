@@ -9,6 +9,7 @@ import {
   Shield,
   Sparkles,
   Flower2,
+  Clock,
 } from "lucide-react";
 import IntroLogo from "@/components/ui/IntroLogo";
 import { FacebookIcon, TikTokIcon } from "@/components/ui/SocialIcons";
@@ -194,6 +195,18 @@ export default function Footer() {
                     </span>
                     @luminamedispa
                   </a>
+                </li>
+                <li>
+                  <span className="footer-contact-item items-start">
+                    <span className="footer-contact-icon mt-0.5">
+                      <Clock size={13} />
+                    </span>
+                    <span className="flex min-w-0 flex-col gap-0.5 text-[13px] leading-snug">
+                      <span>Mon – Fri: {settings.hoursMonFri}</span>
+                      <span>Sat: {settings.hoursSat}</span>
+                      <span>Sun: {settings.hoursSun}</span>
+                    </span>
+                  </span>
                 </li>
                 <li>
                   <span className="footer-contact-item items-start">
