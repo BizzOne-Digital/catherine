@@ -27,7 +27,15 @@ export async function GET(req: NextRequest) {
   try {
     const dayStart = torontoLocalToUtc(date, 0, 0);
     const dayEnd = addMinutes(dayStart, 24 * 60);
-    const busy = await fetchBusyPeriods(dayStart, dayEnd);
+
+    let busy: Awaited<ReturnType<typeof fetchBusyPeriods>> = [];
+    try {
+      busy = await fetchBusyPeriods(dayStart, dayEnd);
+    } catch (calendarErr) {
+      console.error("[booking/availability] Google Calendar busy check failed:", calendarErr);
+      // Still show open slots if calendar is temporarily unreachable
+    }
+
     const slots = generateSlotsForDay(date, service.durationMinutes, busy);
     return NextResponse.json({ slots, durationMinutes: service.durationMinutes });
   } catch (err) {

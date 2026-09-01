@@ -16,7 +16,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import { BOOKING_CATEGORY_LABELS } from "@/lib/bookingConfig";
 import { BOOKING_DEPOSIT_CAD, type BookableService } from "@/lib/bookableServices";
 import { phoneToTel, useSiteSettings } from "@/components/cms/useSiteSettings";
-import { formatSlotLabel } from "@/lib/bookingSlots";
+import { formatSlotLabel, formatSlotTimeLabel } from "@/lib/bookingSlots";
 
 type Step = "service" | "datetime" | "details";
 
@@ -299,7 +299,7 @@ export default function OnlineBookingView() {
                               : "border-gold/20 bg-white text-text-dark hover:border-gold/40"
                           }`}
                         >
-                          {formatSlotLabel(slot).split(",").pop()?.trim()}
+                          {formatSlotTimeLabel(slot)}
                         </button>
                       ))}
                     </div>

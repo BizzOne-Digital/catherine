@@ -57,15 +57,17 @@ export function torontoLocalToUtc(
   minute: number
 ): Date {
   const [y, m, d] = dateStr.split("-").map(Number);
-  let utc = new Date(Date.UTC(y, m - 1, d, hour, minute));
-  for (let i = 0; i < 4; i++) {
-    const parts = getTorontoParts(utc);
+  let utcMs = Date.UTC(y, m - 1, d, hour, minute);
+
+  for (let i = 0; i < 8; i++) {
+    const parts = getTorontoParts(new Date(utcMs));
     const diffMin =
       (hour - parts.hour) * 60 + (minute - parts.minute) + (d - parts.day) * 1440;
     if (diffMin === 0) break;
-    utc = new Date(utc.getTime() - diffMin * 60 * 1000);
+    utcMs += diffMin * 60 * 1000;
   }
-  return utc;
+
+  return new Date(utcMs);
 }
 
 export function formatLocalDateTime(dateStr: string, hour: number, minute: number) {
@@ -132,4 +134,14 @@ export function formatSlotLabel(localDateTime: string) {
     minute: "2-digit",
     hour12: true,
   }).format(utc);
+}
+
+/** Time-only label — slot strings are already Toronto local wall-clock times. */
+export function formatSlotTimeLabel(localDateTime: string) {
+  const [, timePart] = localDateTime.split("T");
+  const [h, m] = (timePart || "").split(":").map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return localDateTime;
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const period = h < 12 ? "a.m." : "p.m.";
+  return `${hour12}:${String(m).padStart(2, "0")} ${period}`;
 }
