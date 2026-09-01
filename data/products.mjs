@@ -14,7 +14,7 @@ export const products = [
     description:
       "L.C.E Balm is a repairing, decongesting and soothing treatment that can be used on open or closed wounds, bruises and oedemas. A unique 3-in-1 formula to speed up skin repair for everyday knocks and bumps or the side effects of cosmetic or dermatological procedures.",
     price: 48,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-lce-balm-15ml.jpg",
     isFeatured: true,
     isActive: true,
     stockStatus: "in_stock",
@@ -28,7 +28,7 @@ export const products = [
     description:
       "Extreme care is a complete soothing and anti-redness repair treatment for the face and body. Designed to soothe the skin after aesthetic procedures (laser, peeling...) or to calm everyday redness (depilation, sunburn...), it is the SOS treatment that refreshes the epidermis and immediately calms reactive and aggressed skin thanks to the repairing action of the patented active ingredient Cebeline®.",
     price: 85,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-extreme-care-75ml.jpg",
     isFeatured: true,
     isActive: true,
     stockStatus: "in_stock",
@@ -42,7 +42,7 @@ export const products = [
     description:
       "Comfort Cream moisturises and protects against external aggressions (pollution, climate, smoking, aggressive skin treatments, etc.). It protects and helps the skin to defend itself against everyday aggressions, or after cosmetic procedures, giving it a comfortable appearance.",
     price: 78,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-comfort-cream-40ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -56,7 +56,7 @@ export const products = [
     description:
       "UV Protect L-50 Repair is a multifunctional 2-in-1 skincare product that combines very high sun protection with a repairing action. It has been formulated with our patented Cebeline® peptide which accelerates and enhances skin repair, and a trio of skin-friendly, broad-spectrum filters for effective protection against UVA and UVB rays.",
     price: 78,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-uv-protect-l50-repair-40ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -70,7 +70,7 @@ export const products = [
     description:
       "Intensive Anti-Aging cream was created to offer all the anti-aging power of our patent CEBELINE® in a product specifically formulated to fight against sagging skin, wrinkles and fine lines, dehydration, dryness and loss of radiance.",
     price: 85,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-intensive-anti-aging-30ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -84,7 +84,7 @@ export const products = [
     description:
       "The Reinforced Depigmenting Agent, composed of our patented PEKALINE active ingredient, acts on the melanogenesis process. It reduces the intensity and size of your pigmentation spots and slows down the formation of new spots.",
     price: 118.8,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-reinforced-depigmenting.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -98,7 +98,7 @@ export const products = [
     description:
       "Formulated with our patented CEBELINE® active ingredient, which strengthens hair bulb anchoring while promoting scalp repair, and enriched with Pichia Minuta yeast extract to stimulate hair growth, the Anti-Hair Loss Lotion is designed to treat alopecia (hair loss) in both men and women.",
     price: 96,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-anti-hair-loss-lotion-60ml.jpg",
     isFeatured: true,
     isActive: true,
     stockStatus: "in_stock",
@@ -112,7 +112,7 @@ export const products = [
     description:
       "The Soothing Lotion calms and repairs damaged and irritated scalp. Its fragrance-free formula combines our patented active ingredient Cebeline® for its reparative action with soothing and anti-inflammatory agents.",
     price: 86.73,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/cebelia-soothing-lotion-scalp-60ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -127,7 +127,7 @@ export const products = [
       "A luxurious, all-natural lip treatment that will leave your lips feeling soft, smooth and refreshed. Formulated with a blend of high-quality ingredients, including organic castor oil, jojoba oil, and peppermint essential oil, our lip oil is designed to nourish and hydrate your lips.\n\nOur lip oil is free from harmful chemicals and toxins, making it a safe and healthy alternative to other lip products on the market. We use only the finest quality ingredients, including organic carrier oils and vitamin E, to ensure that our lip oil provides your lips with the nutrients they need to stay healthy and beautiful.",
     ingredients: "Organic castor oil, jojoba oil, peppermint essential oil, vitamin E",
     price: 30,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/fore-essentials-mint-lip-oil.jpg",
     isFeatured: true,
     isActive: true,
     stockStatus: "in_stock",
@@ -141,7 +141,7 @@ export const products = [
     description:
       "Indulge in our Hydrating Berry Lip Oil Stain, a perfect blend of natural and organic elements designed for luscious lips. Experience the silky texture and vibrant, long-lasting color achieved through a harmonious mix of nourishing oils. Let the delightful scent of Mixed Berry Flavoring Oil captivate your senses, leaving your lips feeling hydrated, smooth, and beautifully adorned. Elevate your lip game with our irresistible, berry-inspired lip stain, the perfect fusion of nature's goodness and contemporary allure.",
     price: 30,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/fore-essentials-hydrating-berry-lip-oil-stain.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -156,7 +156,7 @@ export const products = [
       "Our gentle cleansing facial scrub contains coffee grounds to exfoliate the skin, turning into a luxurious light, creamy milk when water is added. An exfoliating coffee scrub can give you smoother skin with a fresh glow, leaving you with a more youthful smooth looking face overall. This exfoliator contains jojoba and vitamin E oil which boost moisture in your skin so much that people often don't need to use a moisturizer afterward — cleanser, scrub, and moisturizer in one.",
     ingredients: "Coffee grounds, jojoba oil, vitamin E",
     price: 28.59,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/fore-essentials-exfoliating-coffee-gel.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -174,7 +174,7 @@ export const products = [
     howToUse:
       "Apply all over face and neck morning and night. May also be used under make up. For an intensive treatment use over the Naturmed Retinol Synergy Face & Neck Serum.",
     price: 52,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/naturmed-gel-cream-night-mask-retinol-synergy-50ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -191,7 +191,7 @@ export const products = [
       "Encapsulated Retinol 0.3% in Carnauba Wax, Niacinamide, Vitamin C (Sodium Ascorbyl Phosphate), Tocopherol (Vitamin E), BHA",
     howToUse: "Use day and night under the cream on face and neck.",
     price: 63.65,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/naturmed-face-neck-serum-retinol-synergy-30ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -209,7 +209,7 @@ export const products = [
     howToUse:
       "Apply daily with a cosmetic pad after cleansing with a Naturmed Cleanser.",
     price: 31.9,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/naturmed-clarifying-toner-150ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
@@ -227,7 +227,7 @@ export const products = [
     howToUse:
       "Apply to the face and neck with previously moistened hands, massage lightly using small circular motions, continue to massage into the skin then rinse off with warm water.",
     price: 41.7,
-    image: PLACEHOLDER_IMAGE,
+    image: "/images/products/naturmed-clarifying-foaming-gel-cleanser-250ml.jpg",
     isFeatured: false,
     isActive: true,
     stockStatus: "in_stock",
