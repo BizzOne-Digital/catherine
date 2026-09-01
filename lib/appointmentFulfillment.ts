@@ -1,7 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import Appointment from "@/models/Appointment";
 import { getBookableService } from "@/lib/bookableServices";
-import { createCalendarEvent, fetchBusyPeriods } from "@/lib/googleCalendar";
+import { createCalendarEvent, fetchBusyPeriodsSafe } from "@/lib/googleCalendar";
 import {
   generateSlotsForDay,
   torontoLocalToUtc,
@@ -36,13 +36,13 @@ export async function validateSlotAvailable(
   const service = getBookableService(serviceId);
   if (!service) return { ok: false, error: "Invalid service" };
 
-  const [datePart] = startLocal.split("T");
-  if (!datePart) return { ok: false, error: "Invalid time" };
+  const [datePart, timePart] = startLocal.split("T");
+  if (!datePart || !timePart) return { ok: false, error: "Invalid time" };
 
   const endLocal = await computeEndLocal(startLocal, service.durationMinutes);
   const dayStart = torontoLocalToUtc(datePart, 0, 0);
   const dayEnd = addMinutes(dayStart, 24 * 60);
-  const busy = await fetchBusyPeriods(dayStart, dayEnd);
+  const busy = await fetchBusyPeriodsSafe(dayStart, dayEnd);
   const slots = generateSlotsForDay(datePart, service.durationMinutes, busy);
 
   if (!slots.includes(startLocal)) {
@@ -57,7 +57,7 @@ export async function validateSlotAvailable(
 
 export async function fulfillAppointmentFromStripeSession(
   sessionId: string
-): Promise<{ appointmentId: string; emailSent: boolean } | null> {
+): Promise<{ appointmentId: string; emailSent: boolean; calendarSynced: boolean } | null> {
   if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error("STRIPE_SECRET_KEY is not configured");
   }
@@ -82,42 +82,57 @@ export async function fulfillAppointmentFromStripeSession(
     appointment.status = "confirmed";
   }
 
+  let calendarSynced = Boolean(appointment.googleEventId);
+
   if (!appointment.googleEventId) {
-    const { eventId, htmlLink } = await createCalendarEvent({
-      summary: `${appointment.serviceName} — ${appointment.customerName}`,
-      description: [
-        `Phone: ${appointment.phone}`,
-        `Email: ${appointment.email}`,
-        `Deposit paid: $${appointment.depositAmount} CAD`,
-        `Booking ID: ${appointment._id}`,
-        "",
-        "Booked via luminamedispa.ca",
-      ].join("\n"),
-      startLocal: appointment.startLocal,
-      endLocal: appointment.endLocal,
-      attendeeEmail: appointment.email,
-    });
-    appointment.googleEventId = eventId;
-    appointment.googleEventLink = htmlLink || "";
+    try {
+      const { eventId, htmlLink } = await createCalendarEvent({
+        summary: `${appointment.serviceName} — ${appointment.customerName}`,
+        description: [
+          `Phone: ${appointment.phone}`,
+          `Email: ${appointment.email}`,
+          `Deposit paid: $${appointment.depositAmount} CAD`,
+          `Booking ID: ${appointment._id}`,
+          "",
+          "Booked via luminamedispa.ca",
+        ].join("\n"),
+        startLocal: appointment.startLocal,
+        endLocal: appointment.endLocal,
+        attendeeEmail: appointment.email,
+      });
+      appointment.googleEventId = eventId;
+      appointment.googleEventLink = htmlLink || "";
+      calendarSynced = true;
+    } catch (err) {
+      console.error("[appointment] Google Calendar sync failed:", err);
+    }
   }
 
   let emailSent = Boolean(appointment.emailSent);
   if (!emailSent) {
-    await sendAppointmentConfirmationEmails({
-      customerName: appointment.customerName,
-      email: appointment.email,
-      phone: appointment.phone,
-      serviceName: appointment.serviceName,
-      startLocal: appointment.startLocal,
-      endLocal: appointment.endLocal,
-      depositAmount: appointment.depositAmount,
-      appointmentId: appointment._id.toString(),
-    });
-    appointment.emailSent = true;
-    emailSent = true;
+    try {
+      await sendAppointmentConfirmationEmails({
+        customerName: appointment.customerName,
+        email: appointment.email,
+        phone: appointment.phone,
+        serviceName: appointment.serviceName,
+        startLocal: appointment.startLocal,
+        endLocal: appointment.endLocal,
+        depositAmount: appointment.depositAmount,
+        appointmentId: appointment._id.toString(),
+      });
+      appointment.emailSent = true;
+      emailSent = true;
+    } catch (err) {
+      console.error("[appointment] Confirmation email failed:", err);
+    }
   }
 
   await appointment.save();
 
-  return { appointmentId: appointment._id.toString(), emailSent };
+  return {
+    appointmentId: appointment._id.toString(),
+    emailSent,
+    calendarSynced,
+  };
 }

@@ -142,7 +142,7 @@ export async function sendAppointmentConfirmationEmails(data: {
           <p><strong style="color: #D6B56D;">When:</strong> ${escapeHtml(when)} (Eastern Time)</p>
           <p><strong style="color: #D6B56D;">Deposit paid:</strong> $${data.depositAmount.toFixed(2)} CAD</p>
           <p style="margin-top: 16px; color: #A99782; font-size: 13px;">
-            A calendar invitation has been sent to this email. Cancellations with less than 12 hours notice may be charged 100% of the service fee per our no-show policy.
+            Your appointment has been added to our clinic calendar. Cancellations with less than 12 hours notice may be charged 100% of the service fee per our no-show policy.
           </p>
         </div>
         <p style="margin-top: 20px; color: #A99782; font-size: 12px;">Reference: ${escapeHtml(data.appointmentId)}</p>

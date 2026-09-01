@@ -23,7 +23,16 @@ export function getServiceAccountCredentials(): ServiceAccount {
       "GOOGLE_SERVICE_ACCOUNT_JSON is not configured. Add the service account JSON in Vercel env."
     );
   }
-  const parsed = JSON.parse(raw) as ServiceAccount;
+
+  let jsonText = raw;
+  if (
+    (jsonText.startsWith("'") && jsonText.endsWith("'")) ||
+    (jsonText.startsWith('"') && jsonText.endsWith('"'))
+  ) {
+    jsonText = jsonText.slice(1, -1);
+  }
+
+  const parsed = JSON.parse(jsonText) as ServiceAccount;
   if (!parsed.client_email || !parsed.private_key) {
     throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON — missing client_email or private_key");
   }

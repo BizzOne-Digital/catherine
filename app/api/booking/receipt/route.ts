@@ -10,19 +10,16 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    await connectDB();
-    let appointment = await Appointment.findOne({ stripeSessionId: sessionId });
-
-    if (!appointment) {
-      const result = await fulfillAppointmentFromStripeSession(sessionId);
-      if (result) {
-        appointment = await Appointment.findById(result.appointmentId);
-      }
-    } else if (appointment.paymentStatus !== "paid") {
-      await fulfillAppointmentFromStripeSession(sessionId);
-      appointment = await Appointment.findOne({ stripeSessionId: sessionId });
+    const result = await fulfillAppointmentFromStripeSession(sessionId);
+    if (!result) {
+      return NextResponse.json(
+        { error: "Payment not completed for this session" },
+        { status: 400 }
+      );
     }
 
+    await connectDB();
+    const appointment = await Appointment.findById(result.appointmentId);
     if (!appointment) {
       return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
     }
@@ -38,7 +35,8 @@ export async function GET(req: NextRequest) {
         endLocal: appointment.endLocal,
         depositAmount: appointment.depositAmount,
         status: appointment.status,
-        emailSent: appointment.emailSent,
+        emailSent: result.emailSent,
+        calendarSynced: result.calendarSynced,
         createdAt: appointment.createdAt,
       },
     });

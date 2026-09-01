@@ -29,11 +29,35 @@ export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<Bu
   }
 
   const cal = data.calendars?.[calendarId];
-  const busy = cal?.busy || [];
+  if (!cal) {
+    console.error(
+      "[googleCalendar] Calendar missing from freeBusy response:",
+      calendarId,
+      Object.keys(data.calendars || {})
+    );
+    throw new Error(
+      "Google Calendar is not accessible. Share luminamedispa@gmail.com with the service account (Make changes to events)."
+    );
+  }
+
+  const busy = cal.busy || [];
   return busy.map((b: { start: string; end: string }) => ({
     start: new Date(b.start),
     end: new Date(b.end),
   }));
+}
+
+/** Read busy periods; returns empty list if calendar is unreachable (slots still shown). */
+export async function fetchBusyPeriodsSafe(
+  timeMin: Date,
+  timeMax: Date
+): Promise<BusyPeriod[]> {
+  try {
+    return await fetchBusyPeriods(timeMin, timeMax);
+  } catch (err) {
+    console.error("[googleCalendar] fetchBusyPeriodsSafe:", err);
+    return [];
+  }
 }
 
 export async function createCalendarEvent(opts: {
@@ -41,13 +65,18 @@ export async function createCalendarEvent(opts: {
   description: string;
   startLocal: string;
   endLocal: string;
-  attendeeEmail: string;
+  attendeeEmail?: string;
 }) {
   const token = await getGoogleAccessToken();
   const calendarId = getGoogleCalendarId();
 
+  const description = opts.attendeeEmail
+    ? `${opts.description}\n\nClient email: ${opts.attendeeEmail}`
+    : opts.description;
+
+  // Service accounts cannot invite external attendees without domain-wide delegation.
   const res = await fetch(
-    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?sendUpdates=all`,
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?sendUpdates=none`,
     {
       method: "POST",
       headers: {
@@ -56,10 +85,9 @@ export async function createCalendarEvent(opts: {
       },
       body: JSON.stringify({
         summary: opts.summary,
-        description: opts.description,
+        description,
         start: { dateTime: opts.startLocal, timeZone: TZ },
         end: { dateTime: opts.endLocal, timeZone: TZ },
-        attendees: [{ email: opts.attendeeEmail }],
       }),
     }
   );

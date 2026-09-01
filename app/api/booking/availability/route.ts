@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { addMinutes } from "date-fns";
 import { getBookableService } from "@/lib/bookableServices";
 import { generateSlotsForDay, torontoLocalToUtc } from "@/lib/bookingSlots";
-import { fetchBusyPeriods } from "@/lib/googleCalendar";
+import { fetchBusyPeriodsSafe } from "@/lib/googleCalendar";
 
 export async function GET(req: NextRequest) {
   const serviceId = req.nextUrl.searchParams.get("serviceId")?.trim();
@@ -27,15 +27,7 @@ export async function GET(req: NextRequest) {
   try {
     const dayStart = torontoLocalToUtc(date, 0, 0);
     const dayEnd = addMinutes(dayStart, 24 * 60);
-
-    let busy: Awaited<ReturnType<typeof fetchBusyPeriods>> = [];
-    try {
-      busy = await fetchBusyPeriods(dayStart, dayEnd);
-    } catch (calendarErr) {
-      console.error("[booking/availability] Google Calendar busy check failed:", calendarErr);
-      // Still show open slots if calendar is temporarily unreachable
-    }
-
+    const busy = await fetchBusyPeriodsSafe(dayStart, dayEnd);
     const slots = generateSlotsForDay(date, service.durationMinutes, busy);
     return NextResponse.json({ slots, durationMinutes: service.durationMinutes });
   } catch (err) {
