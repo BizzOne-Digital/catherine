@@ -46,6 +46,18 @@ export function getGoogleCalendarId() {
   return id;
 }
 
+/** Primary calendar plus optional extra IDs (comma/semicolon-separated). */
+export function getGoogleCalendarIds(): string[] {
+  const ids = new Set<string>();
+  ids.add(getGoogleCalendarId());
+  const extra = process.env.GOOGLE_CALENDAR_IDS?.split(/[,;]/);
+  for (const raw of extra || []) {
+    const id = raw.trim();
+    if (id) ids.add(id);
+  }
+  return [...ids];
+}
+
 export async function getGoogleAccessToken(): Promise<string> {
   const now = Date.now();
   if (cachedToken && cachedToken.expiresAt > now + 60_000) {

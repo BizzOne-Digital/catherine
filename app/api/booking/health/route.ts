@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getGoogleAccessToken, getGoogleCalendarId } from "@/lib/googleAuth";
-import { fetchBusyPeriods } from "@/lib/googleCalendar";
+import { getGoogleAccessToken, getGoogleCalendarId, getGoogleCalendarIds } from "@/lib/googleAuth";
+import { fetchGoogleBusyPeriods } from "@/lib/googleCalendar";
 import { addMinutes } from "date-fns";
 import { torontoLocalToUtc, generateSlotsForDay } from "@/lib/bookingSlots";
 
@@ -12,6 +12,7 @@ export async function GET() {
   const webhookOk = Boolean(process.env.STRIPE_WEBHOOK_SECRET?.trim());
   const googleJsonOk = Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim());
   const calendarId = getGoogleCalendarId();
+  const calendarIds = getGoogleCalendarIds();
 
   let calendarAuthOk = false;
   let calendarAuthError = "";
@@ -39,7 +40,7 @@ export async function GET() {
         }).format(now);
         const dayStart = torontoLocalToUtc(torontoDate, 0, 0);
         const dayEnd = addMinutes(dayStart, 24 * 60);
-        const busy = await fetchBusyPeriods(dayStart, dayEnd);
+        const busy = await fetchGoogleBusyPeriods(dayStart, dayEnd);
         calendarReadOk = true;
         sampleSlots = generateSlotsForDay(torontoDate, 30, busy).length;
       } catch (err) {
@@ -62,6 +63,7 @@ export async function GET() {
     stripeWebhook: webhookOk,
     googleCredentials: googleJsonOk,
     calendarId,
+    calendarIds,
     calendarAuth: calendarAuthOk,
     calendarRead: calendarReadOk,
     sampleSlotsToday: sampleSlots,

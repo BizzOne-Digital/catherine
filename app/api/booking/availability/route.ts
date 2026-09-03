@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { addMinutes } from "date-fns";
 import { getBookableService } from "@/lib/bookableServices";
 import { generateSlotsForDay, torontoLocalToUtc } from "@/lib/bookingSlots";
-import { fetchBusyPeriodsSafe } from "@/lib/googleCalendar";
+import { fetchAllBusyPeriods } from "@/lib/bookingBusy";
 
 export async function GET(req: NextRequest) {
   const serviceId = req.nextUrl.searchParams.get("serviceId")?.trim();
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   try {
     const dayStart = torontoLocalToUtc(date, 0, 0);
     const dayEnd = addMinutes(dayStart, 24 * 60);
-    const busy = await fetchBusyPeriodsSafe(dayStart, dayEnd);
+    const busy = await fetchAllBusyPeriods(dayStart, dayEnd, { requireCalendar: true });
     const slots = generateSlotsForDay(date, service.durationMinutes, busy);
     return NextResponse.json({ slots, durationMinutes: service.durationMinutes });
   } catch (err) {

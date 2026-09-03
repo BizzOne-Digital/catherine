@@ -1,7 +1,8 @@
 import connectDB from "@/lib/mongodb";
 import Appointment from "@/models/Appointment";
 import { getBookableService } from "@/lib/bookableServices";
-import { createCalendarEvent, fetchBusyPeriodsSafe } from "@/lib/googleCalendar";
+import { createCalendarEvent } from "@/lib/googleCalendar";
+import { fetchAllBusyPeriods } from "@/lib/bookingBusy";
 import {
   generateSlotsForDay,
   torontoLocalToUtc,
@@ -31,7 +32,8 @@ export async function computeEndLocal(
 
 export async function validateSlotAvailable(
   serviceId: string,
-  startLocal: string
+  startLocal: string,
+  options?: { excludeAppointmentId?: string }
 ): Promise<{ ok: true; endLocal: string } | { ok: false; error: string }> {
   const service = getBookableService(serviceId);
   if (!service) return { ok: false, error: "Invalid service" };
@@ -42,7 +44,10 @@ export async function validateSlotAvailable(
   const endLocal = await computeEndLocal(startLocal, service.durationMinutes);
   const dayStart = torontoLocalToUtc(datePart, 0, 0);
   const dayEnd = addMinutes(dayStart, 24 * 60);
-  const busy = await fetchBusyPeriodsSafe(dayStart, dayEnd);
+  const busy = await fetchAllBusyPeriods(dayStart, dayEnd, {
+    requireCalendar: true,
+    excludeAppointmentId: options?.excludeAppointmentId,
+  });
   const slots = generateSlotsForDay(datePart, service.durationMinutes, busy);
 
   if (!slots.includes(startLocal)) {
@@ -85,26 +90,39 @@ export async function fulfillAppointmentFromStripeSession(
   let calendarSynced = Boolean(appointment.googleEventId);
 
   if (!appointment.googleEventId) {
-    try {
-      const { eventId, htmlLink } = await createCalendarEvent({
-        summary: `${appointment.serviceName} — ${appointment.customerName}`,
-        description: [
-          `Phone: ${appointment.phone}`,
-          `Email: ${appointment.email}`,
-          `Deposit paid: $${appointment.depositAmount} CAD`,
-          `Booking ID: ${appointment._id}`,
-          "",
-          "Booked via luminamedispa.ca",
-        ].join("\n"),
-        startLocal: appointment.startLocal,
-        endLocal: appointment.endLocal,
-        attendeeEmail: appointment.email,
-      });
-      appointment.googleEventId = eventId;
-      appointment.googleEventLink = htmlLink || "";
-      calendarSynced = true;
-    } catch (err) {
-      console.error("[appointment] Google Calendar sync failed:", err);
+    const slotRecheck = await validateSlotAvailable(
+      appointment.serviceId,
+      appointment.startLocal,
+      { excludeAppointmentId: appointment._id.toString() }
+    );
+    if (!slotRecheck.ok) {
+      console.error(
+        "[appointment] Slot no longer available after payment:",
+        appointment.startLocal,
+        slotRecheck.error
+      );
+    } else {
+      try {
+        const { eventId, htmlLink } = await createCalendarEvent({
+          summary: `${appointment.serviceName} — ${appointment.customerName}`,
+          description: [
+            `Phone: ${appointment.phone}`,
+            `Email: ${appointment.email}`,
+            `Deposit paid: $${appointment.depositAmount} CAD`,
+            `Booking ID: ${appointment._id}`,
+            "",
+            "Booked via luminamedispa.ca",
+          ].join("\n"),
+          startLocal: appointment.startLocal,
+          endLocal: appointment.endLocal,
+          attendeeEmail: appointment.email,
+        });
+        appointment.googleEventId = eventId;
+        appointment.googleEventLink = htmlLink || "";
+        calendarSynced = true;
+      } catch (err) {
+        console.error("[appointment] Google Calendar sync failed:", err);
+      }
     }
   }
 
