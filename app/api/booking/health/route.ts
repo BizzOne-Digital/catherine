@@ -50,15 +50,14 @@ export async function GET() {
     }
   }
 
-  const ok =
-    stripeOk &&
-    googleJsonOk &&
-    calendarAuthOk &&
-    calendarReadOk &&
-    sampleSlots > 0;
+  const bookingCoreOk =
+    stripeOk && googleJsonOk && calendarAuthOk && calendarReadOk;
+
+  const ok = bookingCoreOk && webhookOk;
 
   return NextResponse.json({
     ok,
+    bookingCore: bookingCoreOk,
     stripe: stripeOk,
     stripeWebhook: webhookOk,
     googleCredentials: googleJsonOk,
@@ -67,6 +66,11 @@ export async function GET() {
     calendarAuth: calendarAuthOk,
     calendarRead: calendarReadOk,
     sampleSlotsToday: sampleSlots,
+    /** Zero slots can be normal (early morning, 12h notice, or full calendar). */
+    sampleSlotsNote:
+      sampleSlots === 0
+        ? "No bookable slots left today under current rules (not necessarily an error)"
+        : undefined,
     errors: {
       calendarAuth: calendarAuthError || undefined,
       calendarRead: calendarReadError || undefined,
