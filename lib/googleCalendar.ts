@@ -2,11 +2,23 @@ import {
   getGoogleAccessToken,
   getGoogleCalendarId,
   getGoogleCalendarIds,
+  getServiceAccountEmail,
 } from "@/lib/googleAuth";
 
 const TZ = "America/Toronto";
+const CALENDAR_LIST_CACHE_MS = 5 * 60 * 1000;
 
 export type BusyPeriod = { start: Date; end: Date };
+
+export type AccessibleCalendar = {
+  id: string;
+  summary: string;
+  primary?: boolean;
+  accessRole?: string;
+};
+
+let cachedCalendarList: { entries: AccessibleCalendar[]; expiresAt: number } | null =
+  null;
 
 function mapBusyEntries(busy: { start: string; end: string }[]): BusyPeriod[] {
   return busy.map((b) => ({
@@ -15,9 +27,81 @@ function mapBusyEntries(busy: { start: string; end: string }[]): BusyPeriod[] {
   }));
 }
 
-export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<BusyPeriod[]> {
+export function calendarShareInstructions(calendarId = getGoogleCalendarId()) {
+  return (
+    `Share Google Calendar "${calendarId}" with ${getServiceAccountEmail()} ` +
+    `(permission: Make changes to events). If appointments use a separate calendar, share that calendar too.`
+  );
+}
+
+/** Calendars the service account can read (cached 5 min). */
+export async function listAccessibleCalendars(): Promise<AccessibleCalendar[]> {
+  const now = Date.now();
+  if (cachedCalendarList && cachedCalendarList.expiresAt > now) {
+    return cachedCalendarList.entries;
+  }
+
   const token = await getGoogleAccessToken();
-  const calendarIds = getGoogleCalendarIds();
+  const res = await fetch(
+    "https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=reader",
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data?.error?.message || "Failed to list Google calendars");
+  }
+
+  const entries: AccessibleCalendar[] = (data.items || []).map(
+    (item: { id: string; summary?: string; primary?: boolean; accessRole?: string }) => ({
+      id: item.id,
+      summary: item.summary || item.id,
+      primary: item.primary,
+      accessRole: item.accessRole,
+    })
+  );
+
+  cachedCalendarList = { entries, expiresAt: now + CALENDAR_LIST_CACHE_MS };
+  return entries;
+}
+
+/** All calendar IDs to check for conflicts — shared list + configured extras. */
+export async function resolveCalendarIds(): Promise<string[]> {
+  const configured = getGoogleCalendarIds();
+  const ids = new Set<string>(configured);
+
+  try {
+    const listed = await listAccessibleCalendars();
+    for (const cal of listed) ids.add(cal.id);
+  } catch (err) {
+    console.warn("[googleCalendar] listAccessibleCalendars failed:", err);
+  }
+
+  return [...ids];
+}
+
+function assertCalendarReadable(
+  calendarId: string,
+  cal: { busy?: { start: string; end: string }[]; errors?: { reason?: string }[] } | undefined
+) {
+  if (!cal) {
+    throw new Error(calendarShareInstructions(calendarId));
+  }
+  if (cal.errors?.length) {
+    const reason = cal.errors.map((e) => e.reason).filter(Boolean).join(", ");
+    throw new Error(
+      `${calendarShareInstructions(calendarId)}${reason ? ` (${reason})` : ""}`
+    );
+  }
+}
+
+export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<BusyPeriod[]> {
+  const listed = await listAccessibleCalendars();
+  if (listed.length === 0) {
+    throw new Error(calendarShareInstructions());
+  }
+
+  const token = await getGoogleAccessToken();
+  const calendarIds = await resolveCalendarIds();
 
   const res = await fetch("https://www.googleapis.com/calendar/v3/freeBusy", {
     method: "POST",
@@ -49,18 +133,14 @@ export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<Bu
       missing.push(calendarId);
       continue;
     }
+    if (cal.errors?.length) {
+      assertCalendarReadable(calendarId, cal);
+    }
     allBusy.push(...mapBusyEntries(cal.busy || []));
   }
 
   if (missing.length === calendarIds.length) {
-    console.error(
-      "[googleCalendar] No calendars in freeBusy response:",
-      calendarIds,
-      Object.keys(calendars)
-    );
-    throw new Error(
-      "Google Calendar is not accessible. Share luminamedispa@gmail.com with the service account (Make changes to events)."
-    );
+    throw new Error(calendarShareInstructions());
   }
 
   if (missing.length) {
@@ -70,15 +150,16 @@ export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<Bu
   return allBusy;
 }
 
-/** List timed events (supplement to freeBusy — catches events freeBusy may miss). */
+/** List timed events on every accessible calendar. */
 export async function fetchEventBusyPeriods(
   timeMin: Date,
   timeMax: Date
 ): Promise<BusyPeriod[]> {
   const token = await getGoogleAccessToken();
+  const calendarIds = await resolveCalendarIds();
   const periods: BusyPeriod[] = [];
 
-  for (const calendarId of getGoogleCalendarIds()) {
+  for (const calendarId of calendarIds) {
     const params = new URLSearchParams({
       timeMin: timeMin.toISOString(),
       timeMax: timeMax.toISOString(),
@@ -96,6 +177,9 @@ export async function fetchEventBusyPeriods(
 
     const data = await res.json();
     if (!res.ok) {
+      if (data?.error?.code === 404 || data?.error?.code === 403) {
+        throw new Error(calendarShareInstructions(calendarId));
+      }
       console.error("[googleCalendar] events.list error:", calendarId, data);
       throw new Error(data?.error?.message || "Failed to list calendar events");
     }
@@ -176,6 +260,9 @@ export async function createCalendarEvent(opts: {
   const data = await res.json();
   if (!res.ok) {
     console.error("[googleCalendar] create event error:", data);
+    if (data?.error?.code === 404 || data?.error?.code === 403) {
+      throw new Error(calendarShareInstructions(calendarId));
+    }
     throw new Error(data?.error?.message || "Failed to create calendar event");
   }
 

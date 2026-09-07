@@ -32,8 +32,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ slots, durationMinutes: service.durationMinutes });
   } catch (err) {
     console.error("[booking/availability]", err);
-    const message =
-      err instanceof Error ? err.message : "Could not load availability";
-    return NextResponse.json({ error: message }, { status: 503 });
+    return NextResponse.json(
+      {
+        error:
+          "Online booking is temporarily unavailable. Please call the spa to schedule your appointment.",
+      },
+      { status: 503 }
+    );
   }
 }

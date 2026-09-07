@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
-import { getGoogleAccessToken, getGoogleCalendarId, getGoogleCalendarIds } from "@/lib/googleAuth";
-import { fetchGoogleBusyPeriods } from "@/lib/googleCalendar";
+import {
+  getGoogleAccessToken,
+  getGoogleCalendarId,
+  getGoogleCalendarIds,
+  getServiceAccountEmail,
+} from "@/lib/googleAuth";
+import {
+  fetchGoogleBusyPeriods,
+  listAccessibleCalendars,
+  calendarShareInstructions,
+} from "@/lib/googleCalendar";
 import { addMinutes } from "date-fns";
 import { torontoLocalToUtc, generateSlotsForDay } from "@/lib/bookingSlots";
 
@@ -13,11 +22,14 @@ export async function GET() {
   const googleJsonOk = Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim());
   const calendarId = getGoogleCalendarId();
   const calendarIds = getGoogleCalendarIds();
+  const serviceAccountEmail = googleJsonOk ? getServiceAccountEmail() : "";
 
   let calendarAuthOk = false;
   let calendarAuthError = "";
   let calendarReadOk = false;
   let calendarReadError = "";
+  let calendarShared = false;
+  let visibleCalendars: { id: string; summary: string; primary?: boolean }[] = [];
   let sampleSlots = 0;
 
   if (googleJsonOk) {
@@ -31,27 +43,39 @@ export async function GET() {
 
     if (calendarAuthOk) {
       try {
-        const now = new Date();
-        const torontoDate = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "America/Toronto",
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        }).format(now);
-        const dayStart = torontoLocalToUtc(torontoDate, 0, 0);
-        const dayEnd = addMinutes(dayStart, 24 * 60);
-        const busy = await fetchGoogleBusyPeriods(dayStart, dayEnd);
-        calendarReadOk = true;
-        sampleSlots = generateSlotsForDay(torontoDate, 30, busy).length;
+        visibleCalendars = await listAccessibleCalendars();
+        calendarShared = visibleCalendars.length > 0;
       } catch (err) {
         calendarReadError =
-          err instanceof Error ? err.message : "Could not read Google Calendar";
+          err instanceof Error ? err.message : "Could not list Google calendars";
+      }
+
+      if (calendarShared) {
+        try {
+          const now = new Date();
+          const torontoDate = new Intl.DateTimeFormat("en-CA", {
+            timeZone: "America/Toronto",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).format(now);
+          const dayStart = torontoLocalToUtc(torontoDate, 0, 0);
+          const dayEnd = addMinutes(dayStart, 24 * 60);
+          const busy = await fetchGoogleBusyPeriods(dayStart, dayEnd);
+          calendarReadOk = true;
+          sampleSlots = generateSlotsForDay(torontoDate, 30, busy).length;
+        } catch (err) {
+          calendarReadError =
+            err instanceof Error ? err.message : "Could not read Google Calendar";
+        }
+      } else if (!calendarReadError) {
+        calendarReadError = calendarShareInstructions(calendarId);
       }
     }
   }
 
   const bookingCoreOk =
-    stripeOk && googleJsonOk && calendarAuthOk && calendarReadOk;
+    stripeOk && googleJsonOk && calendarAuthOk && calendarShared && calendarReadOk;
 
   const ok = bookingCoreOk && webhookOk;
 
@@ -63,14 +87,17 @@ export async function GET() {
     googleCredentials: googleJsonOk,
     calendarId,
     calendarIds,
+    serviceAccountEmail,
+    calendarShared,
+    visibleCalendars,
     calendarAuth: calendarAuthOk,
     calendarRead: calendarReadOk,
     sampleSlotsToday: sampleSlots,
-    /** Zero slots can be normal (early morning, 12h notice, or full calendar). */
     sampleSlotsNote:
       sampleSlots === 0
         ? "No bookable slots left today under current rules (not necessarily an error)"
         : undefined,
+    shareInstructions: calendarShared ? undefined : calendarShareInstructions(calendarId),
     errors: {
       calendarAuth: calendarAuthError || undefined,
       calendarRead: calendarReadError || undefined,

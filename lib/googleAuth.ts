@@ -40,6 +40,10 @@ export function getServiceAccountCredentials(): ServiceAccount {
   return parsed;
 }
 
+export function getServiceAccountEmail(): string {
+  return getServiceAccountCredentials().client_email;
+}
+
 export function getGoogleCalendarId() {
   const id =
     process.env.GOOGLE_CALENDAR_ID?.trim() || "luminamedispa@gmail.com";
