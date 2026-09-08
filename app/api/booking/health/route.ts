@@ -9,6 +9,7 @@ import {
   fetchGoogleBusyPeriods,
   listAccessibleCalendars,
   calendarShareInstructions,
+  resolveCalendarIds,
 } from "@/lib/googleCalendar";
 import { addMinutes } from "date-fns";
 import { torontoLocalToUtc, generateSlotsForDay } from "@/lib/bookingSlots";
@@ -30,6 +31,7 @@ export async function GET() {
   let calendarReadError = "";
   let calendarShared = false;
   let visibleCalendars: { id: string; summary: string; primary?: boolean }[] = [];
+  let configuredCalendarIds: string[] = [];
   let sampleSlots = 0;
 
   if (googleJsonOk) {
@@ -43,33 +45,35 @@ export async function GET() {
 
     if (calendarAuthOk) {
       try {
-        visibleCalendars = await listAccessibleCalendars();
-        calendarShared = visibleCalendars.length > 0;
-      } catch (err) {
-        calendarReadError =
-          err instanceof Error ? err.message : "Could not list Google calendars";
+        configuredCalendarIds = await resolveCalendarIds();
+      } catch {
+        configuredCalendarIds = calendarIds;
       }
 
-      if (calendarShared) {
-        try {
-          const now = new Date();
-          const torontoDate = new Intl.DateTimeFormat("en-CA", {
-            timeZone: "America/Toronto",
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          }).format(now);
-          const dayStart = torontoLocalToUtc(torontoDate, 0, 0);
-          const dayEnd = addMinutes(dayStart, 24 * 60);
-          const busy = await fetchGoogleBusyPeriods(dayStart, dayEnd);
-          calendarReadOk = true;
-          sampleSlots = generateSlotsForDay(torontoDate, 30, busy).length;
-        } catch (err) {
-          calendarReadError =
-            err instanceof Error ? err.message : "Could not read Google Calendar";
-        }
-      } else if (!calendarReadError) {
-        calendarReadError = calendarShareInstructions(calendarId);
+      try {
+        visibleCalendars = await listAccessibleCalendars();
+      } catch {
+        // Service accounts often have an empty calendarList even when sharing works.
+      }
+
+      try {
+        const now = new Date();
+        const torontoDate = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/Toronto",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(now);
+        const dayStart = torontoLocalToUtc(torontoDate, 0, 0);
+        const dayEnd = addMinutes(dayStart, 24 * 60);
+        const busy = await fetchGoogleBusyPeriods(dayStart, dayEnd);
+        calendarReadOk = true;
+        calendarShared = true;
+        sampleSlots = generateSlotsForDay(torontoDate, 30, busy).length;
+      } catch (err) {
+        calendarShared = false;
+        calendarReadError =
+          err instanceof Error ? err.message : "Could not read Google Calendar";
       }
     }
   }
@@ -87,6 +91,7 @@ export async function GET() {
     googleCredentials: googleJsonOk,
     calendarId,
     calendarIds,
+    configuredCalendarIds,
     serviceAccountEmail,
     calendarShared,
     visibleCalendars,

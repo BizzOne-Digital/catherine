@@ -95,11 +95,6 @@ function assertCalendarReadable(
 }
 
 export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<BusyPeriod[]> {
-  const listed = await listAccessibleCalendars();
-  if (listed.length === 0) {
-    throw new Error(calendarShareInstructions());
-  }
-
   const token = await getGoogleAccessToken();
   const calendarIds = await resolveCalendarIds();
 
@@ -126,6 +121,7 @@ export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<Bu
   const calendars = data.calendars || {};
   const allBusy: BusyPeriod[] = [];
   const missing: string[] = [];
+  let accessibleCount = 0;
 
   for (const calendarId of calendarIds) {
     const cal = calendars[calendarId];
@@ -136,10 +132,11 @@ export async function fetchBusyPeriods(timeMin: Date, timeMax: Date): Promise<Bu
     if (cal.errors?.length) {
       assertCalendarReadable(calendarId, cal);
     }
+    accessibleCount++;
     allBusy.push(...mapBusyEntries(cal.busy || []));
   }
 
-  if (missing.length === calendarIds.length) {
+  if (accessibleCount === 0) {
     throw new Error(calendarShareInstructions());
   }
 
