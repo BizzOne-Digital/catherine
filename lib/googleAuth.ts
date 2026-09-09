@@ -50,15 +50,20 @@ export function getGoogleCalendarId() {
   return id;
 }
 
+/** Lumina Medi Spa — secondary appointments calendar (override via GOOGLE_CALENDAR_IDS). */
+const DEFAULT_EXTRA_CALENDAR_IDS = [
+  "9a20b4ac8699619c946de0ddf1a0b9c38609a7321dd675d8574eeb9346c402d0@group.calendar.google.com",
+];
+
 /** Primary calendar plus optional extra IDs (comma/semicolon-separated). */
 export function getGoogleCalendarIds(): string[] {
   const ids = new Set<string>();
   ids.add(getGoogleCalendarId());
-  const extra = process.env.GOOGLE_CALENDAR_IDS?.split(/[,;]/);
-  for (const raw of extra || []) {
-    const id = raw.trim();
-    if (id) ids.add(id);
-  }
+  const envExtra = process.env.GOOGLE_CALENDAR_IDS?.split(/[,;]/);
+  const extras =
+    envExtra?.map((raw) => raw.trim()).filter(Boolean) ||
+    DEFAULT_EXTRA_CALENDAR_IDS;
+  for (const id of extras) ids.add(id);
   return [...ids];
 }
 
